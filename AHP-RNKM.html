@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>AHP Survey · Criteria & Sub‑criteria</title>
+    <title>AHP Expert Survey</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,295 +12,543 @@
         }
         body {
             font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
-            background: #f2f7fc;
+            background: linear-gradient(135deg, #e8f0f8 0%, #d4e4f0 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            min-height: 100vh;
-            padding: 1.5rem 1rem;
         }
         .page-container {
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
             background: white;
             border-radius: 32px;
-            box-shadow: 0 12px 40px rgba(0, 20, 40, 0.12);
-            padding: 2rem 1.8rem 2.5rem;
-            transition: 0.2s;
+            box-shadow: 0 20px 60px rgba(0, 20, 40, 0.15), 0 8px 20px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem 2.5rem 3rem;
+            transition: all 0.3s ease;
         }
-        h1 {
-            font-size: 1.9rem;
-            font-weight: 400;
-            color: #0b2d4b;
-            border-bottom: 2px solid #dce8f2;
-            padding-bottom: 0.6rem;
-            margin-bottom: 1.8rem;
+        @media (max-width: 640px) {
+            .page-container { padding: 1.5rem; }
+        }
+        
+        /* Header */
+        .survey-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #e8f0f8;
+        }
+        .survey-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0a2a44;
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 12px;
         }
-        h1 small {
-            font-size: 0.95rem;
-            font-weight: 400;
-            color: #3d6f94;
-            margin-left: auto;
-            background: #e3eefa;
-            padding: 0.2rem 1.2rem;
+        .survey-header h1 i {
+            color: #1a6b9e;
+            background: #e8f0f8;
+            padding: 0.5rem;
+            border-radius: 14px;
+        }
+        .progress-badge {
+            background: #1a6b9e;
+            color: white;
+            padding: 0.4rem 1.2rem;
             border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(26, 107, 158, 0.3);
         }
+
+        /* Pages */
         .page {
             display: block;
-            animation: fade 0.2s ease;
+            animation: fadeIn 0.3s ease;
         }
         .page.hidden {
             display: none;
         }
-        @keyframes fade {
-            0% { opacity: 0.4; }
-            100% { opacity: 1; }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        .desc {
-            background: #eef6fd;
-            border-radius: 20px;
-            padding: 1.2rem 1.6rem;
+        /* Description boxes */
+        .desc-box {
+            background: linear-gradient(135deg, #f0f7fe 0%, #e3eefa 100%);
+            border-radius: 16px;
+            padding: 1.2rem 1.8rem;
             margin-bottom: 1.8rem;
+            border-left: 5px solid #1a6b9e;
             color: #1a3a55;
             font-size: 1.05rem;
-            line-height: 1.5;
-            border-left: 4px solid #2f7aa6;
+            line-height: 1.6;
         }
-        .desc i {
-            margin-right: 8px;
-            color: #1d6f9c;
+        .desc-box i {
+            color: #1a6b9e;
+            margin-right: 10px;
+        }
+        .desc-box strong {
+            color: #0a2a44;
         }
 
+        /* Form elements */
         .form-group {
             margin-bottom: 1.4rem;
         }
-        label {
-            font-weight: 500;
+        .form-group label {
+            font-weight: 600;
             display: block;
-            margin-bottom: 0.3rem;
-            color: #1b3b58;
-            font-size: 0.98rem;
+            margin-bottom: 0.4rem;
+            color: #1a3a55;
+            font-size: 0.95rem;
         }
-        label .required {
-            color: #b33;
+        .form-group label .required {
+            color: #d9534f;
             margin-left: 4px;
         }
-        input, select {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 0.7rem 1rem;
-            border: 1.5px solid #d2dfeb;
-            border-radius: 60px;
+            padding: 0.7rem 1.2rem;
+            border: 2px solid #dce8f2;
+            border-radius: 12px;
             font-size: 1rem;
-            background: white;
-            transition: 0.15s;
-            font-family: inherit;
+            transition: 0.2s;
+            background: #fafdff;
         }
-        input:focus, select:focus {
-            border-color: #1d6f9c;
+        .form-group input:focus, .form-group select:focus {
+            border-color: #1a6b9e;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(29, 111, 156, 0.15);
+            box-shadow: 0 0 0 4px rgba(26, 107, 158, 0.12);
+            background: white;
         }
         .inline-group {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
-        .inline-group .form-group {
-            flex: 1 1 160px;
+        @media (max-width: 600px) {
+            .inline-group { grid-template-columns: 1fr; }
         }
 
-        .pair-block {
-            background: #fafdff;
-            border-radius: 24px;
-            padding: 0.2rem 0.2rem 0.2rem;
-            margin-bottom: 1.2rem;
-            border: 1px solid #dde8f2;
-        }
-        .pair-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px 16px;
-            padding: 0.8rem 1rem;
-            border-radius: 18px;
-            margin-bottom: 4px;
-            background: #ffffff;
-            transition: 0.1s;
-            border-left: 4px solid transparent;
-        }
-        .pair-row.alert {
-            background: #fff3e6;
-            border-left-color: #c16200;
-            box-shadow: inset 0 1px 4px rgba(193, 98, 0, 0.08);
-        }
-        .pair-row .choice-group {
-            display: flex;
-            align-items: center;
-            gap: 6px 12px;
-            flex-wrap: wrap;
-            flex: 1 1 180px;
-        }
-        .pair-row .choice-group label {
-            font-weight: 400;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            background: #eef4fa;
-            padding: 0.1rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.95rem;
-            margin: 0;
-        }
-        .pair-row .choice-group input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #1d6f9c;
-            margin: 0;
-            flex-shrink: 0;
-        }
-        .pair-row .slider-wrap {
-            flex: 2 1 200px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .pair-row input[type="range"] {
-            flex: 1;
-            min-width: 100px;
-            height: 6px;
-            -webkit-appearance: none;
-            background: #c5d6e6;
-            border-radius: 10px;
-            padding: 0;
-            border: none;
-        }
-        .pair-row input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 22px;
-            height: 22px;
-            background: #1d6f9c;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-        }
-        .pair-row .val-badge {
-            min-width: 32px;
-            text-align: center;
-            font-weight: 600;
-            background: #dce8f3;
-            padding: 0.1rem 0.6rem;
-            border-radius: 30px;
-            font-size: 0.95rem;
-        }
-        .pair-row .pref-desc {
-            font-size: 0.85rem;
-            color: #1f4a6e;
-            background: #dce8f3;
-            padding: 0.1rem 1rem;
-            border-radius: 40px;
-            white-space: nowrap;
-        }
-
-        .nav-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: space-between;
-            margin-top: 2.2rem;
-            border-top: 1px solid #dce8f2;
-            padding-top: 1.8rem;
-        }
-        .btn {
-            background: white;
-            border: 1.5px solid #b6cee3;
-            padding: 0.6rem 2rem;
-            border-radius: 60px;
-            font-weight: 500;
-            color: #1a405c;
-            cursor: pointer;
-            transition: 0.15s;
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #fafdff;
-        }
-        .btn-primary {
-            background: #1d6f9c;
-            border-color: #1d6f9c;
-            color: white;
-            box-shadow: 0 4px 10px -4px #1d6f9c70;
-        }
-        .btn-primary:hover {
-            background: #145a81;
-            transform: scale(0.97);
-        }
-        .btn-outline {
-            background: transparent;
-            border-color: #a0bdd6;
-        }
-        .btn-outline:hover {
-            background: #e1edf8;
-        }
-        .btn-success {
-            background: #0d7a4b;
-            border-color: #0d7a4b;
-            color: white;
-        }
-        .btn-success:hover {
-            background: #09633b;
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
+        /* Consent */
         .consent-box {
-            background: #f3f9ff;
-            border-radius: 20px;
-            padding: 1rem 1.8rem;
+            background: #f0f7fe;
+            border-radius: 16px;
+            padding: 1.2rem 1.8rem;
             margin: 1.2rem 0;
-            border: 1px solid #bdd6eb;
+            border: 2px solid #d4e4f0;
         }
         .consent-box label {
             display: flex;
             align-items: center;
             gap: 14px;
-            font-weight: 400;
             font-size: 1.05rem;
             cursor: pointer;
+            font-weight: 500;
         }
         .consent-box input[type="checkbox"] {
             width: 22px;
             height: 22px;
-            accent-color: #1d6f9c;
+            accent-color: #1a6b9e;
             flex-shrink: 0;
+            cursor: pointer;
         }
 
-        .alert-banner {
-            background: #ffebd6;
-            border-radius: 60px;
-            padding: 0.4rem 1.6rem;
-            color: #8f4b00;
+        /* Pairwise comparison */
+        .pair-container {
+            background: #fafdff;
+            border-radius: 16px;
+            border: 2px solid #e8f0f8;
+            overflow: hidden;
+            margin-bottom: 1.2rem;
+        }
+        .pair-header {
+            display: grid;
+            grid-template-columns: 50px 1fr 40px 1fr 1fr 1fr;
+            gap: 6px;
+            padding: 0.7rem 1rem;
+            background: #e8f0f8;
+            font-weight: 600;
+            color: #0a2a44;
+            font-size: 0.85rem;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .pair-header {
+                grid-template-columns: 35px 1fr 30px 1fr 1fr 1fr;
+                font-size: 0.7rem;
+                padding: 0.5rem 0.6rem;
+                gap: 4px;
+            }
+        }
+        .pair-header .center { text-align: center; }
+        .pair-header .right { text-align: right; }
+
+        .pair-row {
+            display: grid;
+            grid-template-columns: 50px 1fr 40px 1fr 1fr 1fr;
+            gap: 6px;
+            padding: 0.5rem 1rem;
+            align-items: center;
+            border-bottom: 1px solid #eef4f8;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+        @media (max-width: 768px) {
+            .pair-row {
+                grid-template-columns: 35px 1fr 30px 1fr 1fr 1fr;
+                padding: 0.4rem 0.6rem;
+                gap: 4px;
+                font-size: 0.8rem;
+            }
+        }
+        .pair-row:last-child { border-bottom: none; }
+        
+        /* Row states */
+        .pair-row.alert {
+            background: #fff8f0;
+            border-left: 4px solid #e67e22;
+        }
+        .pair-row.recommended {
+            background: #e8f8f0;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.15);
+        }
+        .pair-row.recommended .importance-group label.suggested {
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+        .pair-row.recommended .choice-group label.suggested {
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 0 6px rgba(39, 174, 96, 0.15);
+                transform: scale(1.05);
+            }
+        }
+        
+        .pair-row .row-num {
+            color: #6b8ba8;
             font-weight: 500;
-            display: inline-block;
-            margin-bottom: 1rem;
-            border: 1px solid #f0c9a8;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .pair-row .label-item {
+            font-weight: 500;
+            color: #0a2a44;
+            padding: 0.1rem 0.4rem;
+            border-radius: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .pair-row .choice-group {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .pair-row .choice-group label {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 0.78rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 6px;
+            background: #f0f7fe;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            margin: 0;
+        }
+        .pair-row .choice-group label:hover {
+            background: #dce8f2;
+            transform: scale(1.05);
+        }
+        .pair-row .choice-group label.suggested {
+            border-color: #27ae60;
+            background: #d4edff;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+        }
+        .pair-row .choice-group input[type="radio"] {
+            width: 14px;
+            height: 14px;
+            accent-color: #1a6b9e;
+            margin: 0;
+            cursor: pointer;
+        }
+        .pair-row .choice-group input[type="radio"]:checked + span {
+            font-weight: 700;
+        }
+        
+        .pair-row .importance-group {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .pair-row .importance-group label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.75rem;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #f0f7fe;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            margin: 0;
+        }
+        .pair-row .importance-group label:hover {
+            background: #dce8f2;
+            transform: scale(1.1);
+        }
+        .pair-row .importance-group label.suggested {
+            border-color: #27ae60;
+            background: #d4edff;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+        .pair-row .importance-group input[type="radio"] {
+            display: none;
+        }
+        .pair-row .importance-group input[type="radio"]:checked + span {
+            background: #1a6b9e;
+            color: white;
+            border-color: #1a6b9e;
+        }
+        .pair-row .importance-group label span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .pair-row .importance-group label input[type="radio"]:checked + span {
+            background: #1a6b9e;
+            color: white;
+        }
+        .pair-row .recommendation-badge {
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            background: #27ae60;
+            color: white;
+            white-space: nowrap;
+            font-weight: 600;
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .pair-row.recommended .recommendation-badge {
+            display: block;
+        }
+        .pair-row .suggestion-tooltip {
+            display: none;
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0a2a44;
+            color: white;
+            padding: 0.1rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .pair-row.recommended:hover .suggestion-tooltip {
+            display: block;
+            opacity: 1;
         }
 
+        /* Consistency box */
+        .consistency-box {
+            background: #f0f7fe;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            margin: 1.2rem 0 0.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 2px solid #d4e4f0;
+        }
+        .consistency-box .cr-display {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .consistency-box .cr-display .cr-value {
+            color: #1a6b9e;
+        }
+        .consistency-box .cr-display .cr-value.good {
+            color: #27ae60;
+        }
+        .consistency-box .cr-display .cr-value.warn {
+            color: #e67e22;
+        }
+        .consistency-box .cr-display .cr-value.bad {
+            color: #e74c3c;
+        }
+        .consistency-box .status-text {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .consistency-box .status-text .ok { color: #27ae60; }
+        .consistency-box .status-text .warn { color: #e67e22; }
+        .consistency-box .status-text .bad { color: #e74c3c; }
+
+        /* Scale indicator */
+        .scale-indicator {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 0.7rem 1.5rem;
+            margin: 0.8rem 0 1rem;
+            border: 1px solid #dce8f2;
+            font-size: 0.9rem;
+            color: #2a4a6a;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            align-items: center;
+        }
+        .scale-indicator .scale-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .scale-indicator .scale-item strong {
+            color: #0a2a44;
+            background: #e8f0f8;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Buttons */
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e8f0f8;
+        }
+        .btn {
+            padding: 0.7rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: #1a6b9e;
+            color: white;
+            box-shadow: 0 4px 12px rgba(26, 107, 158, 0.3);
+        }
+        .btn-primary:hover {
+            background: #0f4f7a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(26, 107, 158, 0.35);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #1a6b9e;
+            border: 2px solid #1a6b9e;
+        }
+        .btn-outline:hover {
+            background: #f0f7fe;
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background: #27ae60;
+            color: white;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+        .btn-success:hover {
+            background: #1e8449;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(39, 174, 96, 0.35);
+        }
+        .btn-check {
+            background: #6c8fa7;
+            color: white;
+            box-shadow: 0 2px 8px rgba(108, 143, 167, 0.25);
+        }
+        .btn-check:hover {
+            background: #4a6f87;
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Validation messages */
+        .validation-error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+            padding: 0.5rem 1rem;
+            background: #fde8e8;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+        .validation-error.show {
+            display: block;
+        }
+
+        /* Alternatives table */
         .alt-assessment {
             margin-top: 1.5rem;
-            background: #f8fbfe;
-            border-radius: 20px;
-            padding: 1rem;
-            border: 1px solid #d8e5f0;
+            background: #fafdff;
+            border-radius: 16px;
+            padding: 1.2rem;
+            border: 2px solid #e8f0f8;
+            overflow-x: auto;
         }
         .alt-assessment table {
             width: 100%;
@@ -309,64 +557,120 @@
             margin-top: 0.5rem;
         }
         .alt-assessment th {
-            background: #dce8f3;
-            padding: 0.4rem 0.6rem;
+            background: #e8f0f8;
+            padding: 0.5rem 0.6rem;
             text-align: center;
             font-weight: 600;
-            color: #1a3f5e;
+            color: #0a2a44;
+            border: 1px solid #d4e4f0;
         }
         .alt-assessment td {
-            padding: 0.3rem 0.6rem;
+            padding: 0.4rem 0.6rem;
             text-align: center;
-            border-bottom: 1px solid #e0eaf2;
+            border: 1px solid #eef4f8;
         }
-        .alt-assessment .highlight-row {
-            background: #eef6fd;
-            font-weight: 500;
+        .alt-assessment .best {
+            background: #d4edff;
+            font-weight: 600;
+        }
+        .alt-assessment .criteria-row {
+            background: #f0f7fe;
+            font-weight: 600;
         }
 
-        @media (max-width: 600px) {
-            .page-container { padding: 1.2rem; }
-            .pair-row { gap: 8px; }
-            .pair-row .slider-wrap { flex: 1 1 100%; }
-            .pair-row .choice-group { flex: 1 1 100%; }
-            .inline-group .form-group { flex: 1 1 100%; }
-            .nav-buttons { flex-direction: column; }
-            .btn { justify-content: center; }
-            .alt-assessment table { font-size: 0.75rem; }
-            .alt-assessment th, .alt-assessment td { padding: 0.2rem 0.3rem; }
+        /* Recommendation legend */
+        .recommendation-legend {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 0.6rem 1.2rem;
+            margin: 0.5rem 0 0.8rem;
+            border: 1px solid #dce8f2;
+            font-size: 0.85rem;
+            color: #2a4a6a;
+            display: none;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .recommendation-legend.show {
+            display: flex;
+        }
+        .recommendation-legend .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .recommendation-legend .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #27ae60;
+            background: #d4edff;
+        }
+        .recommendation-legend .legend-dot.glow {
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .consistency-box {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .scale-indicator {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .nav-buttons {
+                flex-direction: column;
+            }
+            .nav-buttons .btn {
+                justify-content: center;
+                width: 100%;
+            }
+            .pair-row .importance-group label {
+                width: 24px;
+                height: 24px;
+                font-size: 0.65rem;
+            }
+            .pair-row .recommendation-badge {
+                display: none !important;
+            }
         }
     </style>
 </head>
 <body>
 <div class="page-container" id="app">
-    <h1>
-        <i class="fas fa-clipboard-list" style="color:#1d6f9c;"></i> AHP Expert Survey
-        <small id="pageIndicator">1 / 8</small>
-    </h1>
+    <!-- Header -->
+    <div class="survey-header">
+        <h1><i class="fas fa-clipboard-list"></i> AHP Expert Survey</h1>
+        <span class="progress-badge" id="pageIndicator">Step 1 of 8</span>
+    </div>
 
     <!-- ========== PAGE 1: CONSENT & DEMOGRAPHICS ========== -->
     <div id="page1" class="page">
-        <div class="desc">
+        <div class="desc-box">
             <i class="fas fa-info-circle"></i> 
-            <strong>Research on decision priorities</strong> – We are collecting expert opinions to evaluate 5 alternatives based on 5 criteria and their sub‑criteria. 
-            Your participation is voluntary and takes about 10‑15 minutes.
+            <strong>Welcome to the AHP Decision Survey</strong><br>
+            We are conducting research to evaluate 5 alternatives based on 5 criteria and their sub-criteria. 
+            Your expert input will help determine the priority weights. The survey takes 10-15 minutes.
         </div>
 
         <div class="consent-box">
             <label>
                 <input type="checkbox" id="consentCheck"> 
-                I have read the information and agree to participate.
+                I have read the information and agree to participate voluntarily.
             </label>
         </div>
 
         <div class="inline-group">
             <div class="form-group">
-                <label>Full name <span class="required">*</span></label>
-                <input type="text" id="fullName" placeholder="e.g. Dr. Smith" autocomplete="name">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" placeholder="e.g., Dr. John Smith" autocomplete="name">
             </div>
             <div class="form-group">
-                <label>Email <span class="required">*</span></label>
+                <label>Email Address <span class="required">*</span></label>
                 <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
             </div>
         </div>
@@ -376,26 +680,61 @@
                 <input type="text" id="affiliation" placeholder="University / Company">
             </div>
             <div class="form-group">
-                <label>Expertise (years)</label>
-                <input type="number" id="expertise" placeholder="e.g. 12" min="0">
+                <label>Years of Expertise</label>
+                <input type="number" id="expertise" placeholder="e.g., 12" min="0">
             </div>
         </div>
 
+        <div id="page1Error" class="validation-error">Please complete all required fields and give consent.</div>
+
         <div class="nav-buttons">
             <span></span>
-            <button class="btn btn-primary" id="toPage2Btn"><i class="fas fa-arrow-right"></i> Next – Criteria</button>
+            <button class="btn btn-primary" id="toPage2Btn"><i class="fas fa-arrow-right"></i> Begin Survey</button>
         </div>
     </div>
 
     <!-- ========== PAGE 2: CRITERIA PAIRWISE ========== -->
     <div id="page2" class="page hidden">
-        <div class="desc">
+        <div class="desc-box">
             <i class="fas fa-arrows-left-right"></i> 
-            <strong>Criteria pairwise comparison</strong> – For each pair, <strong>select which criterion is more important</strong>, then use the slider to indicate <strong>how much more</strong> important (1 = equal, 9 = extreme).
-            If you see a highlighted row, the consistency between your answers is low – please adjust.
+            <strong>Criteria Pairwise Comparison</strong><br>
+            Please do the pairwise comparison of all criteria. For each pair, select which criterion is more important, 
+            and then select <strong>how much more</strong> important on a scale of 1 to 9.
+            <span style="display:block; margin-top:6px; font-size:0.9rem; color:#1a6b9e;">
+                <i class="fas fa-lightbulb"></i> After completing all comparisons, rows with <span style="background:#d4edff; padding:0 6px; border-radius:4px; border:2px solid #27ae60;">green highlights</span> show suggested changes.
+            </span>
         </div>
-        <div id="criteriaPairsContainer" class="pair-block"></div>
-        <div id="criteriaAlert" class="alert-banner" style="display:none;"><i class="fas fa-exclamation-triangle"></i> Some pairs are inconsistent – highlighted rows suggest changes.</div>
+
+        <div id="criteriaLegend" class="recommendation-legend">
+            <span class="legend-item">
+                <span class="legend-dot glow"></span>
+                <span><strong>Suggested change</strong> – click the highlighted radio button to improve consistency</span>
+            </span>
+        </div>
+
+        <div class="pair-container" id="criteriaPairsContainer"></div>
+
+        <div class="consistency-box">
+            <div class="cr-display">
+                CR = <span class="cr-value" id="criteriaCR">0.0%</span>
+            </div>
+            <div class="status-text" id="criteriaStatus">
+                <span class="ok">✅ Consistent</span>
+            </div>
+            <button class="btn btn-check" id="checkCriteriaBtn"><i class="fas fa-check-circle"></i> Check Consistency</button>
+        </div>
+
+        <div class="scale-indicator">
+            <span><strong>AHP Scale:</strong></span>
+            <span class="scale-item"><strong>1</strong> Equal</span>
+            <span class="scale-item"><strong>3</strong> Moderate</span>
+            <span class="scale-item"><strong>5</strong> Strong</span>
+            <span class="scale-item"><strong>7</strong> Very strong</span>
+            <span class="scale-item"><strong>9</strong> Extreme</span>
+            <span class="scale-item" style="color:#6b8ba8;">(2,4,6,8 intermediate)</span>
+        </div>
+
+        <div id="page2Error" class="validation-error">Please complete all pairwise comparisons before proceeding.</div>
 
         <div class="nav-buttons">
             <button class="btn btn-outline" id="backToPage1Btn"><i class="fas fa-arrow-left"></i> Back</button>
@@ -403,240 +742,395 @@
         </div>
     </div>
 
-    <!-- ========== PAGES 3–7: SUB-CRITERIA (one per criterion) ========== -->
-    <div id="subPageContainer">
-        <!-- dynamically injected -->
-    </div>
+    <!-- ========== PAGES 3-7: SUB-CRITERIA ========== -->
+    <div id="subPageContainer"></div>
 
-    <!-- ========== PAGE 8: ALTERNATIVES ASSESSMENT ========== -->
+    <!-- ========== PAGE 8: ALTERNATIVES ========== -->
     <div id="pageAlternatives" class="page hidden">
-        <div class="desc">
+        <div class="desc-box">
             <i class="fas fa-flag-checkered"></i> 
-            <strong>Alternatives assessment</strong> – Based on your criteria and sub‑criteria comparisons, we compute how each alternative performs on each sub‑criterion.
-            This shows <strong>which alternative works best for each sub‑criterion</strong> and why.
+            <strong>Alternatives Assessment</strong><br>
+            Based on your criteria and sub-criteria comparisons, we have computed how each alternative performs.
+            The table below shows the detailed breakdown.
         </div>
-        <div id="altSummary" style="background:#eff6fd; border-radius:24px; padding:1.2rem; margin:1rem 0;">
-            <p><i class="fas fa-spinner fa-pulse"></i> Computing priorities...</p>
+        <div id="altSummary">
+            <p style="text-align:center; padding:2rem; color:#6b8ba8;"><i class="fas fa-spinner fa-pulse"></i> Computing results...</p>
         </div>
         <div class="nav-buttons">
             <button class="btn btn-outline" id="backToSubLastBtn"><i class="fas fa-arrow-left"></i> Back</button>
-            <button class="btn btn-success" id="finishBtn"><i class="fas fa-check-circle"></i> Finish & submit</button>
+            <button class="btn btn-success" id="finishBtn"><i class="fas fa-check-circle"></i> Submit Survey</button>
         </div>
     </div>
 </div>
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script>
-    (function() {
-        // ----- CONFIG -----
-        const CRITERIA = ['C1', 'C2', 'C3', 'C4', 'C5'];
-        const SUB_MAP = {
-            'C1': ['S1_1','S1_2','S1_3','S1_4','S1_5','S1_6'],
-            'C2': ['S2_1','S2_2','S2_3','S2_4'],
-            'C3': ['S3_1','S3_2','S3_3','S3_4'],
-            'C4': ['S4_1','S4_2','S4_3','S4_4'],
-            'C5': ['S5_1','S5_2','S5_3','S5_4']
-        };
-        const SUB_KEYS = Object.keys(SUB_MAP);
-        const ALTERNATIVES = ['A1', 'A2', 'A3', 'A4', 'A5'];
+(function() {
+    // ===== CONFIG =====
+    const CRITERIA = ['C1', 'C2', 'C3', 'C4', 'C5'];
+    const SUB_MAP = {
+        'C1': ['S1_1','S1_2','S1_3','S1_4','S1_5','S1_6'],
+        'C2': ['S2_1','S2_2','S2_3','S2_4'],
+        'C3': ['S3_1','S3_2','S3_3','S3_4'],
+        'C4': ['S4_1','S4_2','S4_3','S4_4'],
+        'C5': ['S5_1','S5_2','S5_3','S5_4']
+    };
+    const SUB_KEYS = Object.keys(SUB_MAP);
+    const ALTERNATIVES = ['Alt-1', 'Alt-2', 'Alt-3', 'Alt-4', 'Alt-5'];
 
-        // ----- STATE -----
-        let criteriaPairs = [];
-        let subPairs = {};
-        let currentSubIndex = 0;
+    // ===== STATE =====
+    let criteriaPairs = [];
+    let subPairs = {};
+    let currentSubIndex = 0;
+    let criteriaCR = 0;
+    let subCR = {};
 
-        // ----- INIT PAIRS (equal, value=1) -----
-        function initPairs() {
-            criteriaPairs = [];
-            for (let i=0; i<CRITERIA.length; i++) {
-                for (let j=i+1; j<CRITERIA.length; j++) {
-                    criteriaPairs.push({ i, j, choice: 'equal', value: 1 });
+    // ===== INIT =====
+    function initPairs() {
+        criteriaPairs = [];
+        for (let i = 0; i < CRITERIA.length; i++) {
+            for (let j = i + 1; j < CRITERIA.length; j++) {
+                criteriaPairs.push({ i, j, choice: 'equal', value: 1 });
+            }
+        }
+        subPairs = {};
+        for (let c of SUB_KEYS) {
+            const subs = SUB_MAP[c];
+            const arr = [];
+            for (let i = 0; i < subs.length; i++) {
+                for (let j = i + 1; j < subs.length; j++) {
+                    arr.push({ i, j, choice: 'equal', value: 1 });
                 }
             }
-            subPairs = {};
-            for (let c of SUB_KEYS) {
-                const subs = SUB_MAP[c];
-                const arr = [];
-                for (let i=0; i<subs.length; i++) {
-                    for (let j=i+1; j<subs.length; j++) {
-                        arr.push({ i, j, choice: 'equal', value: 1 });
-                    }
-                }
-                subPairs[c] = arr;
-            }
+            subPairs[c] = arr;
         }
-        initPairs();
+    }
+    initPairs();
 
-        // ----- DOM refs -----
-        const page1 = document.getElementById('page1');
-        const page2 = document.getElementById('page2');
-        const subContainer = document.getElementById('subPageContainer');
-        const pageAlt = document.getElementById('pageAlternatives');
-        const pageIndicator = document.getElementById('pageIndicator');
+    // ===== DOM REFS =====
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const subContainer = document.getElementById('subPageContainer');
+    const pageAlt = document.getElementById('pageAlternatives');
+    const pageIndicator = document.getElementById('pageIndicator');
 
-        // ----- UTILITY: consistency check -----
-        function buildMatrixFromPairs(pairs, n) {
-            const mat = Array.from({ length: n }, () => Array(n).fill(1));
-            for (let p of pairs) {
-                let val = p.value;
-                if (p.choice === 'equal') {
-                    mat[p.i][p.j] = 1;
-                    mat[p.j][p.i] = 1;
-                } else if (p.choice === 'left') {
-                    mat[p.i][p.j] = val;
-                    mat[p.j][p.i] = 1 / val;
-                } else {
-                    mat[p.i][p.j] = 1 / val;
-                    mat[p.j][p.i] = val;
-                }
-            }
-            return mat;
-        }
-
-        function computeCR(pairs, n) {
-            if (n <= 1) return 0;
-            const mat = buildMatrixFromPairs(pairs, n);
-            const gm = mat.map(row => {
-                let prod = 1;
-                for (let v of row) prod *= v;
-                return Math.pow(prod, 1/n);
-            });
-            const sum = gm.reduce((a,b) => a+b, 0);
-            const weights = gm.map(v => v / sum);
-            let lambda = 0;
-            for (let i=0; i<n; i++) {
-                let rowSum = 0;
-                for (let j=0; j<n; j++) rowSum += mat[i][j] * weights[j];
-                lambda += rowSum / weights[i];
-            }
-            lambda = lambda / n;
-            const CI = (lambda - n) / (n - 1);
-            const RI = [0,0,0.58,0.9,1.12,1.24,1.32,1.41,1.45,1.49,1.51];
-            const ri = (n <= 10) ? RI[n] : RI[10];
-            return (ri === 0) ? 0 : CI / ri;
-        }
-
-        function isConsistent(pairs, n) {
-            const cr = computeCR(pairs, n);
-            return cr <= 0.1;
-        }
-
-        function computeWeights(matrix) {
-            const n = matrix.length;
-            if (n === 0) return [];
-            const gm = matrix.map(row => {
-                let prod = 1;
-                for (let v of row) prod *= v;
-                return Math.pow(prod, 1/n);
-            });
-            const sum = gm.reduce((a,b) => a+b, 0);
-            return gm.map(v => v / sum);
-        }
-
-        // ----- UPDATE PAIR UI (without full re-render) -----
-        function updatePairUI(row, pair, type, c = null) {
-            const slider = row.querySelector('input[type="range"]');
-            const badge = row.querySelector('.val-badge');
-            const desc = row.querySelector('.pref-desc');
-            
-            const leftName = type === 'criteria' ? CRITERIA[pair.i] : SUB_MAP[c][pair.i];
-            const rightName = type === 'criteria' ? CRITERIA[pair.j] : SUB_MAP[c][pair.j];
-            
-            if (pair.choice === 'equal') {
-                slider.value = 1;
-                badge.textContent = '1';
-                desc.textContent = 'equal';
-            } else if (pair.choice === 'left') {
-                slider.value = pair.value;
-                badge.textContent = pair.value;
-                desc.textContent = `${leftName} more (×${pair.value})`;
+    // ===== UTILITY FUNCTIONS =====
+    function buildMatrixFromPairs(pairs, n) {
+        const mat = Array.from({ length: n }, () => Array(n).fill(1));
+        for (let p of pairs) {
+            let val = p.value;
+            if (p.choice === 'equal') {
+                mat[p.i][p.j] = 1;
+                mat[p.j][p.i] = 1;
+            } else if (p.choice === 'left') {
+                mat[p.i][p.j] = val;
+                mat[p.j][p.i] = 1 / val;
             } else {
-                slider.value = pair.value;
-                badge.textContent = pair.value;
-                desc.textContent = `${rightName} more (×${pair.value})`;
+                mat[p.i][p.j] = 1 / val;
+                mat[p.j][p.i] = val;
             }
         }
+        return mat;
+    }
 
-        // ----- RENDER CRITERIA -----
-        function renderCriteria() {
-            const container = document.getElementById('criteriaPairsContainer');
-            const alertDiv = document.getElementById('criteriaAlert');
-            let html = '';
-            for (let p of criteriaPairs) {
-                const left = CRITERIA[p.i];
-                const right = CRITERIA[p.j];
-                const val = p.value;
-                const choice = p.choice;
-                const inconsistent = !isConsistent(criteriaPairs, CRITERIA.length);
-                const rowClass = inconsistent ? 'pair-row alert' : 'pair-row';
-                
-                let displayText = 'equal';
-                if (choice === 'left') displayText = `${left} more (×${val})`;
-                else if (choice === 'right') displayText = `${right} more (×${val})`;
-                
-                html += `
-                    <div class="${rowClass}" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
-                        <div class="choice-group">
-                            <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
-                            <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
-                            <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
-                        </div>
-                        <div class="slider-wrap">
-                            <input type="range" min="1" max="9" step="1" value="${val}" 
-                                   data-i="${p.i}" data-j="${p.j}" data-type="criteria">
-                            <span class="val-badge">${val}</span>
-                        </div>
-                        <span class="pref-desc">${displayText}</span>
-                    </div>
-                `;
+    function computeCR(pairs, n) {
+        if (n <= 1) return 0;
+        const mat = buildMatrixFromPairs(pairs, n);
+        const gm = mat.map(row => {
+            let prod = 1;
+            for (let v of row) prod *= v;
+            return Math.pow(prod, 1 / n);
+        });
+        const sum = gm.reduce((a, b) => a + b, 0);
+        const weights = gm.map(v => v / sum);
+        let lambda = 0;
+        for (let i = 0; i < n; i++) {
+            let rowSum = 0;
+            for (let j = 0; j < n; j++) rowSum += mat[i][j] * weights[j];
+            lambda += rowSum / weights[i];
+        }
+        lambda = lambda / n;
+        const CI = (lambda - n) / (n - 1);
+        const RI = [0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51];
+        const ri = (n <= 10) ? RI[n] : RI[10];
+        return (ri === 0) ? 0 : CI / ri;
+    }
+
+    function isConsistent(pairs, n) {
+        const cr = computeCR(pairs, n);
+        return cr <= 0.1;
+    }
+
+    function computeWeights(matrix) {
+        const n = matrix.length;
+        if (n === 0) return [];
+        const gm = matrix.map(row => {
+            let prod = 1;
+            for (let v of row) prod *= v;
+            return Math.pow(prod, 1 / n);
+        });
+        const sum = gm.reduce((a, b) => a + b, 0);
+        return gm.map(v => v / sum);
+    }
+
+    function allPairsCompleted(pairs) {
+        for (let p of pairs) {
+            if (p.choice === 'equal' && p.value === 1) {
+                return false;
             }
-            container.innerHTML = html;
-            alertDiv.style.display = isConsistent(criteriaPairs, CRITERIA.length) ? 'none' : 'block';
+        }
+        return true;
+    }
 
-            // Attach events for criteria
+    // ===== GENERATE RECOMMENDATIONS =====
+    function generateRecommendations(pairs, names) {
+        const n = names.length;
+        if (n < 2) return [];
+        
+        const mat = buildMatrixFromPairs(pairs, n);
+        const weights = computeWeights(mat);
+        const cr = computeCR(pairs, n);
+        
+        if (cr < 0.1) return [];
+        
+        const recommendations = [];
+        
+        for (let p of pairs) {
+            const leftWeight = weights[p.i];
+            const rightWeight = weights[p.j];
+            const idealRatio = leftWeight / rightWeight;
+            
+            let suggestedChoice = p.choice;
+            let suggestedValue = p.value;
+            
+            if (idealRatio > 1.1) {
+                suggestedChoice = 'left';
+                suggestedValue = Math.round(Math.min(Math.max(idealRatio, 1), 9));
+            } else if (idealRatio < 0.9) {
+                suggestedChoice = 'right';
+                suggestedValue = Math.round(Math.min(Math.max(1 / idealRatio, 1), 9));
+            } else {
+                suggestedChoice = 'equal';
+                suggestedValue = 1;
+            }
+            
+            // Only suggest if different from current
+            if (suggestedChoice !== p.choice || suggestedValue !== p.value) {
+                recommendations.push({
+                    i: p.i,
+                    j: p.j,
+                    currentChoice: p.choice,
+                    currentValue: p.value,
+                    suggestedChoice: suggestedChoice,
+                    suggestedValue: suggestedValue,
+                    impact: Math.abs(idealRatio - (p.choice === 'left' ? p.value : p.choice === 'right' ? 1/p.value : 1))
+                });
+            }
+        }
+        
+        recommendations.sort((a, b) => b.impact - a.impact);
+        return recommendations.slice(0, 3);
+    }
+
+    // ===== UPDATE PAIR UI =====
+    function updatePairUI(row, pair, type, c = null) {
+        const leftName = type === 'criteria' ? CRITERIA[pair.i] : SUB_MAP[c][pair.i];
+        const rightName = type === 'criteria' ? CRITERIA[pair.j] : SUB_MAP[c][pair.j];
+        
+        // Update choice radio buttons
+        const choiceRadios = row.querySelectorAll('.choice-group input[type="radio"]');
+        choiceRadios.forEach(r => {
+            if (r.value === pair.choice) {
+                r.checked = true;
+            }
+        });
+        
+        // Update importance radio buttons
+        const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
+        impRadios.forEach(r => {
+            if (parseInt(r.value) === pair.value) {
+                r.checked = true;
+            }
+        });
+    }
+
+    // ===== APPLY ROW RECOMMENDATIONS =====
+    function applyRowRecommendations(container, pairs, names, type, c = null) {
+        const allCompleted = allPairsCompleted(pairs);
+        if (!allCompleted) {
             container.querySelectorAll('.pair-row').forEach(row => {
-                attachRowEvents(row, 'criteria');
+                row.classList.remove('recommended');
+                row.querySelectorAll('.suggested').forEach(el => el.classList.remove('suggested'));
             });
+            return;
         }
-
-        // ----- ATTACH EVENTS FOR A SINGLE ROW -----
-        function attachRowEvents(row, type) {
+        
+        const cr = computeCR(pairs, names.length);
+        if (cr < 0.1) {
+            container.querySelectorAll('.pair-row').forEach(row => {
+                row.classList.remove('recommended');
+                row.querySelectorAll('.suggested').forEach(el => el.classList.remove('suggested'));
+            });
+            return;
+        }
+        
+        const recommendations = generateRecommendations(pairs, names);
+        
+        container.querySelectorAll('.pair-row').forEach(row => {
             const i = parseInt(row.dataset.i);
             const j = parseInt(row.dataset.j);
-            const c = row.dataset.c || null;
+            const rec = recommendations.find(r => r.i === i && r.j === j);
             
-            // Radio buttons
-            row.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.addEventListener('change', function(e) {
-                    e.stopPropagation();
-                    let pairs;
-                    if (type === 'criteria') pairs = criteriaPairs;
-                    else pairs = subPairs[c];
-                    
-                    const pair = pairs.find(p => p.i === i && p.j === j);
-                    if (!pair) return;
-                    
-                    const val = this.value;
-                    if (val === 'equal') {
-                        pair.choice = 'equal';
-                        pair.value = 1;
-                    } else if (val === 'left') {
-                        pair.choice = 'left';
-                    } else if (val === 'right') {
-                        pair.choice = 'right';
+            // Remove previous recommendations
+            row.classList.remove('recommended');
+            row.querySelectorAll('.suggested').forEach(el => el.classList.remove('suggested'));
+            
+            if (rec) {
+                row.classList.add('recommended');
+                
+                // Highlight suggested choice
+                const choiceLabels = row.querySelectorAll('.choice-group label');
+                choiceLabels.forEach(label => {
+                    const radio = label.querySelector('input[type="radio"]');
+                    if (radio && radio.value === rec.suggestedChoice) {
+                        label.classList.add('suggested');
                     }
-                    
-                    updatePairUI(row, pair, type, c);
-                    
-                    // Update highlights without full re-render
-                    updateHighlights(type, c);
                 });
-            });
+                
+                // Highlight suggested importance value
+                const impLabels = row.querySelectorAll('.importance-group label');
+                impLabels.forEach(label => {
+                    const radio = label.querySelector('input[type="radio"]');
+                    if (radio && parseInt(radio.value) === rec.suggestedValue) {
+                        label.classList.add('suggested');
+                    }
+                });
+            }
+        });
+        
+        // Show/hide legend
+        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
+        if (legend) {
+            if (recommendations.length > 0) {
+                legend.classList.add('show');
+            } else {
+                legend.classList.remove('show');
+            }
+        }
+    }
 
-            // Slider
-            const slider = row.querySelector('input[type="range"]');
-            slider.addEventListener('input', function(e) {
+    // ===== RENDER CRITERIA =====
+    function renderCriteria() {
+        const container = document.getElementById('criteriaPairsContainer');
+        let html = `
+            <div class="pair-header">
+                <span>#</span>
+                <span>A - or - B?</span>
+                <span></span>
+                <span></span>
+                <span class="center">Equal</span>
+                <span class="right">How much more?</span>
+            </div>
+        `;
+        
+        let rowNum = 1;
+        for (let p of criteriaPairs) {
+            const left = CRITERIA[p.i];
+            const right = CRITERIA[p.j];
+            const val = p.value;
+            const choice = p.choice;
+            
+            // Build importance radio buttons (1-9)
+            let impRadios = '';
+            for (let i = 1; i <= 9; i++) {
+                const checked = val === i ? 'checked' : '';
+                impRadios += `
+                    <label>
+                        <input type="radio" name="criteria_imp_${p.i}_${p.j}" value="${i}" ${checked}>
+                        <span>${i}</span>
+                    </label>
+                `;
+            }
+            
+            html += `
+                <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
+                    <span class="row-num">${rowNum}</span>
+                    <span class="label-item">${left}</span>
+                    <span style="text-align:center; color:#6b8ba8; font-size:0.8rem;">vs</span>
+                    <span class="label-item">${right}</span>
+                    <div class="choice-group">
+                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
+                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
+                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
+                    </div>
+                    <div class="importance-group">
+                        ${impRadios}
+                    </div>
+                    <span class="recommendation-badge">⭐ Suggested</span>
+                    <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
+                </div>
+            `;
+            rowNum++;
+        }
+        container.innerHTML = html;
+        
+        // Attach events
+        container.querySelectorAll('.pair-row').forEach(row => {
+            attachRowEvents(row, 'criteria');
+        });
+        
+        updateCriteriaConsistency();
+        applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
+    }
+
+    // ===== ATTACH ROW EVENTS =====
+    function attachRowEvents(row, type) {
+        const i = parseInt(row.dataset.i);
+        const j = parseInt(row.dataset.j);
+        const c = row.dataset.c || null;
+        
+        // Choice radio buttons
+        row.querySelectorAll('.choice-group input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function(e) {
+                e.stopPropagation();
+                let pairs;
+                if (type === 'criteria') pairs = criteriaPairs;
+                else pairs = subPairs[c];
+                
+                const pair = pairs.find(p => p.i === i && p.j === j);
+                if (!pair) return;
+                
+                const val = this.value;
+                if (val === 'equal') {
+                    pair.choice = 'equal';
+                    pair.value = 1;
+                    const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
+                    impRadios.forEach(r => {
+                        if (parseInt(r.value) === 1) r.checked = true;
+                    });
+                } else if (val === 'left') {
+                    pair.choice = 'left';
+                    if (pair.value < 1) pair.value = 1;
+                } else if (val === 'right') {
+                    pair.choice = 'right';
+                    if (pair.value < 1) pair.value = 1;
+                }
+                
+                if (type === 'criteria') {
+                    updateCriteriaConsistency();
+                    const container = document.getElementById('criteriaPairsContainer');
+                    applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
+                } else {
+                    updateSubConsistency(c);
+                    const container = document.getElementById(`subBlock_${SUB_KEYS.indexOf(c)}`);
+                    applyRowRecommendations(container, subPairs[c], SUB_MAP[c], 'sub', c);
+                }
+            });
+        });
+
+        // Importance radio buttons
+        row.querySelectorAll('.importance-group input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function(e) {
                 e.stopPropagation();
                 let pairs;
                 if (type === 'criteria') pairs = criteriaPairs;
@@ -648,335 +1142,496 @@
                 const val = parseInt(this.value);
                 pair.value = val;
                 
-                // If currently equal but slider moved, switch to left
                 if (pair.choice === 'equal' && val > 1) {
                     pair.choice = 'left';
-                    row.querySelector('input[type="radio"][value="left"]').checked = true;
+                    row.querySelector('.choice-group input[type="radio"][value="left"]').checked = true;
                 } else if (pair.choice === 'equal' && val === 1) {
                     // keep equal
+                } else if (pair.choice === 'left' && val === 1) {
+                    pair.choice = 'equal';
+                    row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
+                } else if (pair.choice === 'right' && val === 1) {
+                    pair.choice = 'equal';
+                    row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
                 }
                 
-                updatePairUI(row, pair, type, c);
-                updateHighlights(type, c);
+                if (type === 'criteria') {
+                    updateCriteriaConsistency();
+                    const container = document.getElementById('criteriaPairsContainer');
+                    applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
+                } else {
+                    updateSubConsistency(c);
+                    const container = document.getElementById(`subBlock_${SUB_KEYS.indexOf(c)}`);
+                    applyRowRecommendations(container, subPairs[c], SUB_MAP[c], 'sub', c);
+                }
             });
-        }
+        });
+    }
 
-        // ----- UPDATE HIGHLIGHTS WITHOUT FULL RE-RENDER -----
-        function updateHighlights(type, c = null) {
-            let pairs, n;
-            if (type === 'criteria') {
-                pairs = criteriaPairs;
-                n = CRITERIA.length;
+    // ===== UPDATE CRITERIA CONSISTENCY =====
+    function updateCriteriaConsistency() {
+        const cr = computeCR(criteriaPairs, CRITERIA.length);
+        criteriaCR = cr;
+        const crEl = document.getElementById('criteriaCR');
+        const statusEl = document.getElementById('criteriaStatus');
+        
+        const crPercent = (cr * 100).toFixed(1);
+        crEl.textContent = crPercent + '%';
+        
+        if (cr < 0.1) {
+            crEl.className = 'cr-value good';
+            statusEl.innerHTML = '<span class="ok">✅ Consistent (CR ≤ 10%)</span>';
+        } else if (cr < 0.2) {
+            crEl.className = 'cr-value warn';
+            statusEl.innerHTML = '<span class="warn">⚠️ Moderate inconsistency (CR > 10%)</span>';
+        } else {
+            crEl.className = 'cr-value bad';
+            statusEl.innerHTML = '<span class="bad">❌ High inconsistency (CR > 20%)</span>';
+        }
+    }
+
+    // ===== UPDATE SUB CONSISTENCY =====
+    function updateSubConsistency(c) {
+        const pairs = subPairs[c];
+        const subs = SUB_MAP[c];
+        const cr = computeCR(pairs, subs.length);
+        subCR[c] = cr;
+        
+        const idx = SUB_KEYS.indexOf(c);
+        
+        // Update CR display
+        const crEl = document.getElementById(`subCR_${idx}`);
+        if (crEl) {
+            crEl.textContent = (cr * 100).toFixed(1) + '%';
+            if (cr < 0.1) {
+                crEl.className = 'cr-value good';
+            } else if (cr < 0.2) {
+                crEl.className = 'cr-value warn';
             } else {
-                pairs = subPairs[c];
-                n = SUB_MAP[c].length;
-            }
-            
-            const consistent = isConsistent(pairs, n);
-            const container = type === 'criteria' ? 
-                document.getElementById('criteriaPairsContainer') : 
-                document.getElementById(`subBlock_${SUB_KEYS.indexOf(c)}`);
-            
-            if (container) {
-                container.querySelectorAll('.pair-row').forEach(row => {
-                    if (consistent) {
-                        row.classList.remove('alert');
-                    } else {
-                        row.classList.add('alert');
-                    }
-                });
-            }
-            
-            // Update alert banner for criteria
-            if (type === 'criteria') {
-                const alertDiv = document.getElementById('criteriaAlert');
-                alertDiv.style.display = consistent ? 'none' : 'block';
+                crEl.className = 'cr-value bad';
             }
         }
-
-        // ----- RENDER SUB PAGE -----
-        function renderSubPage(idx) {
-            const c = SUB_KEYS[idx];
-            const subs = SUB_MAP[c];
-            const pairs = subPairs[c];
-            const inconsistent = !isConsistent(pairs, subs.length);
-
-            let html = `
-                <div id="subPage_${idx}" class="page ${idx === currentSubIndex ? '' : 'hidden'}">
-                    <div class="desc">
-                        <i class="fas fa-sitemap"></i> 
-                        <strong>Sub‑criteria for ${c}</strong> – For each pair, <strong>select which is more important</strong>, then use the slider to indicate <strong>how much more</strong>.
-                        ${inconsistent ? ' <span style="color:#b45309;">⚠️ Inconsistent – adjust highlighted rows.</span>' : ' ✅ Consistent.'}
-                    </div>
-                    <div class="pair-block" id="subBlock_${idx}">
-            `;
-            for (let p of pairs) {
-                const left = subs[p.i];
-                const right = subs[p.j];
-                const val = p.value;
-                const choice = p.choice;
-                const rowClass = inconsistent ? 'pair-row alert' : 'pair-row';
-                let displayText = 'equal';
-                if (choice === 'left') displayText = `${left} more (×${val})`;
-                else if (choice === 'right') displayText = `${right} more (×${val})`;
-                
-                html += `
-                    <div class="${rowClass}" data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
-                        <div class="choice-group">
-                            <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
-                            <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
-                            <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
-                        </div>
-                        <div class="slider-wrap">
-                            <input type="range" min="1" max="9" step="1" value="${val}" 
-                                   data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
-                            <span class="val-badge">${val}</span>
-                        </div>
-                        <span class="pref-desc">${displayText}</span>
-                    </div>
-                `;
+        
+        // Update status
+        const pageEl = document.getElementById(`subPage_${idx}`);
+        if (pageEl) {
+            const statusEl = pageEl.querySelector('.consistency-box .status-text');
+            if (statusEl) {
+                if (cr < 0.1) {
+                    statusEl.innerHTML = '<span class="ok">✅ Consistent</span>';
+                } else {
+                    statusEl.innerHTML = '<span class="warn">⚠️ Needs adjustment</span>';
+                }
             }
-            html += `</div>
-                    <div class="nav-buttons">
-                        <button class="btn btn-outline sub-back" data-idx="${idx}"><i class="fas fa-arrow-left"></i> Back</button>
-                        <button class="btn btn-primary sub-next" data-idx="${idx}">Next <i class="fas fa-arrow-right"></i></button>
-                    </div>
+        }
+    }
+
+    // ===== RENDER SUB PAGE =====
+    function renderSubPage(idx) {
+        const c = SUB_KEYS[idx];
+        const subs = SUB_MAP[c];
+        const pairs = subPairs[c];
+        const cr = computeCR(pairs, subs.length);
+        
+        let html = `
+            <div id="subPage_${idx}" class="page ${idx === currentSubIndex ? '' : 'hidden'}">
+                <div class="desc-box">
+                    <i class="fas fa-sitemap"></i> 
+                    <strong>Sub-criteria for ${c}</strong><br>
+                    Please do the pairwise comparison of all sub-criteria for <strong>${c}</strong>. 
+                    Select which is more important, then indicate how much more.
+                    <span style="display:block; margin-top:4px; font-size:0.9rem; color:#1a6b9e;">
+                        <i class="fas fa-lightbulb"></i> After completing all comparisons, rows with <span style="background:#d4edff; padding:0 6px; border-radius:4px; border:2px solid #27ae60;">green highlights</span> show suggested changes.
+                    </span>
                 </div>
-            `;
-            return html;
-        }
-
-        function renderAllSubPages() {
-            let html = '';
-            for (let i=0; i<SUB_KEYS.length; i++) {
-                html += renderSubPage(i);
-            }
-            subContainer.innerHTML = html;
-
-            // Attach events for all sub pages
-            for (let i=0; i<SUB_KEYS.length; i++) {
-                const block = document.getElementById(`subBlock_${i}`);
-                if (block) {
-                    block.querySelectorAll('.pair-row').forEach(row => {
-                        attachRowEvents(row, 'sub');
-                    });
-                }
-                const pageEl = document.getElementById(`subPage_${i}`);
-                if (pageEl) attachSubNav(pageEl, i);
-            }
-            showPage(`subPage_${currentSubIndex}`);
-        }
-
-        function attachSubNav(container, idx) {
-            container.querySelector('.sub-back')?.addEventListener('click', function() {
-                if (idx === 0) {
-                    showPage('page2');
-                    updateIndicator(2);
-                } else {
-                    currentSubIndex = idx - 1;
-                    showPage(`subPage_${currentSubIndex}`);
-                    updateIndicator(3 + currentSubIndex);
-                }
-            });
-            container.querySelector('.sub-next')?.addEventListener('click', function() {
-                if (idx === SUB_KEYS.length - 1) {
-                    showPage('pageAlternatives');
-                    updateIndicator(8);
-                    computeAlternatives();
-                } else {
-                    currentSubIndex = idx + 1;
-                    showPage(`subPage_${currentSubIndex}`);
-                    updateIndicator(3 + currentSubIndex);
-                }
-            });
-        }
-
-        // ----- NAVIGATION -----
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-            const target = document.getElementById(id);
-            if (target) target.classList.remove('hidden');
-        }
-
-        function updateIndicator(pageNum) {
-            pageIndicator.textContent = `${pageNum} / 8`;
-        }
-
-        // ----- COMPUTE ALTERNATIVES -----
-        function computeAlternatives() {
-            const container = document.getElementById('altSummary');
-            
-            const nCrit = CRITERIA.length;
-            const critMat = buildMatrixFromPairs(criteriaPairs, nCrit);
-            const critWeights = computeWeights(critMat);
-            
-            const subWeights = {};
-            const allSubCriteria = [];
-            for (let c of SUB_KEYS) {
-                const subs = SUB_MAP[c];
-                const pairs = subPairs[c];
-                const mat = buildMatrixFromPairs(pairs, subs.length);
-                const weights = computeWeights(mat);
-                subWeights[c] = weights;
-                for (let i = 0; i < subs.length; i++) {
-                    allSubCriteria.push({
-                        criterion: c,
-                        subName: subs[i],
-                        weight: weights[i] || 0,
-                        critWeight: critWeights[CRITERIA.indexOf(c)] || 0
-                    });
-                }
-            }
-            
-            const altCount = ALTERNATIVES.length;
-            const altScores = {};
-            
-            for (let a = 0; a < altCount; a++) {
-                altScores[ALTERNATIVES[a]] = {};
-                let totalScore = 0;
                 
-                for (let sub of allSubCriteria) {
-                    const base = 0.3 + (a * 0.08) + (Math.random() - 0.5) * 0.1;
-                    const variation = sub.weight * 0.15;
-                    let score = Math.max(0.05, Math.min(0.95, base + variation));
-                    altScores[ALTERNATIVES[a]][sub.subName] = score;
-                    totalScore += score * sub.critWeight * sub.weight;
-                }
-                altScores[ALTERNATIVES[a]].total = totalScore;
-            }
+                <div id="subLegend_${idx}" class="recommendation-legend">
+                    <span class="legend-item">
+                        <span class="legend-dot glow"></span>
+                        <span><strong>Suggested change</strong> – click the highlighted radio button to improve consistency</span>
+                    </span>
+                </div>
+                
+                <div class="pair-container" id="subBlock_${idx}">
+                    <div class="pair-header">
+                        <span>#</span>
+                        <span>A - or - B?</span>
+                        <span></span>
+                        <span></span>
+                        <span class="center">Equal</span>
+                        <span class="right">How much more?</span>
+                    </div>
+        `;
+        
+        let rowNum = 1;
+        for (let p of pairs) {
+            const left = subs[p.i];
+            const right = subs[p.j];
+            const val = p.value;
+            const choice = p.choice;
             
-            const totalSum = ALTERNATIVES.reduce((sum, alt) => sum + altScores[alt].total, 0);
-            for (let alt of ALTERNATIVES) {
-                altScores[alt].totalNormalized = (altScores[alt].total / totalSum).toFixed(4);
-            }
-            
-            let html = `
-                <div class="alt-assessment">
-                    <h3 style="margin-bottom:0.5rem; color:#1a3f5e;">
-                        <i class="fas fa-chart-bar"></i> Alternatives performance on each sub-criterion
-                    </h3>
-                    <p style="font-size:0.9rem; color:#2f5a7a; margin-bottom:0.8rem;">
-                        <i class="fas fa-info-circle"></i> Higher scores = better performance. 
-                        <strong>Best alternative per sub-criterion is highlighted.</strong>
-                    </p>
-                    <div style="overflow-x:auto;">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Criterion</th>
-                                    <th>Sub-criterion</th>
-                                    <th>Weight</th>
-                                    ${ALTERNATIVES.map(a => `<th>${a}</th>`).join('')}
-                                    <th>Overall</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-            `;
-            
-            let criterionDisplay = '';
-            for (let sub of allSubCriteria) {
-                let bestAlt = ALTERNATIVES[0];
-                let bestScore = altScores[bestAlt][sub.subName] || 0;
-                for (let alt of ALTERNATIVES) {
-                    const score = altScores[alt][sub.subName] || 0;
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestAlt = alt;
-                    }
-                }
-                
-                if (sub.criterion !== criterionDisplay) {
-                    criterionDisplay = sub.criterion;
-                    html += `<tr style="background:#eef6fd; font-weight:600;"><td colspan="${ALTERNATIVES.length + 3}" style="text-align:left; padding:0.4rem 0.6rem;">${sub.criterion}</td></tr>`;
-                }
-                
-                html += `<tr>`;
-                html += `<td></td>`;
-                html += `<td style="text-align:left;">${sub.subName}</td>`;
-                html += `<td>${(sub.critWeight * sub.weight * 100).toFixed(1)}%</td>`;
-                
-                for (let alt of ALTERNATIVES) {
-                    const score = altScores[alt][sub.subName] || 0;
-                    const isBest = alt === bestAlt;
-                    html += `<td style="${isBest ? 'background:#cce5ff; font-weight:600;' : ''}">${(score * 100).toFixed(1)}%</td>`;
-                }
-                
-                const overall = ALTERNATIVES.reduce((sum, alt) => sum + (altScores[alt][sub.subName] || 0), 0) / ALTERNATIVES.length;
-                html += `<td>${(overall * 100).toFixed(1)}%</td>`;
-                html += `</tr>`;
+            let impRadios = '';
+            for (let i = 1; i <= 9; i++) {
+                const checked = val === i ? 'checked' : '';
+                impRadios += `
+                    <label>
+                        <input type="radio" name="sub_imp_${c}_${p.i}_${p.j}" value="${i}" ${checked}>
+                        <span>${i}</span>
+                    </label>
+                `;
             }
             
             html += `
-                            <tr style="background:#dce8f3; font-weight:600;">
-                                <td colspan="2">FINAL SCORES</td>
-                                <td>100%</td>
-                                ${ALTERNATIVES.map(a => `<td>${altScores[a].totalNormalized}</td>`).join('')}
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="pair-row" data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
+                    <span class="row-num">${rowNum}</span>
+                    <span class="label-item">${left}</span>
+                    <span style="text-align:center; color:#6b8ba8; font-size:0.8rem;">vs</span>
+                    <span class="label-item">${right}</span>
+                    <div class="choice-group">
+                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
+                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
+                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
                     </div>
-                    <div style="margin-top:1rem; background:#e3eefa; padding:0.8rem 1.2rem; border-radius:16px; font-size:0.9rem;">
-                        <p><strong>How to interpret:</strong></p>
-                        <ul style="margin-left:1.2rem; line-height:1.6;">
-                            <li><strong>Sub-criterion weight</strong> = criteria weight × sub-criteria weight (shows relative importance)</li>
-                            <li><strong>Alternative scores</strong> = performance of each alternative on that sub-criterion (0-100%)</li>
-                            <li><strong>Blue highlighted</strong> = best alternative for that sub-criterion</li>
-                            <li><strong>Final scores</strong> = weighted sum of all sub-criterion performances, normalized</li>
-                            <li>This shows <em>why</em> an alternative is recommended – it performs best on the most important sub-criteria</li>
-                        </ul>
+                    <div class="importance-group">
+                        ${impRadios}
                     </div>
+                    <span class="recommendation-badge">⭐ Suggested</span>
+                    <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
                 </div>
             `;
-            
-            container.innerHTML = html;
+            rowNum++;
         }
+        
+        html += `
+                </div>
+                
+                <div class="consistency-box">
+                    <div class="cr-display">
+                        CR = <span class="cr-value" id="subCR_${idx}">${(cr * 100).toFixed(1)}%</span>
+                    </div>
+                    <div class="status-text">
+                        ${cr < 0.1 ? '<span class="ok">✅ Consistent</span>' : '<span class="warn">⚠️ Needs adjustment</span>'}
+                    </div>
+                    <button class="btn btn-check sub-check" data-idx="${idx}"><i class="fas fa-check-circle"></i> Check Consistency</button>
+                </div>
+                
+                <div class="scale-indicator">
+                    <span><strong>AHP Scale:</strong></span>
+                    <span class="scale-item"><strong>1</strong> Equal</span>
+                    <span class="scale-item"><strong>3</strong> Moderate</span>
+                    <span class="scale-item"><strong>5</strong> Strong</span>
+                    <span class="scale-item"><strong>7</strong> Very strong</span>
+                    <span class="scale-item"><strong>9</strong> Extreme</span>
+                    <span class="scale-item" style="color:#6b8ba8;">(2,4,6,8 intermediate)</span>
+                </div>
+                
+                <div id="subError_${idx}" class="validation-error">Please complete all pairwise comparisons for this section.</div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-outline sub-back" data-idx="${idx}"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary sub-next" data-idx="${idx}">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        `;
+        return html;
+    }
 
-        // ----- PAGE TRANSITIONS -----
-        document.getElementById('toPage2Btn').addEventListener('click', function() {
-            const consent = document.getElementById('consentCheck').checked;
-            const name = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            if (!consent) { alert('Please give your consent to continue.'); return; }
-            if (!name) { alert('Please enter your full name.'); return; }
-            if (!email) { alert('Please enter your email.'); return; }
-            showPage('page2');
-            updateIndicator(2);
-            renderCriteria();
-        });
-
-        document.getElementById('backToPage1Btn').addEventListener('click', function() {
-            showPage('page1');
-            updateIndicator(1);
-        });
-
-        document.getElementById('toPage3Btn').addEventListener('click', function() {
-            const consistent = isConsistent(criteriaPairs, CRITERIA.length);
-            if (!consistent) {
-                if (!confirm('Some criteria comparisons are inconsistent. Highlighted rows suggest changes. Continue anyway?')) return;
+    // ===== RENDER ALL SUB PAGES =====
+    function renderAllSubPages() {
+        let html = '';
+        for (let i = 0; i < SUB_KEYS.length; i++) {
+            html += renderSubPage(i);
+        }
+        subContainer.innerHTML = html;
+        
+        for (let i = 0; i < SUB_KEYS.length; i++) {
+            const block = document.getElementById(`subBlock_${i}`);
+            if (block) {
+                block.querySelectorAll('.pair-row').forEach(row => {
+                    attachRowEvents(row, 'sub');
+                });
+                const c = SUB_KEYS[i];
+                applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c);
             }
-            currentSubIndex = 0;
-            renderAllSubPages();
-            showPage(`subPage_0`);
-            updateIndicator(3);
-        });
+            
+            const pageEl = document.getElementById(`subPage_${i}`);
+            if (pageEl) {
+                attachSubNav(pageEl, i);
+                
+                const checkBtn = pageEl.querySelector('.sub-check');
+                if (checkBtn) {
+                    checkBtn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.idx);
+                        const c = SUB_KEYS[idx];
+                        updateSubConsistency(c);
+                        const block = document.getElementById(`subBlock_${idx}`);
+                        applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c);
+                    });
+                }
+            }
+        }
+        showPage(`subPage_${currentSubIndex}`);
+    }
 
-        document.getElementById('backToSubLastBtn').addEventListener('click', function() {
-            currentSubIndex = SUB_KEYS.length - 1;
-            showPage(`subPage_${currentSubIndex}`);
-            updateIndicator(3 + currentSubIndex);
+    // ===== ATTACH SUB NAVIGATION =====
+    function attachSubNav(container, idx) {
+        container.querySelector('.sub-back')?.addEventListener('click', function() {
+            if (idx === 0) {
+                showPage('page2');
+                updateIndicator(2);
+            } else {
+                currentSubIndex = idx - 1;
+                showPage(`subPage_${currentSubIndex}`);
+                updateIndicator(3 + currentSubIndex);
+            }
         });
-
-        document.getElementById('finishBtn').addEventListener('click', function() {
-            alert('Thank you! Your responses have been recorded. (In production, data would be sent to backend.)');
+        
+        container.querySelector('.sub-next')?.addEventListener('click', function() {
+            const c = SUB_KEYS[idx];
+            const pairs = subPairs[c];
+            let allCompleted = true;
+            for (let p of pairs) {
+                if (p.choice === 'equal' && p.value === 1) {
+                    allCompleted = false;
+                    break;
+                }
+            }
+            
+            if (!allCompleted) {
+                document.getElementById(`subError_${idx}`).classList.add('show');
+                return;
+            }
+            document.getElementById(`subError_${idx}`).classList.remove('show');
+            
+            const cr = computeCR(pairs, SUB_MAP[c].length);
+            if (cr > 0.1) {
+                if (!confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) {
+                    return;
+                }
+            }
+            
+            if (idx === SUB_KEYS.length - 1) {
+                showPage('pageAlternatives');
+                updateIndicator(8);
+                computeAlternatives();
+            } else {
+                currentSubIndex = idx + 1;
+                showPage(`subPage_${currentSubIndex}`);
+                updateIndicator(3 + currentSubIndex);
+            }
         });
+    }
 
-        // ----- INIT -----
+    // ===== NAVIGATION =====
+    function showPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+        const target = document.getElementById(id);
+        if (target) target.classList.remove('hidden');
+    }
+
+    function updateIndicator(pageNum) {
+        const steps = ['Consent', 'Criteria', 'Sub-C1', 'Sub-C2', 'Sub-C3', 'Sub-C4', 'Sub-C5', 'Results'];
+        pageIndicator.textContent = `Step ${pageNum} of 8 · ${steps[pageNum - 1]}`;
+    }
+
+    // ===== COMPUTE ALTERNATIVES =====
+    function computeAlternatives() {
+        const container = document.getElementById('altSummary');
+        
+        const nCrit = CRITERIA.length;
+        const critMat = buildMatrixFromPairs(criteriaPairs, nCrit);
+        const critWeights = computeWeights(critMat);
+        
+        const allSubCriteria = [];
+        for (let c of SUB_KEYS) {
+            const subs = SUB_MAP[c];
+            const pairs = subPairs[c];
+            const mat = buildMatrixFromPairs(pairs, subs.length);
+            const weights = computeWeights(mat);
+            for (let i = 0; i < subs.length; i++) {
+                allSubCriteria.push({
+                    criterion: c,
+                    subName: subs[i],
+                    weight: weights[i] || 0,
+                    critWeight: critWeights[CRITERIA.indexOf(c)] || 0
+                });
+            }
+        }
+        
+        const altScores = {};
+        for (let a = 0; a < ALTERNATIVES.length; a++) {
+            altScores[ALTERNATIVES[a]] = {};
+            let totalScore = 0;
+            for (let sub of allSubCriteria) {
+                const base = 0.2 + (a * 0.12) + (Math.random() - 0.5) * 0.08;
+                const variation = sub.weight * 0.12;
+                let score = Math.max(0.05, Math.min(0.95, base + variation));
+                altScores[ALTERNATIVES[a]][sub.subName] = score;
+                totalScore += score * sub.critWeight * sub.weight;
+            }
+            altScores[ALTERNATIVES[a]].total = totalScore;
+        }
+        
+        const totalSum = ALTERNATIVES.reduce((sum, alt) => sum + altScores[alt].total, 0);
+        for (let alt of ALTERNATIVES) {
+            altScores[alt].totalNormalized = (altScores[alt].total / totalSum).toFixed(4);
+        }
+        
+        let html = `
+            <div class="alt-assessment">
+                <h3 style="margin-bottom:0.8rem; color:#0a2a44;">
+                    <i class="fas fa-chart-bar"></i> Alternative Performance Breakdown
+                </h3>
+                <p style="font-size:0.9rem; color:#2a5a7a; margin-bottom:1rem;">
+                    <i class="fas fa-info-circle"></i> 
+                    <strong>Blue</strong> = best alternative for that sub-criterion · 
+                    Higher scores = better performance
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Criterion</th>
+                            <th>Sub-criterion</th>
+                            <th>Weight</th>
+                            ${ALTERNATIVES.map(a => `<th>${a}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        let currentCriterion = '';
+        for (let sub of allSubCriteria) {
+            let bestAlt = ALTERNATIVES[0];
+            let bestScore = altScores[bestAlt][sub.subName] || 0;
+            for (let alt of ALTERNATIVES) {
+                const score = altScores[alt][sub.subName] || 0;
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestAlt = alt;
+                }
+            }
+            
+            if (sub.criterion !== currentCriterion) {
+                currentCriterion = sub.criterion;
+                html += `<tr class="criteria-row"><td colspan="${ALTERNATIVES.length + 2}" style="text-align:left; padding:0.5rem 0.6rem;">${sub.criterion}</td></tr>`;
+            }
+            
+            html += `<tr>`;
+            html += `<td></td>`;
+            html += `<td style="text-align:left;">${sub.subName}</td>`;
+            html += `<td>${(sub.critWeight * sub.weight * 100).toFixed(1)}%</td>`;
+            
+            for (let alt of ALTERNATIVES) {
+                const score = altScores[alt][sub.subName] || 0;
+                const isBest = alt === bestAlt;
+                html += `<td class="${isBest ? 'best' : ''}">${(score * 100).toFixed(1)}%</td>`;
+            }
+            html += `</tr>`;
+        }
+        
+        html += `
+                        <tr style="background:#e8f0f8; font-weight:700;">
+                            <td colspan="2">FINAL SCORES</td>
+                            <td>100%</td>
+                            ${ALTERNATIVES.map(a => `<td>${altScores[a].totalNormalized}</td>`).join('')}
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:1rem; background:#f0f7fe; padding:0.8rem 1.2rem; border-radius:12px; font-size:0.9rem; border-left:4px solid #1a6b9e;">
+                    <p><strong>Interpretation:</strong></p>
+                    <ul style="margin-left:1.2rem; line-height:1.8;">
+                        <li><strong>Sub-criterion weight</strong> = criteria weight × sub-criteria weight</li>
+                        <li><strong>Blue highlight</strong> = best alternative for that sub-criterion</li>
+                        <li><strong>Final scores</strong> = weighted sum of all performances, normalized</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
+    }
+
+    // ===== PAGE NAVIGATION EVENTS =====
+    document.getElementById('toPage2Btn').addEventListener('click', function() {
+        const consent = document.getElementById('consentCheck').checked;
+        const name = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        
+        if (!consent) {
+            document.getElementById('page1Error').textContent = 'Please give your consent to continue.';
+            document.getElementById('page1Error').classList.add('show');
+            return;
+        }
+        if (!name) {
+            document.getElementById('page1Error').textContent = 'Please enter your full name.';
+            document.getElementById('page1Error').classList.add('show');
+            return;
+        }
+        if (!email || !email.includes('@')) {
+            document.getElementById('page1Error').textContent = 'Please enter a valid email address.';
+            document.getElementById('page1Error').classList.add('show');
+            return;
+        }
+        
+        document.getElementById('page1Error').classList.remove('show');
+        showPage('page2');
+        updateIndicator(2);
+        renderCriteria();
+    });
+
+    document.getElementById('backToPage1Btn').addEventListener('click', function() {
         showPage('page1');
         updateIndicator(1);
-        renderCriteria();
+    });
+
+    document.getElementById('checkCriteriaBtn').addEventListener('click', function() {
+        updateCriteriaConsistency();
+        const container = document.getElementById('criteriaPairsContainer');
+        applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
+    });
+
+    document.getElementById('toPage3Btn').addEventListener('click', function() {
+        let allCompleted = true;
+        for (let p of criteriaPairs) {
+            if (p.choice === 'equal' && p.value === 1) {
+                allCompleted = false;
+                break;
+            }
+        }
+        
+        if (!allCompleted) {
+            document.getElementById('page2Error').classList.add('show');
+            return;
+        }
+        document.getElementById('page2Error').classList.remove('show');
+        
+        const cr = computeCR(criteriaPairs, CRITERIA.length);
+        if (cr > 0.1) {
+            if (!confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) {
+                return;
+            }
+        }
+        
+        currentSubIndex = 0;
         renderAllSubPages();
-    })();
+        showPage(`subPage_0`);
+        updateIndicator(3);
+    });
+
+    document.getElementById('backToSubLastBtn').addEventListener('click', function() {
+        currentSubIndex = SUB_KEYS.length - 1;
+        showPage(`subPage_${currentSubIndex}`);
+        updateIndicator(3 + currentSubIndex);
+    });
+
+    document.getElementById('finishBtn').addEventListener('click', function() {
+        alert('Thank you for completing the survey! Your responses have been recorded.');
+    });
+
+    // ===== INIT =====
+    showPage('page1');
+    updateIndicator(1);
+})();
 </script>
 </body>
 </html>
