@@ -173,7 +173,7 @@
         }
         .pair-header {
             display: grid;
-            grid-template-columns: 50px 1fr 40px 1fr 1fr 1fr;
+            grid-template-columns: 50px 1fr 40px 1fr 1.2fr 1fr;
             gap: 6px;
             padding: 0.7rem 1rem;
             background: #e8f0f8;
@@ -195,7 +195,7 @@
 
         .pair-row {
             display: grid;
-            grid-template-columns: 50px 1fr 40px 1fr 1fr 1fr;
+            grid-template-columns: 50px 1fr 40px 1fr 1.2fr 1fr;
             gap: 6px;
             padding: 0.5rem 1rem;
             align-items: center;
@@ -1027,8 +1027,8 @@
                 <span>Choose the most important criterion</span>
                 <span></span>
                 <span></span>
-                <span class="center">Equal</span>
-                <span class="right">How much more?</span>
+                <span class="center">How much more?</span>
+                <span class="right">Scale 1-9</span>
             </div>
         `;
         
@@ -1054,14 +1054,13 @@
             html += `
                 <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
                     <span class="row-num">${rowNum}</span>
-                    <span class="label-item">${left}</span>
-                    <span style="text-align:center; color:#6b8ba8; font-size:0.8rem;">vs</span>
-                    <span class="label-item">${right}</span>
                     <div class="choice-group">
                         <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
                         <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
                         <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
                     </div>
+                    <span style="text-align:center; color:#6b8ba8; font-size:0.8rem;">vs</span>
+                    <span class="label-item">${right}</span>
                     <div class="importance-group">
                         ${impRadios}
                     </div>
@@ -1256,8 +1255,8 @@
                         <span>Choose the most important sub-criterion</span>
                         <span></span>
                         <span></span>
-                        <span class="center">Equal</span>
-                        <span class="right">How much more?</span>
+                        <span class="center">How much more?</span>
+                        <span class="right">Scale 1-9</span>
                     </div>
         `;
         
@@ -1282,14 +1281,13 @@
             html += `
                 <div class="pair-row" data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
                     <span class="row-num">${rowNum}</span>
-                    <span class="label-item">${left}</span>
-                    <span style="text-align:center; color:#6b8ba8; font-size:0.8rem;">vs</span>
-                    <span class="label-item">${right}</span>
                     <div class="choice-group">
                         <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
                         <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
                         <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
                     </div>
+                    <span style="text-align:center; color:#6b8ba8; font-size:0.8rem;">vs</span>
+                    <span class="label-item">${right}</span>
                     <div class="importance-group">
                         ${impRadios}
                     </div>
