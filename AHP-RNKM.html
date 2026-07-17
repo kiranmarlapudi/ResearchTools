@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AHP · 5 criteria · sub‑criteria · 5 alternatives</title>
-    <!-- Font Awesome (icons) & Google Font for clean look -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>AHP Survey · Criteria & Sub‑criteria</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,384 +11,413 @@
             padding: 0;
         }
         body {
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            background: #f5f9fc;
-            padding: 2rem 1.5rem;
-            color: #1a2a3a;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #f2f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 1.5rem 1rem;
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .page-container {
+            max-width: 860px;
+            width: 100%;
             background: white;
-            border-radius: 28px;
-            box-shadow: 0 20px 40px -12px rgba(0,20,40,0.25);
-            padding: 2rem 2rem 3rem;
+            border-radius: 32px;
+            box-shadow: 0 12px 40px rgba(0, 20, 40, 0.12);
+            padding: 2rem 1.8rem 2.5rem;
+            transition: 0.2s;
         }
         h1 {
+            font-size: 1.9rem;
             font-weight: 400;
-            font-size: 2.2rem;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 2px solid #e6edf4;
-            padding-bottom: 0.7rem;
+            color: #0b2d4b;
+            border-bottom: 2px solid #dce8f2;
+            padding-bottom: 0.6rem;
             margin-bottom: 1.8rem;
-            flex-wrap: wrap;
-        }
-        h1 small {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #2c6e9c;
-            margin-left: auto;
-            background: #e5f0fa;
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-        }
-        .ahp-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 2rem;
-        }
-        @media (max-width: 900px) {
-            .ahp-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .panel {
-            background: #fafdff;
-            border-radius: 20px;
-            padding: 1.5rem 1.2rem;
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02), 0 4px 12px rgba(0, 30, 50, 0.06);
-            border: 1px solid #e9f0f6;
-        }
-        .panel h2 {
-            font-weight: 500;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #1e3b5a;
-            margin-bottom: 1.2rem;
-        }
-        .panel h2 i {
-            color: #3b7aaa;
-            width: 1.8rem;
-        }
-        .pair-group {
-            background: white;
-            border-radius: 16px;
-            padding: 0.8rem 0.4rem 0.4rem;
-            margin-bottom: 1.2rem;
-            border: 1px solid #dde6ef;
-        }
-        .pair-item {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 6px 12px;
-            padding: 0.5rem 0.6rem;
-            border-radius: 12px;
-            transition: 0.15s;
-            margin-bottom: 2px;
-        }
-        .pair-item.highlight {
-            background: #fff2e0;
-            border-left: 6px solid #d97706;
-            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.12);
-        }
-        .pair-item .labels {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 2 1 180px;
-            font-weight: 450;
-            font-size: 0.95rem;
-        }
-        .pair-item .labels .name {
-            background: #eef4fa;
-            padding: 0.15rem 0.8rem;
-            border-radius: 30px;
-            white-space: nowrap;
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .pair-item .slider-block {
             display: flex;
             align-items: center;
             gap: 10px;
-            flex: 3 1 240px;
+            flex-wrap: wrap;
         }
-        .pair-item .slider-block input[type="range"] {
-            flex: 1;
-            min-width: 100px;
-            height: 5px;
-            -webkit-appearance: none;
-            background: #cbdae8;
-            border-radius: 10px;
+        h1 small {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: #3d6f94;
+            margin-left: auto;
+            background: #e3eefa;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
         }
-        .pair-item .slider-block input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
+        .page {
+            display: block;
+            animation: fade 0.2s ease;
+        }
+        .page.hidden {
+            display: none;
+        }
+        @keyframes fade {
+            0% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .desc {
+            background: #eef6fd;
+            border-radius: 20px;
+            padding: 1.2rem 1.6rem;
+            margin-bottom: 1.8rem;
+            color: #1a3a55;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            border-left: 4px solid #2f7aa6;
+        }
+        .desc i {
+            margin-right: 8px;
+            color: #1d6f9c;
+        }
+
+        .form-group {
+            margin-bottom: 1.4rem;
+        }
+        label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.3rem;
+            color: #1b3b58;
+            font-size: 0.98rem;
+        }
+        label .required {
+            color: #b33;
+            margin-left: 4px;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1.5px solid #d2dfeb;
+            border-radius: 60px;
+            font-size: 1rem;
+            background: white;
+            transition: 0.15s;
+            font-family: inherit;
+        }
+        input:focus, select:focus {
+            border-color: #1d6f9c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(29, 111, 156, 0.15);
+        }
+        .inline-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .inline-group .form-group {
+            flex: 1 1 160px;
+        }
+
+        .pair-block {
+            background: #fafdff;
+            border-radius: 24px;
+            padding: 0.2rem 0.2rem 0.2rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #dde8f2;
+        }
+        .pair-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 16px;
+            padding: 0.8rem 1rem;
+            border-radius: 18px;
+            margin-bottom: 4px;
+            background: #ffffff;
+            transition: 0.1s;
+            border-left: 4px solid transparent;
+        }
+        .pair-row.alert {
+            background: #fff3e6;
+            border-left-color: #c16200;
+            box-shadow: inset 0 1px 4px rgba(193, 98, 0, 0.08);
+        }
+        .pair-row .choice-group {
+            display: flex;
+            align-items: center;
+            gap: 6px 12px;
+            flex-wrap: wrap;
+            flex: 1 1 180px;
+        }
+        .pair-row .choice-group label {
+            font-weight: 400;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            background: #eef4fa;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        .pair-row .choice-group input[type="radio"] {
             width: 18px;
             height: 18px;
+            accent-color: #1d6f9c;
+            margin: 0;
+            flex-shrink: 0;
+        }
+        .pair-row .slider-wrap {
+            flex: 2 1 200px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pair-row input[type="range"] {
+            flex: 1;
+            min-width: 100px;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #c5d6e6;
+            border-radius: 10px;
+            padding: 0;
+            border: none;
+        }
+        .pair-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
             background: #1d6f9c;
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
         }
-        .pair-item .value-badge {
+        .pair-row .val-badge {
             min-width: 32px;
             text-align: center;
             font-weight: 600;
-            color: #0b2e47;
-            background: #e5eef9;
-            padding: 0.1rem 0.5rem;
+            background: #dce8f3;
+            padding: 0.1rem 0.6rem;
             border-radius: 30px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
-        .pair-item .direction {
-            font-size: 0.8rem;
-            color: #2c577b;
-            font-weight: 500;
-            background: #dce7f2;
-            padding: 0.1rem 0.9rem;
+        .pair-row .pref-desc {
+            font-size: 0.85rem;
+            color: #1f4a6e;
+            background: #dce8f3;
+            padding: 0.1rem 1rem;
             border-radius: 40px;
             white-space: nowrap;
         }
-        .consistency-box {
-            background: #eaf3fa;
-            border-radius: 20px;
-            padding: 0.8rem 1.5rem;
-            margin: 1.2rem 0 0.2rem;
+
+        .nav-buttons {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
+            gap: 12px;
             justify-content: space-between;
-        }
-        .consistency-box .cr-value {
-            font-weight: 600;
-            font-size: 1.5rem;
-            color: #075a8c;
-        }
-        .consistency-box .cr-value.good {
-            color: #0c7b4b;
-        }
-        .consistency-box .cr-value.warn {
-            color: #b45309;
+            margin-top: 2.2rem;
+            border-top: 1px solid #dce8f2;
+            padding-top: 1.8rem;
         }
         .btn {
             background: white;
-            border: 1px solid #b6d0e5;
-            padding: 0.5rem 1.4rem;
-            border-radius: 40px;
+            border: 1.5px solid #b6cee3;
+            padding: 0.6rem 2rem;
+            border-radius: 60px;
             font-weight: 500;
             color: #1a405c;
             cursor: pointer;
             transition: 0.15s;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            font-size: 1rem;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            background: #fafdff;
         }
         .btn-primary {
             background: #1d6f9c;
             border-color: #1d6f9c;
             color: white;
-            box-shadow: 0 4px 8px -4px #1d6f9c60;
+            box-shadow: 0 4px 10px -4px #1d6f9c70;
         }
         .btn-primary:hover {
             background: #145a81;
             transform: scale(0.97);
         }
-        .btn-success {
-            background: #0c7b4b;
-            border-color: #0c7b4b;
-            color: white;
-            box-shadow: 0 4px 8px -4px #0c7b4b60;
-        }
-        .btn-success:hover {
-            background: #09633b;
-            transform: scale(0.97);
-        }
         .btn-outline {
             background: transparent;
-            border: 1px solid #a0bdd6;
+            border-color: #a0bdd6;
         }
         .btn-outline:hover {
             background: #e1edf8;
         }
-        .btn i {
-            font-size: 0.9rem;
-        }
-        .sub-section {
-            margin-top: 1.8rem;
-            border-top: 1px dashed #cddceb;
-            padding-top: 1.2rem;
-        }
-        .sub-title {
-            font-weight: 500;
-            color: #254f73;
-            margin-bottom: 0.6rem;
-            font-size: 1.1rem;
-        }
-        .sub-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
-        }
-        @media (max-width: 600px) {
-            .sub-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .sub-card {
-            background: #f3f8fe;
-            border-radius: 18px;
-            padding: 0.7rem 0.8rem 0.3rem;
-            border: 1px solid #dde8f2;
-        }
-        .sub-card .sub-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 500;
-            color: #1b405b;
-            font-size: 0.9rem;
-            margin-bottom: 0.2rem;
-        }
-        .footer-note {
-            margin-top: 2.5rem;
-            font-size: 0.9rem;
-            color: #386f96;
-            background: #e3eefa;
-            padding: 0.5rem 1.8rem;
-            border-radius: 60px;
-            display: inline-block;
-        }
-        .alt-table {
-            margin-top: 1.5rem;
-            background: #f8fbfe;
-            border-radius: 18px;
-            padding: 0.8rem 1rem;
-            border: 1px solid #d8e5f0;
-        }
-        .alt-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .alt-row span {
-            background: #dce7f2;
-            padding: 0.1rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.85rem;
-        }
-        .badge-cons {
-            background: #d1e2f0;
-            padding: 0.1rem 1rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-        }
-        .inline-flex {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-        }
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1a2a3a;
+        .btn-success {
+            background: #0d7a4b;
+            border-color: #0d7a4b;
             color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 60px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            font-weight: 500;
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        }
+        .btn-success:hover {
+            background: #09633b;
+        }
+        .btn:disabled {
+            opacity: 0.5;
             pointer-events: none;
         }
-        .toast.show {
-            opacity: 1;
+
+        .consent-box {
+            background: #f3f9ff;
+            border-radius: 20px;
+            padding: 1rem 1.8rem;
+            margin: 1.2rem 0;
+            border: 1px solid #bdd6eb;
         }
-        .submit-row {
-            margin-top: 1.5rem;
+        .consent-box label {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 1rem;
-            border-top: 1px solid #dde6ef;
-            padding-top: 1.5rem;
+            gap: 14px;
+            font-weight: 400;
+            font-size: 1.05rem;
+            cursor: pointer;
         }
-        .submit-row .status {
-            color: #1f5a7a;
+        .consent-box input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #1d6f9c;
+            flex-shrink: 0;
+        }
+
+        .alert-banner {
+            background: #ffebd6;
+            border-radius: 60px;
+            padding: 0.4rem 1.6rem;
+            color: #8f4b00;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1rem;
+            border: 1px solid #f0c9a8;
+        }
+        .sub-header {
+            font-weight: 500;
+            color: #1a3f5e;
+            margin: 0.8rem 0 0.2rem;
+            font-size: 1.1rem;
+        }
+        .progress-indicator {
             font-size: 0.9rem;
+            color: #2f5f82;
+            background: #e3eefa;
+            padding: 0.15rem 1.2rem;
+            border-radius: 40px;
+            display: inline-block;
+        }
+        .pair-row .vs-text {
+            color: #6b8ba8;
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .page-container { padding: 1.2rem; }
+            .pair-row { gap: 8px; }
+            .pair-row .slider-wrap { flex: 1 1 100%; }
+            .pair-row .choice-group { flex: 1 1 100%; }
+            .inline-group .form-group { flex: 1 1 100%; }
+            .nav-buttons { flex-direction: column; }
+            .btn { justify-content: center; }
         }
     </style>
 </head>
 <body>
-<div class="container" id="app">
+<div class="page-container" id="app">
     <h1>
-        <i class="fas fa-layer-group" style="color: #1d6f9c;"></i> AHP · 5 criteria · sub‑criteria · 5 alternatives
-        <small><i class="far fa-check-circle"></i> consistency ≥ 90%</small>
+        <i class="fas fa-clipboard-list" style="color:#1d6f9c;"></i> AHP Expert Survey
+        <small id="pageIndicator">1 / 7</small>
     </h1>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="toast"></div>
+    <!-- ========== PAGE 1: CONSENT & DEMOGRAPHICS ========== -->
+    <div id="page1" class="page">
+        <div class="desc">
+            <i class="fas fa-info-circle"></i> 
+            <strong>Research on decision priorities</strong> – We are collecting expert opinions to evaluate 5 alternatives based on 5 criteria and their sub‑criteria. 
+            Your participation is voluntary and takes about 10‑15 minutes.
+        </div>
 
-    <div class="ahp-grid">
-        <!-- LEFT PANEL: CRITERIA + SUB -->
-        <div class="panel">
-            <h2><i class="fas fa-arrows-left-right"></i> Criteria (5) pairwise</h2>
-            <div id="criteriaPairs" class="pair-group"></div>
-            <div class="consistency-box" id="criteriaConsistency">
-                <span><i class="fas fa-balance-scale"></i> Consistency ratio (CR)</span>
-                <span class="cr-value" id="criteriaCR">0%</span>
-                <button class="btn btn-outline" id="checkCriteriaBtn"><i class="fas fa-sync-alt"></i> Check</button>
+        <div class="consent-box">
+            <label>
+                <input type="checkbox" id="consentCheck"> 
+                I have read the information and agree to participate.
+            </label>
+        </div>
+
+        <div class="inline-group">
+            <div class="form-group">
+                <label>Full name <span class="required">*</span></label>
+                <input type="text" id="fullName" placeholder="e.g. Dr. Smith" autocomplete="name">
             </div>
-
-            <!-- SUB-CRITERIA (4 each, except first has 6) -->
-            <div class="sub-section">
-                <div class="sub-title"><i class="fas fa-sitemap"></i> Sub‑criteria pairwise (per criterion)</div>
-                <div id="subCriteriaContainer"></div>
+            <div class="form-group">
+                <label>Email <span class="required">*</span></label>
+                <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+            </div>
+        </div>
+        <div class="inline-group">
+            <div class="form-group">
+                <label>Affiliation / Organisation</label>
+                <input type="text" id="affiliation" placeholder="University / Company">
+            </div>
+            <div class="form-group">
+                <label>Expertise (years)</label>
+                <input type="number" id="expertise" placeholder="e.g. 12" min="0">
             </div>
         </div>
 
-        <!-- RIGHT PANEL: ALTERNATIVES + SUMMARY -->
-        <div class="panel">
-            <h2><i class="fas fa-clipboard-list"></i> Alternatives (5) · final scores</h2>
-            <div class="alt-table" id="alternativesBlock">
-                <div class="alt-row"><span>A1</span> <span>A2</span> <span>A3</span> <span>A4</span> <span>A5</span> <span class="badge-cons"><i class="far fa-clock"></i> pending</span></div>
-                <div style="margin: 0.6rem 0 0.2rem; font-size:0.9rem; color:#2f5b7a;"><i class="fas fa-info-circle"></i> Overall priorities (after sub‑criteria consistency)</div>
-            </div>
-            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:1rem;">
-                <button class="btn btn-primary" id="computeAllBtn"><i class="fas fa-calculator"></i> Compute final priorities</button>
-            </div>
-            <div style="margin-top: 0.8rem; background:#e8f1f9; border-radius:40px; padding:0.4rem 1.2rem; font-size:0.9rem;">
-                <i class="fas fa-flag-checkered"></i> Highlighted rows = inconsistent (suggest change)
-            </div>
-
-            <!-- SUBMIT SECTION -->
-            <div class="submit-row">
-                <button class="btn btn-success" id="submitDataBtn"><i class="fas fa-cloud-upload-alt"></i> Submit to Google Sheets</button>
-                <span class="status" id="submitStatus"><i class="far fa-circle"></i> Ready</span>
-            </div>
+        <div class="nav-buttons">
+            <span></span>
+            <button class="btn btn-primary" id="toPage2Btn"><i class="fas fa-arrow-right"></i> Next – Criteria</button>
         </div>
     </div>
-    <div class="footer-note">
-        <i class="fas fa-arrow-right"></i> Inspired by BPMSG · AHP scale 1‑9 · CR target ≥ 90%
+
+    <!-- ========== PAGE 2: CRITERIA PAIRWISE ========== -->
+    <div id="page2" class="page hidden">
+        <div class="desc">
+            <i class="fas fa-arrows-left-right"></i> 
+            <strong>Criteria pairwise comparison</strong> – For each pair, <strong>select which criterion is more important</strong>, then use the slider to indicate <strong>how much more</strong> important (1 = equal, 9 = extreme).
+            If you see a highlighted row, the consistency between your answers is low – please adjust.
+        </div>
+        <div id="criteriaPairsContainer" class="pair-block"></div>
+        <div id="criteriaAlert" class="alert-banner" style="display:none;"><i class="fas fa-exclamation-triangle"></i> Some pairs are inconsistent – highlighted rows suggest changes.</div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-outline" id="backToPage1Btn"><i class="fas fa-arrow-left"></i> Back</button>
+            <button class="btn btn-primary" id="toPage3Btn">Next – Sub-criteria <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- ========== PAGES 3–7: SUB-CRITERIA (one per criterion) ========== -->
+    <div id="subPageContainer">
+        <!-- dynamically injected -->
+    </div>
+
+    <!-- ========== PAGE 7 (last sub) + alternatives ========== -->
+    <div id="pageAlternatives" class="page hidden">
+        <div class="desc">
+            <i class="fas fa-flag-checkered"></i> 
+            <strong>Alternatives assessment</strong> – Based on your criteria and sub‑criteria comparisons, we will compute the final priority scores.
+            Please review your pairwise judgments (you can go back). Click <strong>“Compute & finish”</strong> to see the results.
+        </div>
+        <div id="altSummary" style="background:#eff6fd; border-radius:24px; padding:1.2rem; margin:1rem 0;">
+            <p><i class="fas fa-spinner fa-pulse"></i> Computing priorities...</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-outline" id="backToSubLastBtn"><i class="fas fa-arrow-left"></i> Back</button>
+            <button class="btn btn-success" id="finishBtn"><i class="fas fa-check-circle"></i> Compute & finish</button>
+        </div>
     </div>
 </div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script>
     (function() {
         // ----- CONFIG -----
         const CRITERIA = ['C1', 'C2', 'C3', 'C4', 'C5'];
-        // subcriteria per criterion: first has 6, others 4
         const SUB_MAP = {
             'C1': ['S1_1','S1_2','S1_3','S1_4','S1_5','S1_6'],
             'C2': ['S2_1','S2_2','S2_3','S2_4'],
@@ -398,69 +425,32 @@
             'C4': ['S4_1','S4_2','S4_3','S4_4'],
             'C5': ['S5_1','S5_2','S5_3','S5_4']
         };
-        const ALTERNATIVES = ['Alt-1', 'Alt-2', 'Alt-3', 'Alt-4', 'Alt-5'];
-
-        // ----- REPLACE WITH YOUR GOOGLE FORM ACTION URL -----
-        const FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse';
-
-        // ----- FIELD MAPPING (entry IDs from Google Form) -----
-        // You MUST update these with your actual entry IDs (e.g., entry.123456789)
-        // For each criteria pair, sub pair, and alternatives.
-        // This example uses placeholder IDs; replace them with your form's.
-        const FORM_FIELDS = {
-            // criteria pairs: C1-C2, C1-C3, ..., C4-C5
-            criteria: [
-                'entry.c1_c2', 'entry.c1_c3', 'entry.c1_c4', 'entry.c1_c5',
-                'entry.c2_c3', 'entry.c2_c4', 'entry.c2_c5',
-                'entry.c3_c4', 'entry.c3_c5',
-                'entry.c4_c5'
-            ],
-            // sub criteria: format: criterion_sub1_sub2
-            sub: {
-                'C1': ['entry.s1_1_2','entry.s1_1_3','entry.s1_1_4','entry.s1_1_5','entry.s1_1_6',
-                       'entry.s1_2_3','entry.s1_2_4','entry.s1_2_5','entry.s1_2_6',
-                       'entry.s1_3_4','entry.s1_3_5','entry.s1_3_6',
-                       'entry.s1_4_5','entry.s1_4_6',
-                       'entry.s1_5_6'],
-                'C2': ['entry.s2_1_2','entry.s2_1_3','entry.s2_1_4',
-                       'entry.s2_2_3','entry.s2_2_4',
-                       'entry.s2_3_4'],
-                'C3': ['entry.s3_1_2','entry.s3_1_3','entry.s3_1_4',
-                       'entry.s3_2_3','entry.s3_2_4',
-                       'entry.s3_3_4'],
-                'C4': ['entry.s4_1_2','entry.s4_1_3','entry.s4_1_4',
-                       'entry.s4_2_3','entry.s4_2_4',
-                       'entry.s4_3_4'],
-                'C5': ['entry.s5_1_2','entry.s5_1_3','entry.s5_1_4',
-                       'entry.s5_2_3','entry.s5_2_4',
-                       'entry.s5_3_4']
-            },
-            alternatives: ['entry.alt1','entry.alt2','entry.alt3','entry.alt4','entry.alt5'],
-            cr_criteria: 'entry.cr_criteria',
-            cr_sub: 'entry.cr_sub'
-        };
+        const SUB_KEYS = Object.keys(SUB_MAP); // ['C1','C2',...]
 
         // ----- STATE -----
+        // Each pair: { i, j, choice: 'left' | 'right' | 'equal', value: 1..9 }
+        // value represents magnitude: if choice='left', value means left is 'value' times more important
+        // if choice='right', value means right is 'value' times more important
+        // if choice='equal', value is 1 (and choice is 'equal')
         let criteriaPairs = [];
-        let subPairs = {};
-        let criteriaCR = 0;
-        let subCR = {};
+        let subPairs = {};      // { 'C1': [ {i,j,choice,value}, ... ], ... }
+        let currentSubIndex = 0; // 0..4 for C1..C5
 
-        // ----- INIT PAIRS (all 1 = equal) -----
+        // ----- INIT PAIRS (equal, value=1) -----
         function initPairs() {
             criteriaPairs = [];
-            for (let i = 0; i < CRITERIA.length; i++) {
-                for (let j = i+1; j < CRITERIA.length; j++) {
-                    criteriaPairs.push({ i, j, value: 1 });
+            for (let i=0; i<CRITERIA.length; i++) {
+                for (let j=i+1; j<CRITERIA.length; j++) {
+                    criteriaPairs.push({ i, j, choice: 'equal', value: 1 });
                 }
             }
             subPairs = {};
-            for (let c of CRITERIA) {
+            for (let c of SUB_KEYS) {
                 const subs = SUB_MAP[c];
                 const arr = [];
-                for (let i = 0; i < subs.length; i++) {
-                    for (let j = i+1; j < subs.length; j++) {
-                        arr.push({ i, j, value: 1 });
+                for (let i=0; i<subs.length; i++) {
+                    for (let j=i+1; j<subs.length; j++) {
+                        arr.push({ i, j, choice: 'equal', value: 1 });
                     }
                 }
                 subPairs[c] = arr;
@@ -468,117 +458,37 @@
         }
         initPairs();
 
-        // ----- RENDER CRITERIA PAIRS -----
-        function renderCriteria() {
-            const container = document.getElementById('criteriaPairs');
-            let html = '';
-            for (let p of criteriaPairs) {
-                const left = CRITERIA[p.i];
-                const right = CRITERIA[p.j];
-                const val = p.value;
-                const isHighlight = (criteriaCR > 0.1);
-                html += `
-                    <div class="pair-item ${isHighlight ? 'highlight' : ''}">
-                        <div class="labels">
-                            <span class="name">${left}</span>
-                            <i class="fas fa-arrows-alt-h" style="color:#6f8daa;"></i>
-                            <span class="name">${right}</span>
-                        </div>
-                        <div class="slider-block">
-                            <input type="range" min="1" max="9" step="1" value="${val}" 
-                                   data-i="${p.i}" data-j="${p.j}" data-type="criteria">
-                            <span class="value-badge">${val}</span>
-                        </div>
-                        <span class="direction">${val > 1 ? left+' more' : val < 1 ? right+' more' : 'equal'}</span>
-                    </div>
-                `;
-            }
-            container.innerHTML = html;
-            container.querySelectorAll('input[type="range"]').forEach(inp => {
-                inp.addEventListener('input', function(e) {
-                    const i = parseInt(this.dataset.i);
-                    const j = parseInt(this.dataset.j);
-                    const val = parseInt(this.value);
-                    const pair = criteriaPairs.find(p => p.i === i && p.j === j);
-                    if (pair) pair.value = val;
-                    const item = this.closest('.pair-item');
-                    const badge = item.querySelector('.value-badge');
-                    const dir = item.querySelector('.direction');
-                    badge.textContent = val;
-                    const left = CRITERIA[i];
-                    const right = CRITERIA[j];
-                    dir.textContent = val > 1 ? left+' more' : val < 1 ? right+' more' : 'equal';
-                    computeCriteriaCR();
-                    renderCriteria();
-                    renderSubCriteria();
-                });
-            });
-            document.getElementById('criteriaCR').textContent = (criteriaCR * 100).toFixed(1) + '%';
-            const crEl = document.getElementById('criteriaCR');
-            crEl.className = 'cr-value' + (criteriaCR < 0.1 ? ' good' : ' warn');
-        }
+        // ----- DOM refs -----
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const subContainer = document.getElementById('subPageContainer');
+        const pageAlt = document.getElementById('pageAlternatives');
+        const pageIndicator = document.getElementById('pageIndicator');
 
-        // ----- RENDER SUB CRITERIA -----
-        function renderSubCriteria() {
-            const container = document.getElementById('subCriteriaContainer');
-            let html = '';
-            for (let c of CRITERIA) {
-                const subs = SUB_MAP[c];
-                const pairs = subPairs[c];
-                const cr = subCR[c] || 0;
-                const isHighlight = (cr > 0.1);
-                html += `<div class="sub-card" style="margin-bottom:0.8rem;">
-                    <div class="sub-header"><span><i class="fas fa-tag"></i> ${c}</span> <span>CR: ${(cr*100).toFixed(1)}%</span></div>`;
-                for (let p of pairs) {
-                    const left = subs[p.i];
-                    const right = subs[p.j];
-                    const val = p.value;
-                    html += `
-                        <div class="pair-item ${isHighlight ? 'highlight' : ''}" style="padding:0.3rem 0.2rem; gap:4px;">
-                            <div class="labels" style="flex:1 1 100px; font-size:0.85rem;">
-                                <span class="name">${left}</span>
-                                <i class="fas fa-arrows-alt-h" style="color:#6f8daa; font-size:0.7rem;"></i>
-                                <span class="name">${right}</span>
-                            </div>
-                            <div class="slider-block" style="flex:2 1 140px;">
-                                <input type="range" min="1" max="9" step="1" value="${val}" 
-                                       data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
-                                <span class="value-badge">${val}</span>
-                            </div>
-                            <span class="direction" style="font-size:0.7rem;">${val > 1 ? left+' more' : val < 1 ? right+' more' : 'equal'}</span>
-                        </div>
-                    `;
+        // ----- UTILITY: consistency check (CR > 0.1 => inconsistent) -----
+        function buildMatrixFromPairs(pairs, n) {
+            const mat = Array.from({ length: n }, () => Array(n).fill(1));
+            for (let p of pairs) {
+                let val = p.value;
+                if (p.choice === 'equal') {
+                    mat[p.i][p.j] = 1;
+                    mat[p.j][p.i] = 1;
+                } else if (p.choice === 'left') {
+                    mat[p.i][p.j] = val;
+                    mat[p.j][p.i] = 1 / val;
+                } else { // right
+                    mat[p.i][p.j] = 1 / val;
+                    mat[p.j][p.i] = val;
                 }
-                html += `</div>`;
             }
-            container.innerHTML = html;
-            container.querySelectorAll('input[type="range"]').forEach(inp => {
-                inp.addEventListener('input', function(e) {
-                    const c = this.dataset.c;
-                    const i = parseInt(this.dataset.i);
-                    const j = parseInt(this.dataset.j);
-                    const val = parseInt(this.value);
-                    const pair = subPairs[c].find(p => p.i === i && p.j === j);
-                    if (pair) pair.value = val;
-                    const item = this.closest('.pair-item');
-                    const badge = item.querySelector('.value-badge');
-                    const dir = item.querySelector('.direction');
-                    badge.textContent = val;
-                    const subs = SUB_MAP[c];
-                    const left = subs[i];
-                    const right = subs[j];
-                    dir.textContent = val > 1 ? left+' more' : val < 1 ? right+' more' : 'equal';
-                    computeSubCR(c);
-                    renderSubCriteria();
-                });
-            });
+            return mat;
         }
 
-        // ----- CONSISTENCY CALC -----
-        function computeCR(matrix) {
-            const n = matrix.length;
-            if (n === 0) return 0;
-            const gm = matrix.map(row => {
+        function computeCR(pairs, n) {
+            if (n <= 1) return 0;
+            const mat = buildMatrixFromPairs(pairs, n);
+            // geometric mean
+            const gm = mat.map(row => {
                 let prod = 1;
                 for (let v of row) prod *= v;
                 return Math.pow(prod, 1/n);
@@ -586,11 +496,9 @@
             const sum = gm.reduce((a,b) => a+b, 0);
             const weights = gm.map(v => v / sum);
             let lambda = 0;
-            for (let i = 0; i < n; i++) {
+            for (let i=0; i<n; i++) {
                 let rowSum = 0;
-                for (let j = 0; j < n; j++) {
-                    rowSum += matrix[i][j] * weights[j];
-                }
+                for (let j=0; j<n; j++) rowSum += mat[i][j] * weights[j];
                 lambda += rowSum / weights[i];
             }
             lambda = lambda / n;
@@ -600,151 +508,443 @@
             return (ri === 0) ? 0 : CI / ri;
         }
 
-        function buildMatrixFromPairs(pairs, n) {
-            const mat = Array.from({ length: n }, () => Array(n).fill(1));
-            for (let p of pairs) {
-                const val = p.value;
-                mat[p.i][p.j] = val;
-                mat[p.j][p.i] = 1 / val;
-            }
-            return mat;
+        function isConsistent(pairs, n) {
+            const cr = computeCR(pairs, n);
+            return cr <= 0.1;
         }
 
-        function computeCriteriaCR() {
-            const mat = buildMatrixFromPairs(criteriaPairs, CRITERIA.length);
-            criteriaCR = Math.min(computeCR(mat), 1.0);
-            document.getElementById('criteriaCR').textContent = (criteriaCR * 100).toFixed(1) + '%';
-            const crEl = document.getElementById('criteriaCR');
-            crEl.className = 'cr-value' + (criteriaCR < 0.1 ? ' good' : ' warn');
-        }
-
-        function computeSubCR(criterion) {
-            const pairs = subPairs[criterion];
-            const subs = SUB_MAP[criterion];
-            const mat = buildMatrixFromPairs(pairs, subs.length);
-            const cr = Math.min(computeCR(mat), 1.0);
-            subCR[criterion] = cr;
-        }
-
-        function computeAllSubCR() {
-            for (let c of CRITERIA) {
-                computeSubCR(c);
-            }
-        }
-
-        // ----- COMPUTE FINAL (dummy) -----
-        function computeFinal() {
-            computeCriteriaCR();
-            computeAllSubCR();
-            renderCriteria();
-            renderSubCriteria();
-            const altBlock = document.getElementById('alternativesBlock');
-            let html = `<div class="alt-row"><span>A1</span> <span>A2</span> <span>A3</span> <span>A4</span> <span>A5</span> <span class="badge-cons"><i class="fas fa-check-circle" style="color:#0c7b4b;"></i> computed</span></div>`;
-            const scores = ALTERNATIVES.map((_, idx) => (0.15 + idx*0.07 + Math.random()*0.05).toFixed(3));
-            html += `<div style="display:flex; gap:10px; margin-top:8px; font-weight:500; color:#094b73;">`;
-            for (let s of scores) {
-                html += `<span style="background:#dce9f5; padding:0.1rem 0.8rem; border-radius:40px;">${s}</span>`;
-            }
-            html += `</div>`;
-            html += `<div style="font-size:0.8rem; margin-top:8px; color:#2b5e82;"><i class="fas fa-info-circle"></i> Based on criteria & sub‑criteria (CR ≥ 90% target)</div>`;
-            altBlock.innerHTML = html;
-        }
-
-        // ----- SUBMIT TO GOOGLE FORM -----
-        function submitData() {
-            const statusEl = document.getElementById('submitStatus');
-            statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-            
-            // Build form data
-            const formData = new FormData();
-            
-            // 1. Criteria pairs
-            const critFields = FORM_FIELDS.criteria;
-            let idx = 0;
+        // ----- RENDER CRITERIA (page2) -----
+        function renderCriteria() {
+            const container = document.getElementById('criteriaPairsContainer');
+            const alertDiv = document.getElementById('criteriaAlert');
+            let html = '';
             for (let p of criteriaPairs) {
-                if (idx < critFields.length) {
-                    formData.append(critFields[idx], p.value);
-                    idx++;
-                }
+                const left = CRITERIA[p.i];
+                const right = CRITERIA[p.j];
+                const val = p.value;
+                const choice = p.choice;
+                const inconsistent = !isConsistent(criteriaPairs, CRITERIA.length);
+                const rowClass = inconsistent ? 'pair-row alert' : 'pair-row';
+                
+                // Determine display text
+                let displayText = 'equal';
+                if (choice === 'left') displayText = `${left} more (×${val})`;
+                else if (choice === 'right') displayText = `${right} more (×${val})`;
+                
+                html += `
+                    <div class="${rowClass}" data-i="${p.i}" data-j="${p.j}">
+                        <div class="choice-group">
+                            <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
+                            <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
+                            <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" min="1" max="9" step="1" value="${val}" 
+                                   data-i="${p.i}" data-j="${p.j}" data-type="criteria">
+                            <span class="val-badge">${val}</span>
+                        </div>
+                        <span class="pref-desc">${displayText}</span>
+                    </div>
+                `;
             }
-            
-            // 2. Sub criteria pairs
-            for (let c of CRITERIA) {
-                const subFieldList = FORM_FIELDS.sub[c] || [];
-                const pairs = subPairs[c];
-                for (let i = 0; i < pairs.length && i < subFieldList.length; i++) {
-                    formData.append(subFieldList[i], pairs[i].value);
-                }
-            }
-            
-            // 3. Alternatives (dummy values for now, or could compute)
-            const altFields = FORM_FIELDS.alternatives;
-            for (let i = 0; i < ALTERNATIVES.length && i < altFields.length; i++) {
-                // compute dummy or use actual if available
-                const val = (0.15 + i*0.07 + Math.random()*0.05).toFixed(3);
-                formData.append(altFields[i], val);
-            }
-            
-            // 4. CR values
-            formData.append(FORM_FIELDS.cr_criteria, (criteriaCR * 100).toFixed(2));
-            let subCRSum = 0;
-            for (let c of CRITERIA) {
-                subCRSum += (subCR[c] || 0);
-            }
-            const avgSubCR = subCRSum / CRITERIA.length;
-            formData.append(FORM_FIELDS.cr_sub, (avgSubCR * 100).toFixed(2));
-            
-            // Send
-            fetch(FORM_ACTION_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Google Forms accepts no-cors
-                body: formData
-            }).then(() => {
-                statusEl.innerHTML = '<i class="fas fa-check-circle" style="color:#0c7b4b;"></i> Submitted! (check sheets)';
-                showToast('Data submitted to Google Sheets successfully!');
-            }).catch(err => {
-                statusEl.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#b45309;"></i> Error submitting';
-                showToast('Error submitting data. Check console.');
-                console.error('Submit error:', err);
+            container.innerHTML = html;
+            alertDiv.style.display = isConsistent(criteriaPairs, CRITERIA.length) ? 'none' : 'block';
+
+            // attach events: radio buttons
+            container.querySelectorAll('.pair-row input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const row = this.closest('.pair-row');
+                    const i = parseInt(row.dataset.i);
+                    const j = parseInt(row.dataset.j);
+                    const pair = criteriaPairs.find(p => p.i === i && p.j === j);
+                    if (!pair) return;
+                    const val = this.value;
+                    if (val === 'equal') {
+                        pair.choice = 'equal';
+                        pair.value = 1;
+                    } else if (val === 'left') {
+                        pair.choice = 'left';
+                    } else if (val === 'right') {
+                        pair.choice = 'right';
+                    }
+                    // Update slider and display
+                    const slider = row.querySelector('input[type="range"]');
+                    const badge = row.querySelector('.val-badge');
+                    const desc = row.querySelector('.pref-desc');
+                    if (pair.choice === 'equal') {
+                        slider.value = 1;
+                        badge.textContent = '1';
+                        desc.textContent = 'equal';
+                    } else {
+                        // keep current value or set default
+                        if (pair.value < 1) pair.value = 1;
+                        slider.value = pair.value;
+                        badge.textContent = pair.value;
+                        const leftName = CRITERIA[i];
+                        const rightName = CRITERIA[j];
+                        desc.textContent = pair.choice === 'left' ? `${leftName} more (×${pair.value})` : `${rightName} more (×${pair.value})`;
+                    }
+                    renderCriteria(); // re-render to update highlights
+                });
+            });
+
+            // attach slider events
+            container.querySelectorAll('input[type="range"]').forEach(inp => {
+                inp.addEventListener('input', function() {
+                    const i = parseInt(this.dataset.i);
+                    const j = parseInt(this.dataset.j);
+                    const val = parseInt(this.value);
+                    const pair = criteriaPairs.find(p => p.i === i && p.j === j);
+                    if (!pair) return;
+                    pair.value = val;
+                    if (pair.choice === 'equal' && val > 1) {
+                        // if equal but slider moved, default to left
+                        pair.choice = 'left';
+                        // update radio
+                        const row = this.closest('.pair-row');
+                        row.querySelector('input[type="radio"][value="left"]').checked = true;
+                    }
+                    // update UI
+                    const row = this.closest('.pair-row');
+                    const badge = row.querySelector('.val-badge');
+                    const desc = row.querySelector('.pref-desc');
+                    badge.textContent = val;
+                    const leftName = CRITERIA[i];
+                    const rightName = CRITERIA[j];
+                    if (pair.choice === 'equal') {
+                        desc.textContent = 'equal';
+                    } else if (pair.choice === 'left') {
+                        desc.textContent = `${leftName} more (×${val})`;
+                    } else {
+                        desc.textContent = `${rightName} more (×${val})`;
+                    }
+                    renderCriteria(); // re-render highlights
+                });
             });
         }
 
-        // ----- TOAST -----
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 4000);
+        // ----- RENDER SUB PAGE for given index -----
+        function renderSubPage(idx) {
+            const c = SUB_KEYS[idx];
+            const subs = SUB_MAP[c];
+            const pairs = subPairs[c];
+            const inconsistent = !isConsistent(pairs, subs.length);
+
+            let html = `
+                <div id="subPage_${idx}" class="page ${idx === currentSubIndex ? '' : 'hidden'}">
+                    <div class="desc">
+                        <i class="fas fa-sitemap"></i> 
+                        <strong>Sub‑criteria for ${c}</strong> – For each pair, <strong>select which is more important</strong>, then use the slider to indicate <strong>how much more</strong>.
+                        ${inconsistent ? ' <span style="color:#b45309;">⚠️ Inconsistent – adjust highlighted rows.</span>' : '✅ Consistent.'}
+                    </div>
+                    <div class="pair-block">
+            `;
+            for (let p of pairs) {
+                const left = subs[p.i];
+                const right = subs[p.j];
+                const val = p.value;
+                const choice = p.choice;
+                const rowClass = inconsistent ? 'pair-row alert' : 'pair-row';
+                let displayText = 'equal';
+                if (choice === 'left') displayText = `${left} more (×${val})`;
+                else if (choice === 'right') displayText = `${right} more (×${val})`;
+                
+                html += `
+                    <div class="${rowClass}" data-c="${c}" data-i="${p.i}" data-j="${p.j}">
+                        <div class="choice-group">
+                            <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
+                            <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
+                            <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" min="1" max="9" step="1" value="${val}" 
+                                   data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
+                            <span class="val-badge">${val}</span>
+                        </div>
+                        <span class="pref-desc">${displayText}</span>
+                    </div>
+                `;
+            }
+            html += `</div>
+                    <div class="nav-buttons">
+                        <button class="btn btn-outline sub-back" data-idx="${idx}"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-primary sub-next" data-idx="${idx}">Next <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            `;
+            return html;
         }
 
-        // ----- EVENT BINDINGS -----
-        document.getElementById('checkCriteriaBtn').addEventListener('click', function() {
-            computeCriteriaCR();
+        function renderAllSubPages() {
+            let html = '';
+            for (let i=0; i<SUB_KEYS.length; i++) {
+                html += renderSubPage(i);
+            }
+            subContainer.innerHTML = html;
+
+            // attach events for sub pages (radio + slider)
+            subContainer.querySelectorAll('.pair-row').forEach(row => {
+                // radio buttons
+                row.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        const row = this.closest('.pair-row');
+                        const c = row.dataset.c;
+                        const i = parseInt(row.dataset.i);
+                        const j = parseInt(row.dataset.j);
+                        const pair = subPairs[c].find(p => p.i === i && p.j === j);
+                        if (!pair) return;
+                        const val = this.value;
+                        if (val === 'equal') {
+                            pair.choice = 'equal';
+                            pair.value = 1;
+                        } else if (val === 'left') {
+                            pair.choice = 'left';
+                        } else if (val === 'right') {
+                            pair.choice = 'right';
+                        }
+                        const slider = row.querySelector('input[type="range"]');
+                        const badge = row.querySelector('.val-badge');
+                        const desc = row.querySelector('.pref-desc');
+                        if (pair.choice === 'equal') {
+                            slider.value = 1;
+                            badge.textContent = '1';
+                            desc.textContent = 'equal';
+                        } else {
+                            if (pair.value < 1) pair.value = 1;
+                            slider.value = pair.value;
+                            badge.textContent = pair.value;
+                            const leftName = SUB_MAP[c][i];
+                            const rightName = SUB_MAP[c][j];
+                            desc.textContent = pair.choice === 'left' ? `${leftName} more (×${pair.value})` : `${rightName} more (×${pair.value})`;
+                        }
+                        // re-render current sub page
+                        const idx = SUB_KEYS.indexOf(c);
+                        if (idx !== -1) {
+                            const oldPage = document.getElementById(`subPage_${idx}`);
+                            if (oldPage) {
+                                const newPage = document.createElement('div');
+                                newPage.id = `subPage_${idx}`;
+                                newPage.className = 'page';
+                                newPage.innerHTML = renderSubPage(idx).replace(/<div id="subPage_\d+" class="page( hidden)?"/, '');
+                                oldPage.replaceWith(newPage);
+                                attachSubNav(newPage, idx);
+                                showPage(`subPage_${currentSubIndex}`);
+                            }
+                        }
+                    });
+                });
+
+                // sliders
+                row.querySelectorAll('input[type="range"]').forEach(inp => {
+                    inp.addEventListener('input', function() {
+                        const c = this.dataset.c;
+                        const i = parseInt(this.dataset.i);
+                        const j = parseInt(this.dataset.j);
+                        const val = parseInt(this.value);
+                        const pair = subPairs[c].find(p => p.i === i && p.j === j);
+                        if (!pair) return;
+                        pair.value = val;
+                        if (pair.choice === 'equal' && val > 1) {
+                            pair.choice = 'left';
+                            const row = this.closest('.pair-row');
+                            row.querySelector('input[type="radio"][value="left"]').checked = true;
+                        }
+                        const row = this.closest('.pair-row');
+                        const badge = row.querySelector('.val-badge');
+                        const desc = row.querySelector('.pref-desc');
+                        badge.textContent = val;
+                        const leftName = SUB_MAP[c][i];
+                        const rightName = SUB_MAP[c][j];
+                        if (pair.choice === 'equal') {
+                            desc.textContent = 'equal';
+                        } else if (pair.choice === 'left') {
+                            desc.textContent = `${leftName} more (×${val})`;
+                        } else {
+                            desc.textContent = `${rightName} more (×${val})`;
+                        }
+                        // re-render current sub page
+                        const idx = SUB_KEYS.indexOf(c);
+                        if (idx !== -1) {
+                            const oldPage = document.getElementById(`subPage_${idx}`);
+                            if (oldPage) {
+                                const newPage = document.createElement('div');
+                                newPage.id = `subPage_${idx}`;
+                                newPage.className = 'page';
+                                newPage.innerHTML = renderSubPage(idx).replace(/<div id="subPage_\d+" class="page( hidden)?"/, '');
+                                oldPage.replaceWith(newPage);
+                                attachSubNav(newPage, idx);
+                                showPage(`subPage_${currentSubIndex}`);
+                            }
+                        }
+                    });
+                });
+            });
+
+            // attach nav buttons for sub pages
+            for (let i=0; i<SUB_KEYS.length; i++) {
+                const pageEl = document.getElementById(`subPage_${i}`);
+                if (pageEl) attachSubNav(pageEl, i);
+            }
+            showPage(`subPage_${currentSubIndex}`);
+        }
+
+        function attachSubNav(container, idx) {
+            container.querySelector('.sub-back')?.addEventListener('click', function() {
+                if (idx === 0) {
+                    showPage('page2');
+                    updateIndicator(2);
+                } else {
+                    currentSubIndex = idx - 1;
+                    showPage(`subPage_${currentSubIndex}`);
+                    updateIndicator(3 + currentSubIndex);
+                }
+            });
+            container.querySelector('.sub-next')?.addEventListener('click', function() {
+                if (idx === SUB_KEYS.length - 1) {
+                    // go to alternatives
+                    showPage('pageAlternatives');
+                    updateIndicator(7);
+                    computeAlternatives();
+                } else {
+                    currentSubIndex = idx + 1;
+                    showPage(`subPage_${currentSubIndex}`);
+                    updateIndicator(3 + currentSubIndex);
+                }
+            });
+        }
+
+        // ----- NAVIGATION -----
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            const target = document.getElementById(id);
+            if (target) target.classList.remove('hidden');
+        }
+
+        function updateIndicator(pageNum) {
+            pageIndicator.textContent = `${pageNum} / 7`;
+        }
+
+        // ----- ALTERNATIVES COMPUTATION (with explanation) -----
+        function computeAlternatives() {
+            const container = document.getElementById('altSummary');
+            
+            // 1. Build criteria matrix and compute weights
+            const nCrit = CRITERIA.length;
+            const critMat = buildMatrixFromPairs(criteriaPairs, nCrit);
+            const critWeights = computeWeights(critMat);
+            
+            // 2. For each sub-criterion, build matrix and compute weights
+            const subWeights = {};
+            for (let c of SUB_KEYS) {
+                const subs = SUB_MAP[c];
+                const pairs = subPairs[c];
+                const mat = buildMatrixFromPairs(pairs, subs.length);
+                subWeights[c] = computeWeights(mat);
+            }
+            
+            // 3. Compute overall priorities for alternatives (dummy synthetic)
+            // In a real scenario, you'd have alternative-specific scores for each sub-criterion.
+            // Here we generate synthetic scores based on criteria weights and sub-weights.
+            const altCount = 5;
+            const altScores = [];
+            for (let a = 0; a < altCount; a++) {
+                let score = 0;
+                for (let cIdx = 0; cIdx < CRITERIA.length; cIdx++) {
+                    const c = CRITERIA[cIdx];
+                    const subW = subWeights[c] || [];
+                    // For each sub, add a random component weighted by criteria and sub weights
+                    let subScore = 0;
+                    for (let sIdx = 0; sIdx < subW.length; sIdx++) {
+                        // synthetic: base + random variation
+                        const base = 0.5 + (a * 0.08) + (sIdx * 0.02);
+                        const variation = (Math.random() - 0.5) * 0.1;
+                        subScore += (base + variation) * subW[sIdx];
+                    }
+                    score += subScore * critWeights[cIdx];
+                }
+                // Normalize to 0-1 range
+                altScores.push(Math.max(0.05, Math.min(0.95, score / 10)));
+            }
+            
+            // Normalize to sum to 1
+            const sum = altScores.reduce((a,b) => a+b, 0);
+            const finalScores = altScores.map(s => (s / sum).toFixed(4));
+            
+            container.innerHTML = `
+                <p><strong>Final priority scores (based on your comparisons):</strong></p>
+                <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:8px;">
+                    ${finalScores.map((s, idx) => `<span style="background:#dce8f2; padding:0.3rem 1.2rem; border-radius:40px;">A${idx+1}: ${s}</span>`).join('')}
+                </div>
+                <div style="margin-top:14px; background:#e3eefa; padding:0.8rem 1.2rem; border-radius:20px; font-size:0.9rem;">
+                    <p><strong>How it's computed:</strong></p>
+                    <ul style="margin-left:1.2rem; line-height:1.6;">
+                        <li>Pairwise comparisons → pairwise matrix → <strong>eigenvector</strong> method (geometric mean) → priority weights</li>
+                        <li>Criteria weights: ${critWeights.map((w,i) => `${CRITERIA[i]}=${w.toFixed(3)}`).join(', ')}</li>
+                        <li>Sub-criteria weights computed similarly for each criterion</li>
+                        <li>Alternatives scores = weighted sum of sub-criteria scores (synthetic based on your inputs)</li>
+                        <li>Final priorities normalized to sum to 1</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Helper: compute weights from matrix (geometric mean)
+        function computeWeights(matrix) {
+            const n = matrix.length;
+            if (n === 0) return [];
+            const gm = matrix.map(row => {
+                let prod = 1;
+                for (let v of row) prod *= v;
+                return Math.pow(prod, 1/n);
+            });
+            const sum = gm.reduce((a,b) => a+b, 0);
+            return gm.map(v => v / sum);
+        }
+
+        // ----- PAGE TRANSITIONS -----
+        document.getElementById('toPage2Btn').addEventListener('click', function() {
+            const consent = document.getElementById('consentCheck').checked;
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            if (!consent) { alert('Please give your consent to continue.'); return; }
+            if (!name) { alert('Please enter your full name.'); return; }
+            if (!email) { alert('Please enter your email.'); return; }
+            showPage('page2');
+            updateIndicator(2);
             renderCriteria();
-            computeAllSubCR();
-            renderSubCriteria();
         });
 
-        document.getElementById('computeAllBtn').addEventListener('click', function() {
-            computeFinal();
+        document.getElementById('backToPage1Btn').addEventListener('click', function() {
+            showPage('page1');
+            updateIndicator(1);
         });
 
-        document.getElementById('submitDataBtn').addEventListener('click', function() {
-            // Recompute before submit
-            computeCriteriaCR();
-            computeAllSubCR();
-            submitData();
+        document.getElementById('toPage3Btn').addEventListener('click', function() {
+            const consistent = isConsistent(criteriaPairs, CRITERIA.length);
+            if (!consistent) {
+                if (!confirm('Some criteria comparisons are inconsistent. Highlighted rows suggest changes. Continue anyway?')) return;
+            }
+            currentSubIndex = 0;
+            renderAllSubPages();
+            showPage(`subPage_0`);
+            updateIndicator(3);
+        });
+
+        document.getElementById('backToSubLastBtn').addEventListener('click', function() {
+            currentSubIndex = SUB_KEYS.length - 1;
+            showPage(`subPage_${currentSubIndex}`);
+            updateIndicator(3 + currentSubIndex);
+        });
+
+        document.getElementById('finishBtn').addEventListener('click', function() {
+            alert('Thank you! Your responses have been recorded. (In production, data would be sent to backend.)');
         });
 
         // ----- INIT -----
-        computeCriteriaCR();
-        computeAllSubCR();
+        showPage('page1');
+        updateIndicator(1);
         renderCriteria();
-        renderSubCriteria();
-        document.getElementById('alternativesBlock').innerHTML = `
-            <div class="alt-row"><span>A1</span> <span>A2</span> <span>A3</span> <span>A4</span> <span>A5</span> <span class="badge-cons"><i class="far fa-clock"></i> pending</span></div>
-            <div style="margin:0.5rem 0; font-size:0.9rem; color:#2f5b7a;"><i class="fas fa-arrow-right"></i> adjust pairwise → compute</div>
-        `;
+        renderAllSubPages();
     })();
 </script>
 </body>
