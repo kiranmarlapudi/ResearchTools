@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>Rakesh AHP Study - Pilot testing</title>
+    <title>Rakesh AHP Test</title>
     <style>
         * {
             box-sizing: border-box;
@@ -644,7 +644,7 @@
 <div class="page-container" id="app">
     <!-- Header -->
     <div class="survey-header">
-        <h1><i class="fas fa-clipboard-list"></i> AHP Expert Survey</h1>
+        <h1><i class="fas fa-clipboard-list"></i> Rakesh AHP Test</h1>
         <span class="progress-badge" id="pageIndicator">Step 1 of 8</span>
     </div>
 
@@ -698,8 +698,7 @@
         <div class="desc-box">
             <i class="fas fa-arrows-left-right"></i> 
             <strong>Criteria Pairwise Comparison</strong><br>
-            Please do the pairwise comparison of all criteria. For each pair, select which criterion is more important, 
-            and then select <strong>how much more</strong> important on a scale of 1 to 9.
+            For each pair, select the most important criterion, and then select <strong>how much more</strong> important on a scale of 1 to 9.
             <span style="display:block; margin-top:6px; font-size:0.9rem; color:#1a6b9e;">
                 <i class="fas fa-lightbulb"></i> After completing all comparisons, rows with <span style="background:#d4edff; padding:0 6px; border-radius:4px; border:2px solid #27ae60;">green highlights</span> show suggested changes.
             </span>
@@ -1025,7 +1024,7 @@
         let html = `
             <div class="pair-header">
                 <span>#</span>
-                <span>A - or - B?</span>
+                <span>Choose the most important criterion</span>
                 <span></span>
                 <span></span>
                 <span class="center">Equal</span>
@@ -1238,8 +1237,7 @@
                 <div class="desc-box">
                     <i class="fas fa-sitemap"></i> 
                     <strong>Sub-criteria for ${c}</strong><br>
-                    Please do the pairwise comparison of all sub-criteria for <strong>${c}</strong>. 
-                    Select which is more important, then indicate how much more.
+                    For each pair, select the most important sub-criterion, and then indicate how much more important.
                     <span style="display:block; margin-top:4px; font-size:0.9rem; color:#1a6b9e;">
                         <i class="fas fa-lightbulb"></i> After completing all comparisons, rows with <span style="background:#d4edff; padding:0 6px; border-radius:4px; border:2px solid #27ae60;">green highlights</span> show suggested changes.
                     </span>
@@ -1255,7 +1253,7 @@
                 <div class="pair-container" id="subBlock_${idx}">
                     <div class="pair-header">
                         <span>#</span>
-                        <span>A - or - B?</span>
+                        <span>Choose the most important sub-criterion</span>
                         <span></span>
                         <span></span>
                         <span class="center">Equal</span>
