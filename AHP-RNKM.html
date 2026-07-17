@@ -36,6 +36,7 @@
             border-bottom: 2px solid #e6edf4;
             padding-bottom: 0.7rem;
             margin-bottom: 1.8rem;
+            flex-wrap: wrap;
         }
         h1 small {
             font-size: 1rem;
@@ -203,6 +204,16 @@
             background: #145a81;
             transform: scale(0.97);
         }
+        .btn-success {
+            background: #0c7b4b;
+            border-color: #0c7b4b;
+            color: white;
+            box-shadow: 0 4px 8px -4px #0c7b4b60;
+        }
+        .btn-success:hover {
+            background: #09633b;
+            transform: scale(0.97);
+        }
         .btn-outline {
             background: transparent;
             border: 1px solid #a0bdd6;
@@ -288,6 +299,38 @@
             align-items: center;
             gap: 10px;
         }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a2a3a;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            font-weight: 500;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .submit-row {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            border-top: 1px solid #dde6ef;
+            padding-top: 1.5rem;
+        }
+        .submit-row .status {
+            color: #1f5a7a;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -296,6 +339,9 @@
         <i class="fas fa-layer-group" style="color: #1d6f9c;"></i> AHP · 5 criteria · sub‑criteria · 5 alternatives
         <small><i class="far fa-check-circle"></i> consistency ≥ 90%</small>
     </h1>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
 
     <div class="ahp-grid">
         <!-- LEFT PANEL: CRITERIA + SUB -->
@@ -322,9 +368,17 @@
                 <div class="alt-row"><span>A1</span> <span>A2</span> <span>A3</span> <span>A4</span> <span>A5</span> <span class="badge-cons"><i class="far fa-clock"></i> pending</span></div>
                 <div style="margin: 0.6rem 0 0.2rem; font-size:0.9rem; color:#2f5b7a;"><i class="fas fa-info-circle"></i> Overall priorities (after sub‑criteria consistency)</div>
             </div>
-            <button class="btn btn-primary" id="computeAllBtn" style="margin: 1.2rem 0 0.2rem;"><i class="fas fa-calculator"></i> Compute final priorities</button>
-            <div style="margin-top: 1rem; background:#e8f1f9; border-radius:40px; padding:0.4rem 1.2rem; font-size:0.9rem;">
+            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:1rem;">
+                <button class="btn btn-primary" id="computeAllBtn"><i class="fas fa-calculator"></i> Compute final priorities</button>
+            </div>
+            <div style="margin-top: 0.8rem; background:#e8f1f9; border-radius:40px; padding:0.4rem 1.2rem; font-size:0.9rem;">
                 <i class="fas fa-flag-checkered"></i> Highlighted rows = inconsistent (suggest change)
+            </div>
+
+            <!-- SUBMIT SECTION -->
+            <div class="submit-row">
+                <button class="btn btn-success" id="submitDataBtn"><i class="fas fa-cloud-upload-alt"></i> Submit to Google Sheets</button>
+                <span class="status" id="submitStatus"><i class="far fa-circle"></i> Ready</span>
             </div>
         </div>
     </div>
@@ -346,25 +400,60 @@
         };
         const ALTERNATIVES = ['Alt-1', 'Alt-2', 'Alt-3', 'Alt-4', 'Alt-5'];
 
+        // ----- REPLACE WITH YOUR GOOGLE FORM ACTION URL -----
+        const FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse';
+
+        // ----- FIELD MAPPING (entry IDs from Google Form) -----
+        // You MUST update these with your actual entry IDs (e.g., entry.123456789)
+        // For each criteria pair, sub pair, and alternatives.
+        // This example uses placeholder IDs; replace them with your form's.
+        const FORM_FIELDS = {
+            // criteria pairs: C1-C2, C1-C3, ..., C4-C5
+            criteria: [
+                'entry.c1_c2', 'entry.c1_c3', 'entry.c1_c4', 'entry.c1_c5',
+                'entry.c2_c3', 'entry.c2_c4', 'entry.c2_c5',
+                'entry.c3_c4', 'entry.c3_c5',
+                'entry.c4_c5'
+            ],
+            // sub criteria: format: criterion_sub1_sub2
+            sub: {
+                'C1': ['entry.s1_1_2','entry.s1_1_3','entry.s1_1_4','entry.s1_1_5','entry.s1_1_6',
+                       'entry.s1_2_3','entry.s1_2_4','entry.s1_2_5','entry.s1_2_6',
+                       'entry.s1_3_4','entry.s1_3_5','entry.s1_3_6',
+                       'entry.s1_4_5','entry.s1_4_6',
+                       'entry.s1_5_6'],
+                'C2': ['entry.s2_1_2','entry.s2_1_3','entry.s2_1_4',
+                       'entry.s2_2_3','entry.s2_2_4',
+                       'entry.s2_3_4'],
+                'C3': ['entry.s3_1_2','entry.s3_1_3','entry.s3_1_4',
+                       'entry.s3_2_3','entry.s3_2_4',
+                       'entry.s3_3_4'],
+                'C4': ['entry.s4_1_2','entry.s4_1_3','entry.s4_1_4',
+                       'entry.s4_2_3','entry.s4_2_4',
+                       'entry.s4_3_4'],
+                'C5': ['entry.s5_1_2','entry.s5_1_3','entry.s5_1_4',
+                       'entry.s5_2_3','entry.s5_2_4',
+                       'entry.s5_3_4']
+            },
+            alternatives: ['entry.alt1','entry.alt2','entry.alt3','entry.alt4','entry.alt5'],
+            cr_criteria: 'entry.cr_criteria',
+            cr_sub: 'entry.cr_sub'
+        };
+
         // ----- STATE -----
-        // criteria pairwise: store as { i, j, value } 1..9 (i<j)
         let criteriaPairs = [];
-        // sub pairwise: key = criterionName, array of { i, j, value }
         let subPairs = {};
-        // consistency flags
         let criteriaCR = 0;
-        let subCR = {}; // per criterion
+        let subCR = {};
 
         // ----- INIT PAIRS (all 1 = equal) -----
         function initPairs() {
-            // criteria
             criteriaPairs = [];
             for (let i = 0; i < CRITERIA.length; i++) {
                 for (let j = i+1; j < CRITERIA.length; j++) {
                     criteriaPairs.push({ i, j, value: 1 });
                 }
             }
-            // sub
             subPairs = {};
             for (let c of CRITERIA) {
                 const subs = SUB_MAP[c];
@@ -387,7 +476,7 @@
                 const left = CRITERIA[p.i];
                 const right = CRITERIA[p.j];
                 const val = p.value;
-                const isHighlight = (criteriaCR > 0.1); // highlight if CR > 0.1 (inconsistent)
+                const isHighlight = (criteriaCR > 0.1);
                 html += `
                     <div class="pair-item ${isHighlight ? 'highlight' : ''}">
                         <div class="labels">
@@ -405,7 +494,6 @@
                 `;
             }
             container.innerHTML = html;
-            // attach events
             container.querySelectorAll('input[type="range"]').forEach(inp => {
                 inp.addEventListener('input', function(e) {
                     const i = parseInt(this.dataset.i);
@@ -413,7 +501,6 @@
                     const val = parseInt(this.value);
                     const pair = criteriaPairs.find(p => p.i === i && p.j === j);
                     if (pair) pair.value = val;
-                    // update badge & direction
                     const item = this.closest('.pair-item');
                     const badge = item.querySelector('.value-badge');
                     const dir = item.querySelector('.direction');
@@ -421,19 +508,17 @@
                     const left = CRITERIA[i];
                     const right = CRITERIA[j];
                     dir.textContent = val > 1 ? left+' more' : val < 1 ? right+' more' : 'equal';
-                    // auto-check consistency on change
                     computeCriteriaCR();
-                    renderCriteria(); // re-render highlights
-                    renderSubConsistency();
+                    renderCriteria();
+                    renderSubCriteria();
                 });
             });
-            // update CR display
             document.getElementById('criteriaCR').textContent = (criteriaCR * 100).toFixed(1) + '%';
             const crEl = document.getElementById('criteriaCR');
             crEl.className = 'cr-value' + (criteriaCR < 0.1 ? ' good' : ' warn');
         }
 
-        // ----- RENDER SUB CRITERIA (per criterion) -----
+        // ----- RENDER SUB CRITERIA -----
         function renderSubCriteria() {
             const container = document.getElementById('subCriteriaContainer');
             let html = '';
@@ -467,7 +552,6 @@
                 html += `</div>`;
             }
             container.innerHTML = html;
-            // attach events
             container.querySelectorAll('input[type="range"]').forEach(inp => {
                 inp.addEventListener('input', function(e) {
                     const c = this.dataset.c;
@@ -484,19 +568,16 @@
                     const left = subs[i];
                     const right = subs[j];
                     dir.textContent = val > 1 ? left+' more' : val < 1 ? right+' more' : 'equal';
-                    // recompute sub CR
                     computeSubCR(c);
                     renderSubCriteria();
-                    // also update global highlights
                 });
             });
         }
 
-        // ----- CONSISTENCY (CR)  (AHP eigenvector approximation) -----
+        // ----- CONSISTENCY CALC -----
         function computeCR(matrix) {
             const n = matrix.length;
             if (n === 0) return 0;
-            // geometric mean
             const gm = matrix.map(row => {
                 let prod = 1;
                 for (let v of row) prod *= v;
@@ -504,7 +585,6 @@
             });
             const sum = gm.reduce((a,b) => a+b, 0);
             const weights = gm.map(v => v / sum);
-            // eigenvalue approximation
             let lambda = 0;
             for (let i = 0; i < n; i++) {
                 let rowSum = 0;
@@ -515,7 +595,6 @@
             }
             lambda = lambda / n;
             const CI = (lambda - n) / (n - 1);
-            // RI for n up to 10
             const RI = [0,0,0.58,0.9,1.12,1.24,1.32,1.41,1.45,1.49,1.51];
             const ri = (n <= 10) ? RI[n] : RI[10];
             return (ri === 0) ? 0 : CI / ri;
@@ -553,21 +632,14 @@
             }
         }
 
-        function renderSubConsistency() {
-            // just re-render
-            renderSubCriteria();
-        }
-
-        // ----- COMPUTE FINAL PRIORITIES (dummy for demo) -----
+        // ----- COMPUTE FINAL (dummy) -----
         function computeFinal() {
             computeCriteriaCR();
             computeAllSubCR();
             renderCriteria();
             renderSubCriteria();
-            // show alt scores (dummy)
             const altBlock = document.getElementById('alternativesBlock');
             let html = `<div class="alt-row"><span>A1</span> <span>A2</span> <span>A3</span> <span>A4</span> <span>A5</span> <span class="badge-cons"><i class="fas fa-check-circle" style="color:#0c7b4b;"></i> computed</span></div>`;
-            // dummy scores from criteria
             const scores = ALTERNATIVES.map((_, idx) => (0.15 + idx*0.07 + Math.random()*0.05).toFixed(3));
             html += `<div style="display:flex; gap:10px; margin-top:8px; font-weight:500; color:#094b73;">`;
             for (let s of scores) {
@@ -576,6 +648,73 @@
             html += `</div>`;
             html += `<div style="font-size:0.8rem; margin-top:8px; color:#2b5e82;"><i class="fas fa-info-circle"></i> Based on criteria & sub‑criteria (CR ≥ 90% target)</div>`;
             altBlock.innerHTML = html;
+        }
+
+        // ----- SUBMIT TO GOOGLE FORM -----
+        function submitData() {
+            const statusEl = document.getElementById('submitStatus');
+            statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            
+            // Build form data
+            const formData = new FormData();
+            
+            // 1. Criteria pairs
+            const critFields = FORM_FIELDS.criteria;
+            let idx = 0;
+            for (let p of criteriaPairs) {
+                if (idx < critFields.length) {
+                    formData.append(critFields[idx], p.value);
+                    idx++;
+                }
+            }
+            
+            // 2. Sub criteria pairs
+            for (let c of CRITERIA) {
+                const subFieldList = FORM_FIELDS.sub[c] || [];
+                const pairs = subPairs[c];
+                for (let i = 0; i < pairs.length && i < subFieldList.length; i++) {
+                    formData.append(subFieldList[i], pairs[i].value);
+                }
+            }
+            
+            // 3. Alternatives (dummy values for now, or could compute)
+            const altFields = FORM_FIELDS.alternatives;
+            for (let i = 0; i < ALTERNATIVES.length && i < altFields.length; i++) {
+                // compute dummy or use actual if available
+                const val = (0.15 + i*0.07 + Math.random()*0.05).toFixed(3);
+                formData.append(altFields[i], val);
+            }
+            
+            // 4. CR values
+            formData.append(FORM_FIELDS.cr_criteria, (criteriaCR * 100).toFixed(2));
+            let subCRSum = 0;
+            for (let c of CRITERIA) {
+                subCRSum += (subCR[c] || 0);
+            }
+            const avgSubCR = subCRSum / CRITERIA.length;
+            formData.append(FORM_FIELDS.cr_sub, (avgSubCR * 100).toFixed(2));
+            
+            // Send
+            fetch(FORM_ACTION_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Google Forms accepts no-cors
+                body: formData
+            }).then(() => {
+                statusEl.innerHTML = '<i class="fas fa-check-circle" style="color:#0c7b4b;"></i> Submitted! (check sheets)';
+                showToast('Data submitted to Google Sheets successfully!');
+            }).catch(err => {
+                statusEl.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#b45309;"></i> Error submitting';
+                showToast('Error submitting data. Check console.');
+                console.error('Submit error:', err);
+            });
+        }
+
+        // ----- TOAST -----
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
         // ----- EVENT BINDINGS -----
@@ -590,12 +729,18 @@
             computeFinal();
         });
 
-        // ----- INITIAL RENDER -----
+        document.getElementById('submitDataBtn').addEventListener('click', function() {
+            // Recompute before submit
+            computeCriteriaCR();
+            computeAllSubCR();
+            submitData();
+        });
+
+        // ----- INIT -----
         computeCriteriaCR();
         computeAllSubCR();
         renderCriteria();
         renderSubCriteria();
-        // initial alt block
         document.getElementById('alternativesBlock').innerHTML = `
             <div class="alt-row"><span>A1</span> <span>A2</span> <span>A3</span> <span>A4</span> <span>A5</span> <span class="badge-cons"><i class="far fa-clock"></i> pending</span></div>
             <div style="margin:0.5rem 0; font-size:0.9rem; color:#2f5b7a;"><i class="fas fa-arrow-right"></i> adjust pairwise → compute</div>
