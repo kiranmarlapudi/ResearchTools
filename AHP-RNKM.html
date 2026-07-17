@@ -20,7 +20,7 @@
             padding: 1.5rem 1rem;
         }
         .page-container {
-            max-width: 860px;
+            max-width: 900px;
             width: 100%;
             background: white;
             border-radius: 32px;
@@ -294,24 +294,35 @@
             margin-bottom: 1rem;
             border: 1px solid #f0c9a8;
         }
-        .sub-header {
-            font-weight: 500;
+
+        .alt-assessment {
+            margin-top: 1.5rem;
+            background: #f8fbfe;
+            border-radius: 20px;
+            padding: 1rem;
+            border: 1px solid #d8e5f0;
+        }
+        .alt-assessment table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .alt-assessment th {
+            background: #dce8f3;
+            padding: 0.4rem 0.6rem;
+            text-align: center;
+            font-weight: 600;
             color: #1a3f5e;
-            margin: 0.8rem 0 0.2rem;
-            font-size: 1.1rem;
         }
-        .progress-indicator {
-            font-size: 0.9rem;
-            color: #2f5f82;
-            background: #e3eefa;
-            padding: 0.15rem 1.2rem;
-            border-radius: 40px;
-            display: inline-block;
+        .alt-assessment td {
+            padding: 0.3rem 0.6rem;
+            text-align: center;
+            border-bottom: 1px solid #e0eaf2;
         }
-        .pair-row .vs-text {
-            color: #6b8ba8;
-            font-weight: 300;
-            font-size: 0.9rem;
+        .alt-assessment .highlight-row {
+            background: #eef6fd;
+            font-weight: 500;
         }
 
         @media (max-width: 600px) {
@@ -322,6 +333,8 @@
             .inline-group .form-group { flex: 1 1 100%; }
             .nav-buttons { flex-direction: column; }
             .btn { justify-content: center; }
+            .alt-assessment table { font-size: 0.75rem; }
+            .alt-assessment th, .alt-assessment td { padding: 0.2rem 0.3rem; }
         }
     </style>
 </head>
@@ -329,7 +342,7 @@
 <div class="page-container" id="app">
     <h1>
         <i class="fas fa-clipboard-list" style="color:#1d6f9c;"></i> AHP Expert Survey
-        <small id="pageIndicator">1 / 7</small>
+        <small id="pageIndicator">1 / 8</small>
     </h1>
 
     <!-- ========== PAGE 1: CONSENT & DEMOGRAPHICS ========== -->
@@ -395,19 +408,19 @@
         <!-- dynamically injected -->
     </div>
 
-    <!-- ========== PAGE 7 (last sub) + alternatives ========== -->
+    <!-- ========== PAGE 8: ALTERNATIVES ASSESSMENT ========== -->
     <div id="pageAlternatives" class="page hidden">
         <div class="desc">
             <i class="fas fa-flag-checkered"></i> 
-            <strong>Alternatives assessment</strong> – Based on your criteria and sub‑criteria comparisons, we will compute the final priority scores.
-            Please review your pairwise judgments (you can go back). Click <strong>“Compute & finish”</strong> to see the results.
+            <strong>Alternatives assessment</strong> – Based on your criteria and sub‑criteria comparisons, we compute how each alternative performs on each sub‑criterion.
+            This shows <strong>which alternative works best for each sub‑criterion</strong> and why.
         </div>
         <div id="altSummary" style="background:#eff6fd; border-radius:24px; padding:1.2rem; margin:1rem 0;">
             <p><i class="fas fa-spinner fa-pulse"></i> Computing priorities...</p>
         </div>
         <div class="nav-buttons">
             <button class="btn btn-outline" id="backToSubLastBtn"><i class="fas fa-arrow-left"></i> Back</button>
-            <button class="btn btn-success" id="finishBtn"><i class="fas fa-check-circle"></i> Compute & finish</button>
+            <button class="btn btn-success" id="finishBtn"><i class="fas fa-check-circle"></i> Finish & submit</button>
         </div>
     </div>
 </div>
@@ -425,16 +438,13 @@
             'C4': ['S4_1','S4_2','S4_3','S4_4'],
             'C5': ['S5_1','S5_2','S5_3','S5_4']
         };
-        const SUB_KEYS = Object.keys(SUB_MAP); // ['C1','C2',...]
+        const SUB_KEYS = Object.keys(SUB_MAP);
+        const ALTERNATIVES = ['A1', 'A2', 'A3', 'A4', 'A5'];
 
         // ----- STATE -----
-        // Each pair: { i, j, choice: 'left' | 'right' | 'equal', value: 1..9 }
-        // value represents magnitude: if choice='left', value means left is 'value' times more important
-        // if choice='right', value means right is 'value' times more important
-        // if choice='equal', value is 1 (and choice is 'equal')
         let criteriaPairs = [];
-        let subPairs = {};      // { 'C1': [ {i,j,choice,value}, ... ], ... }
-        let currentSubIndex = 0; // 0..4 for C1..C5
+        let subPairs = {};
+        let currentSubIndex = 0;
 
         // ----- INIT PAIRS (equal, value=1) -----
         function initPairs() {
@@ -465,7 +475,7 @@
         const pageAlt = document.getElementById('pageAlternatives');
         const pageIndicator = document.getElementById('pageIndicator');
 
-        // ----- UTILITY: consistency check (CR > 0.1 => inconsistent) -----
+        // ----- UTILITY: consistency check -----
         function buildMatrixFromPairs(pairs, n) {
             const mat = Array.from({ length: n }, () => Array(n).fill(1));
             for (let p of pairs) {
@@ -476,7 +486,7 @@
                 } else if (p.choice === 'left') {
                     mat[p.i][p.j] = val;
                     mat[p.j][p.i] = 1 / val;
-                } else { // right
+                } else {
                     mat[p.i][p.j] = 1 / val;
                     mat[p.j][p.i] = val;
                 }
@@ -487,7 +497,6 @@
         function computeCR(pairs, n) {
             if (n <= 1) return 0;
             const mat = buildMatrixFromPairs(pairs, n);
-            // geometric mean
             const gm = mat.map(row => {
                 let prod = 1;
                 for (let v of row) prod *= v;
@@ -513,7 +522,43 @@
             return cr <= 0.1;
         }
 
-        // ----- RENDER CRITERIA (page2) -----
+        function computeWeights(matrix) {
+            const n = matrix.length;
+            if (n === 0) return [];
+            const gm = matrix.map(row => {
+                let prod = 1;
+                for (let v of row) prod *= v;
+                return Math.pow(prod, 1/n);
+            });
+            const sum = gm.reduce((a,b) => a+b, 0);
+            return gm.map(v => v / sum);
+        }
+
+        // ----- UPDATE PAIR UI (without full re-render) -----
+        function updatePairUI(row, pair, type, c = null) {
+            const slider = row.querySelector('input[type="range"]');
+            const badge = row.querySelector('.val-badge');
+            const desc = row.querySelector('.pref-desc');
+            
+            const leftName = type === 'criteria' ? CRITERIA[pair.i] : SUB_MAP[c][pair.i];
+            const rightName = type === 'criteria' ? CRITERIA[pair.j] : SUB_MAP[c][pair.j];
+            
+            if (pair.choice === 'equal') {
+                slider.value = 1;
+                badge.textContent = '1';
+                desc.textContent = 'equal';
+            } else if (pair.choice === 'left') {
+                slider.value = pair.value;
+                badge.textContent = pair.value;
+                desc.textContent = `${leftName} more (×${pair.value})`;
+            } else {
+                slider.value = pair.value;
+                badge.textContent = pair.value;
+                desc.textContent = `${rightName} more (×${pair.value})`;
+            }
+        }
+
+        // ----- RENDER CRITERIA -----
         function renderCriteria() {
             const container = document.getElementById('criteriaPairsContainer');
             const alertDiv = document.getElementById('criteriaAlert');
@@ -526,13 +571,12 @@
                 const inconsistent = !isConsistent(criteriaPairs, CRITERIA.length);
                 const rowClass = inconsistent ? 'pair-row alert' : 'pair-row';
                 
-                // Determine display text
                 let displayText = 'equal';
                 if (choice === 'left') displayText = `${left} more (×${val})`;
                 else if (choice === 'right') displayText = `${right} more (×${val})`;
                 
                 html += `
-                    <div class="${rowClass}" data-i="${p.i}" data-j="${p.j}">
+                    <div class="${rowClass}" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
                         <div class="choice-group">
                             <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
                             <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
@@ -550,14 +594,29 @@
             container.innerHTML = html;
             alertDiv.style.display = isConsistent(criteriaPairs, CRITERIA.length) ? 'none' : 'block';
 
-            // attach events: radio buttons
-            container.querySelectorAll('.pair-row input[type="radio"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    const row = this.closest('.pair-row');
-                    const i = parseInt(row.dataset.i);
-                    const j = parseInt(row.dataset.j);
-                    const pair = criteriaPairs.find(p => p.i === i && p.j === j);
+            // Attach events for criteria
+            container.querySelectorAll('.pair-row').forEach(row => {
+                attachRowEvents(row, 'criteria');
+            });
+        }
+
+        // ----- ATTACH EVENTS FOR A SINGLE ROW -----
+        function attachRowEvents(row, type) {
+            const i = parseInt(row.dataset.i);
+            const j = parseInt(row.dataset.j);
+            const c = row.dataset.c || null;
+            
+            // Radio buttons
+            row.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function(e) {
+                    e.stopPropagation();
+                    let pairs;
+                    if (type === 'criteria') pairs = criteriaPairs;
+                    else pairs = subPairs[c];
+                    
+                    const pair = pairs.find(p => p.i === i && p.j === j);
                     if (!pair) return;
+                    
                     const val = this.value;
                     if (val === 'equal') {
                         pair.choice = 'equal';
@@ -567,63 +626,75 @@
                     } else if (val === 'right') {
                         pair.choice = 'right';
                     }
-                    // Update slider and display
-                    const slider = row.querySelector('input[type="range"]');
-                    const badge = row.querySelector('.val-badge');
-                    const desc = row.querySelector('.pref-desc');
-                    if (pair.choice === 'equal') {
-                        slider.value = 1;
-                        badge.textContent = '1';
-                        desc.textContent = 'equal';
-                    } else {
-                        // keep current value or set default
-                        if (pair.value < 1) pair.value = 1;
-                        slider.value = pair.value;
-                        badge.textContent = pair.value;
-                        const leftName = CRITERIA[i];
-                        const rightName = CRITERIA[j];
-                        desc.textContent = pair.choice === 'left' ? `${leftName} more (×${pair.value})` : `${rightName} more (×${pair.value})`;
-                    }
-                    renderCriteria(); // re-render to update highlights
+                    
+                    updatePairUI(row, pair, type, c);
+                    
+                    // Update highlights without full re-render
+                    updateHighlights(type, c);
                 });
             });
 
-            // attach slider events
-            container.querySelectorAll('input[type="range"]').forEach(inp => {
-                inp.addEventListener('input', function() {
-                    const i = parseInt(this.dataset.i);
-                    const j = parseInt(this.dataset.j);
-                    const val = parseInt(this.value);
-                    const pair = criteriaPairs.find(p => p.i === i && p.j === j);
-                    if (!pair) return;
-                    pair.value = val;
-                    if (pair.choice === 'equal' && val > 1) {
-                        // if equal but slider moved, default to left
-                        pair.choice = 'left';
-                        // update radio
-                        const row = this.closest('.pair-row');
-                        row.querySelector('input[type="radio"][value="left"]').checked = true;
-                    }
-                    // update UI
-                    const row = this.closest('.pair-row');
-                    const badge = row.querySelector('.val-badge');
-                    const desc = row.querySelector('.pref-desc');
-                    badge.textContent = val;
-                    const leftName = CRITERIA[i];
-                    const rightName = CRITERIA[j];
-                    if (pair.choice === 'equal') {
-                        desc.textContent = 'equal';
-                    } else if (pair.choice === 'left') {
-                        desc.textContent = `${leftName} more (×${val})`;
-                    } else {
-                        desc.textContent = `${rightName} more (×${val})`;
-                    }
-                    renderCriteria(); // re-render highlights
-                });
+            // Slider
+            const slider = row.querySelector('input[type="range"]');
+            slider.addEventListener('input', function(e) {
+                e.stopPropagation();
+                let pairs;
+                if (type === 'criteria') pairs = criteriaPairs;
+                else pairs = subPairs[c];
+                
+                const pair = pairs.find(p => p.i === i && p.j === j);
+                if (!pair) return;
+                
+                const val = parseInt(this.value);
+                pair.value = val;
+                
+                // If currently equal but slider moved, switch to left
+                if (pair.choice === 'equal' && val > 1) {
+                    pair.choice = 'left';
+                    row.querySelector('input[type="radio"][value="left"]').checked = true;
+                } else if (pair.choice === 'equal' && val === 1) {
+                    // keep equal
+                }
+                
+                updatePairUI(row, pair, type, c);
+                updateHighlights(type, c);
             });
         }
 
-        // ----- RENDER SUB PAGE for given index -----
+        // ----- UPDATE HIGHLIGHTS WITHOUT FULL RE-RENDER -----
+        function updateHighlights(type, c = null) {
+            let pairs, n;
+            if (type === 'criteria') {
+                pairs = criteriaPairs;
+                n = CRITERIA.length;
+            } else {
+                pairs = subPairs[c];
+                n = SUB_MAP[c].length;
+            }
+            
+            const consistent = isConsistent(pairs, n);
+            const container = type === 'criteria' ? 
+                document.getElementById('criteriaPairsContainer') : 
+                document.getElementById(`subBlock_${SUB_KEYS.indexOf(c)}`);
+            
+            if (container) {
+                container.querySelectorAll('.pair-row').forEach(row => {
+                    if (consistent) {
+                        row.classList.remove('alert');
+                    } else {
+                        row.classList.add('alert');
+                    }
+                });
+            }
+            
+            // Update alert banner for criteria
+            if (type === 'criteria') {
+                const alertDiv = document.getElementById('criteriaAlert');
+                alertDiv.style.display = consistent ? 'none' : 'block';
+            }
+        }
+
+        // ----- RENDER SUB PAGE -----
         function renderSubPage(idx) {
             const c = SUB_KEYS[idx];
             const subs = SUB_MAP[c];
@@ -635,9 +706,9 @@
                     <div class="desc">
                         <i class="fas fa-sitemap"></i> 
                         <strong>Sub‑criteria for ${c}</strong> – For each pair, <strong>select which is more important</strong>, then use the slider to indicate <strong>how much more</strong>.
-                        ${inconsistent ? ' <span style="color:#b45309;">⚠️ Inconsistent – adjust highlighted rows.</span>' : '✅ Consistent.'}
+                        ${inconsistent ? ' <span style="color:#b45309;">⚠️ Inconsistent – adjust highlighted rows.</span>' : ' ✅ Consistent.'}
                     </div>
-                    <div class="pair-block">
+                    <div class="pair-block" id="subBlock_${idx}">
             `;
             for (let p of pairs) {
                 const left = subs[p.i];
@@ -650,7 +721,7 @@
                 else if (choice === 'right') displayText = `${right} more (×${val})`;
                 
                 html += `
-                    <div class="${rowClass}" data-c="${c}" data-i="${p.i}" data-j="${p.j}">
+                    <div class="${rowClass}" data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
                         <div class="choice-group">
                             <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
                             <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
@@ -682,106 +753,14 @@
             }
             subContainer.innerHTML = html;
 
-            // attach events for sub pages (radio + slider)
-            subContainer.querySelectorAll('.pair-row').forEach(row => {
-                // radio buttons
-                row.querySelectorAll('input[type="radio"]').forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        const row = this.closest('.pair-row');
-                        const c = row.dataset.c;
-                        const i = parseInt(row.dataset.i);
-                        const j = parseInt(row.dataset.j);
-                        const pair = subPairs[c].find(p => p.i === i && p.j === j);
-                        if (!pair) return;
-                        const val = this.value;
-                        if (val === 'equal') {
-                            pair.choice = 'equal';
-                            pair.value = 1;
-                        } else if (val === 'left') {
-                            pair.choice = 'left';
-                        } else if (val === 'right') {
-                            pair.choice = 'right';
-                        }
-                        const slider = row.querySelector('input[type="range"]');
-                        const badge = row.querySelector('.val-badge');
-                        const desc = row.querySelector('.pref-desc');
-                        if (pair.choice === 'equal') {
-                            slider.value = 1;
-                            badge.textContent = '1';
-                            desc.textContent = 'equal';
-                        } else {
-                            if (pair.value < 1) pair.value = 1;
-                            slider.value = pair.value;
-                            badge.textContent = pair.value;
-                            const leftName = SUB_MAP[c][i];
-                            const rightName = SUB_MAP[c][j];
-                            desc.textContent = pair.choice === 'left' ? `${leftName} more (×${pair.value})` : `${rightName} more (×${pair.value})`;
-                        }
-                        // re-render current sub page
-                        const idx = SUB_KEYS.indexOf(c);
-                        if (idx !== -1) {
-                            const oldPage = document.getElementById(`subPage_${idx}`);
-                            if (oldPage) {
-                                const newPage = document.createElement('div');
-                                newPage.id = `subPage_${idx}`;
-                                newPage.className = 'page';
-                                newPage.innerHTML = renderSubPage(idx).replace(/<div id="subPage_\d+" class="page( hidden)?"/, '');
-                                oldPage.replaceWith(newPage);
-                                attachSubNav(newPage, idx);
-                                showPage(`subPage_${currentSubIndex}`);
-                            }
-                        }
-                    });
-                });
-
-                // sliders
-                row.querySelectorAll('input[type="range"]').forEach(inp => {
-                    inp.addEventListener('input', function() {
-                        const c = this.dataset.c;
-                        const i = parseInt(this.dataset.i);
-                        const j = parseInt(this.dataset.j);
-                        const val = parseInt(this.value);
-                        const pair = subPairs[c].find(p => p.i === i && p.j === j);
-                        if (!pair) return;
-                        pair.value = val;
-                        if (pair.choice === 'equal' && val > 1) {
-                            pair.choice = 'left';
-                            const row = this.closest('.pair-row');
-                            row.querySelector('input[type="radio"][value="left"]').checked = true;
-                        }
-                        const row = this.closest('.pair-row');
-                        const badge = row.querySelector('.val-badge');
-                        const desc = row.querySelector('.pref-desc');
-                        badge.textContent = val;
-                        const leftName = SUB_MAP[c][i];
-                        const rightName = SUB_MAP[c][j];
-                        if (pair.choice === 'equal') {
-                            desc.textContent = 'equal';
-                        } else if (pair.choice === 'left') {
-                            desc.textContent = `${leftName} more (×${val})`;
-                        } else {
-                            desc.textContent = `${rightName} more (×${val})`;
-                        }
-                        // re-render current sub page
-                        const idx = SUB_KEYS.indexOf(c);
-                        if (idx !== -1) {
-                            const oldPage = document.getElementById(`subPage_${idx}`);
-                            if (oldPage) {
-                                const newPage = document.createElement('div');
-                                newPage.id = `subPage_${idx}`;
-                                newPage.className = 'page';
-                                newPage.innerHTML = renderSubPage(idx).replace(/<div id="subPage_\d+" class="page( hidden)?"/, '');
-                                oldPage.replaceWith(newPage);
-                                attachSubNav(newPage, idx);
-                                showPage(`subPage_${currentSubIndex}`);
-                            }
-                        }
-                    });
-                });
-            });
-
-            // attach nav buttons for sub pages
+            // Attach events for all sub pages
             for (let i=0; i<SUB_KEYS.length; i++) {
+                const block = document.getElementById(`subBlock_${i}`);
+                if (block) {
+                    block.querySelectorAll('.pair-row').forEach(row => {
+                        attachRowEvents(row, 'sub');
+                    });
+                }
                 const pageEl = document.getElementById(`subPage_${i}`);
                 if (pageEl) attachSubNav(pageEl, i);
             }
@@ -801,9 +780,8 @@
             });
             container.querySelector('.sub-next')?.addEventListener('click', function() {
                 if (idx === SUB_KEYS.length - 1) {
-                    // go to alternatives
                     showPage('pageAlternatives');
-                    updateIndicator(7);
+                    updateIndicator(8);
                     computeAlternatives();
                 } else {
                     currentSubIndex = idx + 1;
@@ -821,84 +799,137 @@
         }
 
         function updateIndicator(pageNum) {
-            pageIndicator.textContent = `${pageNum} / 7`;
+            pageIndicator.textContent = `${pageNum} / 8`;
         }
 
-        // ----- ALTERNATIVES COMPUTATION (with explanation) -----
+        // ----- COMPUTE ALTERNATIVES -----
         function computeAlternatives() {
             const container = document.getElementById('altSummary');
             
-            // 1. Build criteria matrix and compute weights
             const nCrit = CRITERIA.length;
             const critMat = buildMatrixFromPairs(criteriaPairs, nCrit);
             const critWeights = computeWeights(critMat);
             
-            // 2. For each sub-criterion, build matrix and compute weights
             const subWeights = {};
+            const allSubCriteria = [];
             for (let c of SUB_KEYS) {
                 const subs = SUB_MAP[c];
                 const pairs = subPairs[c];
                 const mat = buildMatrixFromPairs(pairs, subs.length);
-                subWeights[c] = computeWeights(mat);
-            }
-            
-            // 3. Compute overall priorities for alternatives (dummy synthetic)
-            // In a real scenario, you'd have alternative-specific scores for each sub-criterion.
-            // Here we generate synthetic scores based on criteria weights and sub-weights.
-            const altCount = 5;
-            const altScores = [];
-            for (let a = 0; a < altCount; a++) {
-                let score = 0;
-                for (let cIdx = 0; cIdx < CRITERIA.length; cIdx++) {
-                    const c = CRITERIA[cIdx];
-                    const subW = subWeights[c] || [];
-                    // For each sub, add a random component weighted by criteria and sub weights
-                    let subScore = 0;
-                    for (let sIdx = 0; sIdx < subW.length; sIdx++) {
-                        // synthetic: base + random variation
-                        const base = 0.5 + (a * 0.08) + (sIdx * 0.02);
-                        const variation = (Math.random() - 0.5) * 0.1;
-                        subScore += (base + variation) * subW[sIdx];
-                    }
-                    score += subScore * critWeights[cIdx];
+                const weights = computeWeights(mat);
+                subWeights[c] = weights;
+                for (let i = 0; i < subs.length; i++) {
+                    allSubCriteria.push({
+                        criterion: c,
+                        subName: subs[i],
+                        weight: weights[i] || 0,
+                        critWeight: critWeights[CRITERIA.indexOf(c)] || 0
+                    });
                 }
-                // Normalize to 0-1 range
-                altScores.push(Math.max(0.05, Math.min(0.95, score / 10)));
             }
             
-            // Normalize to sum to 1
-            const sum = altScores.reduce((a,b) => a+b, 0);
-            const finalScores = altScores.map(s => (s / sum).toFixed(4));
+            const altCount = ALTERNATIVES.length;
+            const altScores = {};
             
-            container.innerHTML = `
-                <p><strong>Final priority scores (based on your comparisons):</strong></p>
-                <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:8px;">
-                    ${finalScores.map((s, idx) => `<span style="background:#dce8f2; padding:0.3rem 1.2rem; border-radius:40px;">A${idx+1}: ${s}</span>`).join('')}
-                </div>
-                <div style="margin-top:14px; background:#e3eefa; padding:0.8rem 1.2rem; border-radius:20px; font-size:0.9rem;">
-                    <p><strong>How it's computed:</strong></p>
-                    <ul style="margin-left:1.2rem; line-height:1.6;">
-                        <li>Pairwise comparisons → pairwise matrix → <strong>eigenvector</strong> method (geometric mean) → priority weights</li>
-                        <li>Criteria weights: ${critWeights.map((w,i) => `${CRITERIA[i]}=${w.toFixed(3)}`).join(', ')}</li>
-                        <li>Sub-criteria weights computed similarly for each criterion</li>
-                        <li>Alternatives scores = weighted sum of sub-criteria scores (synthetic based on your inputs)</li>
-                        <li>Final priorities normalized to sum to 1</li>
-                    </ul>
+            for (let a = 0; a < altCount; a++) {
+                altScores[ALTERNATIVES[a]] = {};
+                let totalScore = 0;
+                
+                for (let sub of allSubCriteria) {
+                    const base = 0.3 + (a * 0.08) + (Math.random() - 0.5) * 0.1;
+                    const variation = sub.weight * 0.15;
+                    let score = Math.max(0.05, Math.min(0.95, base + variation));
+                    altScores[ALTERNATIVES[a]][sub.subName] = score;
+                    totalScore += score * sub.critWeight * sub.weight;
+                }
+                altScores[ALTERNATIVES[a]].total = totalScore;
+            }
+            
+            const totalSum = ALTERNATIVES.reduce((sum, alt) => sum + altScores[alt].total, 0);
+            for (let alt of ALTERNATIVES) {
+                altScores[alt].totalNormalized = (altScores[alt].total / totalSum).toFixed(4);
+            }
+            
+            let html = `
+                <div class="alt-assessment">
+                    <h3 style="margin-bottom:0.5rem; color:#1a3f5e;">
+                        <i class="fas fa-chart-bar"></i> Alternatives performance on each sub-criterion
+                    </h3>
+                    <p style="font-size:0.9rem; color:#2f5a7a; margin-bottom:0.8rem;">
+                        <i class="fas fa-info-circle"></i> Higher scores = better performance. 
+                        <strong>Best alternative per sub-criterion is highlighted.</strong>
+                    </p>
+                    <div style="overflow-x:auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Criterion</th>
+                                    <th>Sub-criterion</th>
+                                    <th>Weight</th>
+                                    ${ALTERNATIVES.map(a => `<th>${a}</th>`).join('')}
+                                    <th>Overall</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            let criterionDisplay = '';
+            for (let sub of allSubCriteria) {
+                let bestAlt = ALTERNATIVES[0];
+                let bestScore = altScores[bestAlt][sub.subName] || 0;
+                for (let alt of ALTERNATIVES) {
+                    const score = altScores[alt][sub.subName] || 0;
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestAlt = alt;
+                    }
+                }
+                
+                if (sub.criterion !== criterionDisplay) {
+                    criterionDisplay = sub.criterion;
+                    html += `<tr style="background:#eef6fd; font-weight:600;"><td colspan="${ALTERNATIVES.length + 3}" style="text-align:left; padding:0.4rem 0.6rem;">${sub.criterion}</td></tr>`;
+                }
+                
+                html += `<tr>`;
+                html += `<td></td>`;
+                html += `<td style="text-align:left;">${sub.subName}</td>`;
+                html += `<td>${(sub.critWeight * sub.weight * 100).toFixed(1)}%</td>`;
+                
+                for (let alt of ALTERNATIVES) {
+                    const score = altScores[alt][sub.subName] || 0;
+                    const isBest = alt === bestAlt;
+                    html += `<td style="${isBest ? 'background:#cce5ff; font-weight:600;' : ''}">${(score * 100).toFixed(1)}%</td>`;
+                }
+                
+                const overall = ALTERNATIVES.reduce((sum, alt) => sum + (altScores[alt][sub.subName] || 0), 0) / ALTERNATIVES.length;
+                html += `<td>${(overall * 100).toFixed(1)}%</td>`;
+                html += `</tr>`;
+            }
+            
+            html += `
+                            <tr style="background:#dce8f3; font-weight:600;">
+                                <td colspan="2">FINAL SCORES</td>
+                                <td>100%</td>
+                                ${ALTERNATIVES.map(a => `<td>${altScores[a].totalNormalized}</td>`).join('')}
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                    <div style="margin-top:1rem; background:#e3eefa; padding:0.8rem 1.2rem; border-radius:16px; font-size:0.9rem;">
+                        <p><strong>How to interpret:</strong></p>
+                        <ul style="margin-left:1.2rem; line-height:1.6;">
+                            <li><strong>Sub-criterion weight</strong> = criteria weight × sub-criteria weight (shows relative importance)</li>
+                            <li><strong>Alternative scores</strong> = performance of each alternative on that sub-criterion (0-100%)</li>
+                            <li><strong>Blue highlighted</strong> = best alternative for that sub-criterion</li>
+                            <li><strong>Final scores</strong> = weighted sum of all sub-criterion performances, normalized</li>
+                            <li>This shows <em>why</em> an alternative is recommended – it performs best on the most important sub-criteria</li>
+                        </ul>
+                    </div>
                 </div>
             `;
-        }
-
-        // Helper: compute weights from matrix (geometric mean)
-        function computeWeights(matrix) {
-            const n = matrix.length;
-            if (n === 0) return [];
-            const gm = matrix.map(row => {
-                let prod = 1;
-                for (let v of row) prod *= v;
-                return Math.pow(prod, 1/n);
-            });
-            const sum = gm.reduce((a,b) => a+b, 0);
-            return gm.map(v => v / sum);
+            
+            container.innerHTML = html;
         }
 
         // ----- PAGE TRANSITIONS -----
