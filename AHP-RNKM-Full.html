@@ -20,7 +20,7 @@
             align-items: flex-start;
         }
         .page-container {
-            max-width: 1000px;
+            max-width: 1100px;
             width: 100%;
             background: white;
             border-radius: 32px;
@@ -208,7 +208,7 @@
                 grid-template-columns: 35px 1fr 1fr 1fr;
                 padding: 0.4rem 0.6rem;
                 gap: 4px;
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
         }
         .pair-row:last-child { border-bottom: none; }
@@ -260,8 +260,8 @@
             gap: 3px;
             cursor: pointer;
             font-weight: 400;
-            font-size: 0.82rem;
-            padding: 0.1rem 0.5rem;
+            font-size: 0.78rem;
+            padding: 0.1rem 0.4rem;
             border-radius: 6px;
             background: #f0f7fe;
             border: 2px solid transparent;
@@ -301,9 +301,9 @@
             justify-content: center;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.75rem;
-            width: 30px;
-            height: 30px;
+            font-size: 0.7rem;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: #f0f7fe;
             border: 2px solid transparent;
@@ -342,8 +342,8 @@
             color: white;
         }
         .pair-row .recommendation-badge {
-            font-size: 0.65rem;
-            padding: 0.1rem 0.4rem;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.3rem;
             border-radius: 10px;
             background: #27ae60;
             color: white;
@@ -543,19 +543,19 @@
         .alt-assessment table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 0.5rem;
         }
         .alt-assessment th {
             background: #e8f0f8;
-            padding: 0.5rem 0.6rem;
+            padding: 0.4rem 0.6rem;
             text-align: center;
             font-weight: 600;
             color: #0a2a44;
             border: 1px solid #d4e4f0;
         }
         .alt-assessment td {
-            padding: 0.4rem 0.6rem;
+            padding: 0.3rem 0.6rem;
             text-align: center;
             border: 1px solid #eef4f8;
         }
@@ -566,40 +566,52 @@
         .alt-assessment .criteria-row {
             background: #f0f7fe;
             font-weight: 600;
-        }/* Recommendation legend - updated */
-.recommendation-legend {
-    background: #f8faff;
-    border-radius: 12px;
-    padding: 0.8rem 1.2rem;
-    margin: 0.5rem 0 0.8rem;
-    border: 2px solid #e67e22;
-    font-size: 0.95rem;
-    color: #2a4a6a;
-    display: none;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-.recommendation-legend.show {
-    display: flex;
-}
-.recommendation-legend .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-.recommendation-legend .legend-dot {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid #27ae60;
-    background: #d4edff;
-    flex-shrink: 0;
-}
-.recommendation-legend .legend-dot.glow {
-    animation: pulse-glow 1.5s ease-in-out infinite;
-}
+        }
+
+        /* Recommendation legend */
+        .recommendation-legend {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 0.7rem 1.2rem;
+            margin: 0.5rem 0 0.8rem;
+            border: 2px solid #e67e22;
+            font-size: 0.9rem;
+            color: #2a4a6a;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .recommendation-legend.show {
+            display: flex;
+        }
+        .recommendation-legend .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .recommendation-legend .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #27ae60;
+            background: #d4edff;
+            flex-shrink: 0;
+        }
+        .recommendation-legend .legend-dot.glow {
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+        .recommendation-legend .pair-highlight {
+            background: #e8f0f8;
+            padding: 0.1rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .recommendation-legend .suggestion-text {
+            color: #856404;
+            font-size: 0.85rem;
+        }
 
         @media (max-width: 768px) {
             .consistency-box {
@@ -620,12 +632,20 @@
                 width: 100%;
             }
             .pair-row .importance-group label {
-                width: 24px;
-                height: 24px;
-                font-size: 0.65rem;
+                width: 22px;
+                height: 22px;
+                font-size: 0.6rem;
             }
             .pair-row .recommendation-badge {
                 display: none !important;
+            }
+            .pair-row .choice-group label {
+                font-size: 0.65rem;
+                padding: 0.05rem 0.3rem;
+            }
+            .recommendation-legend {
+                font-size: 0.8rem;
+                padding: 0.5rem 0.8rem;
             }
         }
     </style>
@@ -643,7 +663,7 @@
         <div class="desc-box">
             <i class="fas fa-info-circle"></i> 
             <strong>Welcome to the AHP Decision Survey</strong><br>
-            We are conducting research to evaluate 5 alternatives based on 5 criteria and their sub-criteria. 
+            We are conducting research to evaluate 5 healthcare interventions based on 5 criteria and their sub-criteria. 
             Your expert input will help determine the priority weights. The survey takes 10-15 minutes.
         </div>
 
@@ -694,9 +714,9 @@
             </span>
         </div>
 
-<div id="criteriaLegend" class="recommendation-legend">
-    <!-- Will be dynamically populated -->
-</div>
+        <div id="criteriaLegend" class="recommendation-legend">
+            <!-- Will be dynamically populated -->
+        </div>
 
         <div class="pair-container" id="criteriaPairsContainer"></div>
 
@@ -752,17 +772,61 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script>
 (function() {
-    // ===== CONFIG =====
-    const CRITERIA = ['C1', 'C2', 'C3', 'C4', 'C5'];
+    // ===== CONFIG - UPDATED WITH REAL TERMS =====
+    const CRITERIA = [
+        'Patient Value',
+        'Clinical Effectiveness',
+        'Adoption Potential',
+        'Implementation Feasibility',
+        'Long-term Sustainability'
+    ];
+    
     const SUB_MAP = {
-        'C1': ['S1_1','S1_2','S1_3','S1_4','S1_5','S1_6'],
-        'C2': ['S2_1','S2_2','S2_3','S2_4'],
-        'C3': ['S3_1','S3_2','S3_3','S3_4'],
-        'C4': ['S4_1','S4_2','S4_3','S4_4'],
-        'C5': ['S5_1','S5_2','S5_3','S5_4']
+        'Patient Value': [
+            'Ease of use',
+            'Personalization',
+            'Inclusiveness',
+            'Accessibility',
+            'Perceived usefulness',
+            'Affordability'
+        ],
+        'Clinical Effectiveness': [
+            'Medication adherence',
+            'Lifestyle adherence',
+            'Treatment continuity',
+            'Health improvement'
+        ],
+        'Adoption Potential': [
+            'Patient acceptance',
+            'Physician acceptance',
+            'Staff willingness',
+            'Organizational readiness'
+        ],
+        'Implementation Feasibility': [
+            'Cost',
+            'Ease of implementation',
+            'Staff workload',
+            'Technology readiness'
+        ],
+        'Long-term Sustainability': [
+            'Continuous engagement',
+            'Routine integration',
+            'Financial sustainability',
+            'Scalability'
+        ]
     };
+    
     const SUB_KEYS = Object.keys(SUB_MAP);
-    const ALTERNATIVES = ['Alt-1', 'Alt-2', 'Alt-3', 'Alt-4', 'Alt-5'];
+    const ALTERNATIVES = [
+        'AI-Enabled Adherence support',
+        'Lifestyle coaching',
+        'Teleconsultation',
+        'Mobile reminders',
+        'Patient/family support groups'
+    ];
+
+    // Short names for display in comparison rows
+    const CRITERIA_SHORT = ['C1', 'C2', 'C3', 'C4', 'C5'];
 
     // ===== STATE =====
     let criteriaPairs = [];
@@ -859,30 +923,7 @@
         return gm.map(v => v / sum);
     }
 
-    // ===== FIXED: allPairsCompleted - checks if any radio button is selected =====
-    function allPairsCompleted(pairs) {
-        for (let p of pairs) {
-            // If choice is still 'equal' and value is 1, it means user hasn't interacted with this pair
-            // But if they selected "=", choice is 'equal' and value is 1 - but that IS a valid selection
-            // So we need to check if they've actually made a selection vs the default state
-            // We can use a different approach: check if any radio button was clicked
-            // Since we can't track that directly, we'll check if the pair has been modified from default
-            // Default is choice='equal', value=1. If it's still exactly that, it's incomplete.
-            // But if they selected "=", it's also choice='equal', value=1 - so we need another way.
-            // We'll use a flag approach: we'll set a 'touched' property on the pair when user interacts
-            // Since we can't easily add that, we'll check if the pair has been clicked by checking 
-            // if any radio button in the DOM is checked for this pair.
-            // Instead, we'll use a simpler approach: check if the pair has been changed from initial state
-            // The initial state for all pairs is choice='equal', value=1
-            // If it's still exactly that, it's incomplete.
-            // But if user selected "=", it's also choice='equal', value=1 - so we need to detect interaction.
-            // We'll use a different method: we'll check if any of the radio buttons in the DOM for this pair is checked
-            // This requires DOM access, so we'll do it in the validation function
-        }
-        return true; // Placeholder - we'll check in the actual validation function
-    }
-
-    // ===== FIXED: validatePairsCompleted - checks DOM for checked radio buttons =====
+    // ===== VALIDATE PAIRS COMPLETED (checks DOM for checked radio buttons) =====
     function validatePairsCompleted(pairs, containerId) {
         const container = document.getElementById(containerId);
         if (!container) return false;
@@ -900,758 +941,27 @@
         return allCompleted;
     }
 
-   // ===== APPLY ROW RECOMMENDATIONS - MODIFIED =====
-function applyRowRecommendations(container, pairs, names, type, c = null) {
-    // Check if all pairs are completed using DOM validation
-    const allCompleted = validatePairsCompleted(pairs, container.id);
-    
-    // Clear any existing recommendations first
-    container.querySelectorAll('.pair-row').forEach(row => {
-        row.classList.remove('recommended');
-        row.querySelectorAll('.suggested').forEach(el => el.classList.remove('suggested'));
-    });
-    
-    // ONLY show recommendations if ALL pairs are completed
-    if (!allCompleted) {
-        // Hide legend
-        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-        if (legend) legend.classList.remove('show');
-        return;
-    }
-    
-    const cr = computeCR(pairs, names.length);
-    if (cr < 0.1) {
-        // Hide legend if consistent
-        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-        if (legend) legend.classList.remove('show');
-        return;
-    }
-    
-    const recommendations = generateRecommendations(pairs, names);
-    
-    // Only show recommendations if there are any
-    if (recommendations.length === 0) {
-        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-        if (legend) legend.classList.remove('show');
-        return;
-    }
-    
-    // Apply recommendations to rows
-    container.querySelectorAll('.pair-row').forEach(row => {
-        const i = parseInt(row.dataset.i);
-        const j = parseInt(row.dataset.j);
-        const rec = recommendations.find(r => r.i === i && r.j === j);
+    // ===== GENERATE RECOMMENDATIONS - Sorted by highest variability =====
+    function generateRecommendations(pairs, names) {
+        const n = names.length;
+        if (n < 2) return [];
         
-        if (rec) {
-            row.classList.add('recommended');
-            
-            // Highlight suggested choice
-            const choiceLabels = row.querySelectorAll('.choice-group label');
-            choiceLabels.forEach(label => {
-                const radio = label.querySelector('input[type="radio"]');
-                if (radio && radio.value === rec.suggestedChoice) {
-                    label.classList.add('suggested');
-                }
-            });
-            
-            // Highlight suggested importance value
-            const impLabels = row.querySelectorAll('.importance-group label');
-            impLabels.forEach(label => {
-                const radio = label.querySelector('input[type="radio"]');
-                if (radio && parseInt(radio.value) === rec.suggestedValue) {
-                    label.classList.add('suggested');
-                }
-            });
-        }
-    });
-    
-    // Show legend with recommendation message
-    const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-    if (legend) {
-        // Show the most impactful recommendation with a clear message
-        const topRec = recommendations[0];
-        const leftName = names[topRec.i];
-        const rightName = names[topRec.j];
-        legend.innerHTML = `
-            <span class="legend-item">
-                <span class="legend-dot glow"></span>
-                <span><strong>Do you want to reconsider your ranking for</strong> <span style="background:#e8f0f8; padding:0.1rem 0.6rem; border-radius:4px;">${leftName} vs ${rightName}</span>? 
-                <span style="color:#856404; font-size:0.8rem;">(Suggested: ${topRec.suggestedChoice === 'left' ? leftName : topRec.suggestedChoice === 'right' ? rightName : 'Equal'} × ${topRec.suggestedValue})</span></span>
-            </span>
-        `;
-        legend.classList.add('show');
-    }
-}
-
-   // ===== GENERATE RECOMMENDATIONS - MODIFIED =====
-function generateRecommendations(pairs, names) {
-    const n = names.length;
-    if (n < 2) return [];
-    
-    const mat = buildMatrixFromPairs(pairs, n);
-    const weights = computeWeights(mat);
-    const cr = computeCR(pairs, n);
-    
-    if (cr < 0.1) return [];
-    
-    const recommendations = [];
-    
-    for (let p of pairs) {
-        const leftWeight = weights[p.i];
-        const rightWeight = weights[p.j];
-        const idealRatio = leftWeight / rightWeight;
+        const mat = buildMatrixFromPairs(pairs, n);
+        const weights = computeWeights(mat);
+        const cr = computeCR(pairs, n);
         
-        let suggestedChoice = p.choice;
-        let suggestedValue = p.value;
+        if (cr < 0.1) return [];
         
-        if (idealRatio > 1.1) {
-            suggestedChoice = 'left';
-            suggestedValue = Math.round(Math.min(Math.max(idealRatio, 1), 9));
-        } else if (idealRatio < 0.9) {
-            suggestedChoice = 'right';
-            suggestedValue = Math.round(Math.min(Math.max(1 / idealRatio, 1), 9));
-        } else {
-            suggestedChoice = 'equal';
-            suggestedValue = 1;
-        }
+        const recommendations = [];
         
-        // Calculate variability/impact - how far is current from ideal
-        let currentRatio = p.choice === 'left' ? p.value : p.choice === 'right' ? 1/p.value : 1;
-        let impact = Math.abs(idealRatio - currentRatio);
-        
-        // Only suggest if different from current
-        if (suggestedChoice !== p.choice || suggestedValue !== p.value) {
-            recommendations.push({
-                i: p.i,
-                j: p.j,
-                currentChoice: p.choice,
-                currentValue: p.value,
-                suggestedChoice: suggestedChoice,
-                suggestedValue: suggestedValue,
-                impact: impact,
-                leftName: names[p.i],
-                rightName: names[p.j]
-            });
-        }
-    }
-    
-    // Sort by impact (highest variability first)
-    recommendations.sort((a, b) => b.impact - a.impact);
-    return recommendations;
-}
-
-    // ===== UPDATE PAIR UI =====
-    function updatePairUI(row, pair, type, c = null) {
-        // Update choice radio buttons
-        const choiceRadios = row.querySelectorAll('.choice-group input[type="radio"]');
-        choiceRadios.forEach(r => {
-            if (r.value === pair.choice) {
-                r.checked = true;
-            }
-        });
-        
-        // Update importance radio buttons
-        const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
-        impRadios.forEach(r => {
-            if (parseInt(r.value) === pair.value) {
-                r.checked = true;
-            }
-        });
-    }
-
-    // ===== RENDER CRITERIA =====
-    function renderCriteria() {
-        const container = document.getElementById('criteriaPairsContainer');
-        let html = `
-            <div class="pair-header">
-                <span>#</span>
-                <span>Choose the most important among each pair</span>
-                <span class="center">How many times is the selected option among the pair more important?</span>
-                <span class="right">Scale 1-9</span>
-            </div>
-        `;
-        
-        let rowNum = 1;
-        for (let p of criteriaPairs) {
-            const left = CRITERIA[p.i];
-            const right = CRITERIA[p.j];
-            const val = p.value;
-            const choice = p.choice;
-            
-            // Build importance radio buttons (1-9)
-            let impRadios = '';
-            for (let i = 1; i <= 9; i++) {
-                const checked = val === i ? 'checked' : '';
-                impRadios += `
-                    <label>
-                        <input type="radio" name="criteria_imp_${p.i}_${p.j}" value="${i}" ${checked}>
-                        <span>${i}</span>
-                    </label>
-                `;
-            }
-            
-            html += `
-                <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
-                    <span class="row-num">${rowNum}</span>
-                    <div class="choice-group">
-                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
-                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
-                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
-                    </div>
-                    <div class="importance-group">
-                        ${impRadios}
-                    </div>
-                    <span class="recommendation-badge">⭐ Suggested</span>
-                    <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
-                </div>
-            `;
-            rowNum++;
-        }
-        container.innerHTML = html;
-        
-        // Attach events
-        container.querySelectorAll('.pair-row').forEach(row => {
-            attachRowEvents(row, 'criteria');
-        });
-        
-        updateCriteriaConsistency();
-        applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
-    }
-
-    // ===== ATTACH ROW EVENTS =====
-    function attachRowEvents(row, type) {
-        const i = parseInt(row.dataset.i);
-        const j = parseInt(row.dataset.j);
-        const c = row.dataset.c || null;
-        
-        // Choice radio buttons
-        row.querySelectorAll('.choice-group input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function(e) {
-                e.stopPropagation();
-                let pairs;
-                if (type === 'criteria') pairs = criteriaPairs;
-                else pairs = subPairs[c];
-                
-                const pair = pairs.find(p => p.i === i && p.j === j);
-                if (!pair) return;
-                
-                const val = this.value;
-                if (val === 'equal') {
-                    pair.choice = 'equal';
-                    pair.value = 1;
-                    const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
-                    impRadios.forEach(r => {
-                        if (parseInt(r.value) === 1) r.checked = true;
-                    });
-                } else if (val === 'left') {
-                    pair.choice = 'left';
-                    if (pair.value < 1) pair.value = 1;
-                } else if (val === 'right') {
-                    pair.choice = 'right';
-                    if (pair.value < 1) pair.value = 1;
-                }
-                
-                if (type === 'criteria') {
-                    updateCriteriaConsistency();
-                    const container = document.getElementById('criteriaPairsContainer');
-                    applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
-                } else {
-                    updateSubConsistency(c);
-                    const container = document.getElementById(`subBlock_${SUB_KEYS.indexOf(c)}`);
-                    applyRowRecommendations(container, subPairs[c], SUB_MAP[c], 'sub', c);
-                }
-            });
-        });
-
-        // Importance radio buttons
-        row.querySelectorAll('.importance-group input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function(e) {
-                e.stopPropagation();
-                let pairs;
-                if (type === 'criteria') pairs = criteriaPairs;
-                else pairs = subPairs[c];
-                
-                const pair = pairs.find(p => p.i === i && p.j === j);
-                if (!pair) return;
-                
-                const val = parseInt(this.value);
-                pair.value = val;
-                
-                if (pair.choice === 'equal' && val > 1) {
-                    pair.choice = 'left';
-                    row.querySelector('.choice-group input[type="radio"][value="left"]').checked = true;
-                } else if (pair.choice === 'equal' && val === 1) {
-                    // keep equal
-                } else if (pair.choice === 'left' && val === 1) {
-                    pair.choice = 'equal';
-                    row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
-                } else if (pair.choice === 'right' && val === 1) {
-                    pair.choice = 'equal';
-                    row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
-                }
-                
-                if (type === 'criteria') {
-                    updateCriteriaConsistency();
-                    const container = document.getElementById('criteriaPairsContainer');
-                    applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
-                } else {
-                    updateSubConsistency(c);
-                    const container = document.getElementById(`subBlock_${SUB_KEYS.indexOf(c)}`);
-                    applyRowRecommendations(container, subPairs[c], SUB_MAP[c], 'sub', c);
-                }
-            });
-        });
-    }
-
-    // ===== UPDATE CRITERIA CONSISTENCY =====
-    function updateCriteriaConsistency() {
-        const cr = computeCR(criteriaPairs, CRITERIA.length);
-        criteriaCR = cr;
-        const crEl = document.getElementById('criteriaCR');
-        const statusEl = document.getElementById('criteriaStatus');
-        
-        const crPercent = (cr * 100).toFixed(1);
-        crEl.textContent = crPercent + '%';
-        
-        if (cr < 0.1) {
-            crEl.className = 'cr-value good';
-            statusEl.innerHTML = '<span class="ok">✅ Consistent (CR ≤ 10%)</span>';
-        } else if (cr < 0.2) {
-            crEl.className = 'cr-value warn';
-            statusEl.innerHTML = '<span class="warn">⚠️ Moderate inconsistency (CR > 10%)</span>';
-        } else {
-            crEl.className = 'cr-value bad';
-            statusEl.innerHTML = '<span class="bad">❌ High inconsistency (CR > 20%)</span>';
-        }
-    }
-
-    // ===== UPDATE SUB CONSISTENCY =====
-    function updateSubConsistency(c) {
-        const pairs = subPairs[c];
-        const subs = SUB_MAP[c];
-        const cr = computeCR(pairs, subs.length);
-        subCR[c] = cr;
-        
-        const idx = SUB_KEYS.indexOf(c);
-        
-        // Update CR display
-        const crEl = document.getElementById(`subCR_${idx}`);
-        if (crEl) {
-            crEl.textContent = (cr * 100).toFixed(1) + '%';
-            if (cr < 0.1) {
-                crEl.className = 'cr-value good';
-            } else if (cr < 0.2) {
-                crEl.className = 'cr-value warn';
-            } else {
-                crEl.className = 'cr-value bad';
-            }
-        }
-        
-        // Update status
-        const pageEl = document.getElementById(`subPage_${idx}`);
-        if (pageEl) {
-            const statusEl = pageEl.querySelector('.consistency-box .status-text');
-            if (statusEl) {
-                if (cr < 0.1) {
-                    statusEl.innerHTML = '<span class="ok">✅ Consistent</span>';
-                } else {
-                    statusEl.innerHTML = '<span class="warn">⚠️ Needs adjustment</span>';
-                }
-            }
-        }
-    }
-
-    // ===== RENDER SUB PAGE =====
-    function renderSubPage(idx) {
-        const c = SUB_KEYS[idx];
-        const subs = SUB_MAP[c];
-        const pairs = subPairs[c];
-        const cr = computeCR(pairs, subs.length);
-        
-        let html = `
-            <div id="subPage_${idx}" class="page ${idx === currentSubIndex ? '' : 'hidden'}">
-                <div class="desc-box">
-                    <i class="fas fa-sitemap"></i> 
-                    <strong>Sub-criteria for ${c}</strong><br>
-                    For each pair, select the most important sub-criterion, and then indicate how many times more important.
-                    <span style="display:block; margin-top:4px; font-size:0.9rem; color:#1a6b9e;">
-                        <i class="fas fa-lightbulb"></i> After completing all comparisons, rows with <span style="background:#d4edff; padding:0 6px; border-radius:4px; border:2px solid #27ae60;">green highlights</span> show suggested changes.
-                    </span>
-                </div>
-                
-                
-                // In renderSubPage function, replace the legend div with:
-<div id="subLegend_${idx}" class="recommendation-legend">
-    <!-- Will be dynamically populated -->
-</div>
-                
-                <div class="pair-container" id="subBlock_${idx}">
-                    <div class="pair-header">
-                        <span>#</span>
-                        <span>Choose the most important among each pair</span>
-                        <span class="center">How many times is the selected option among the pair more important?</span>
-                        <span class="right">Scale 1-9</span>
-                    </div>
-        `;
-        
-        let rowNum = 1;
         for (let p of pairs) {
-            const left = subs[p.i];
-            const right = subs[p.j];
-            const val = p.value;
-            const choice = p.choice;
+            const leftWeight = weights[p.i];
+            const rightWeight = weights[p.j];
+            const idealRatio = leftWeight / rightWeight;
             
-            let impRadios = '';
-            for (let i = 1; i <= 9; i++) {
-                const checked = val === i ? 'checked' : '';
-                impRadios += `
-                    <label>
-                        <input type="radio" name="sub_imp_${c}_${p.i}_${p.j}" value="${i}" ${checked}>
-                        <span>${i}</span>
-                    </label>
-                `;
-            }
+            let suggestedChoice = p.choice;
+            let suggestedValue = p.value;
             
-            html += `
-                <div class="pair-row" data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
-                    <span class="row-num">${rowNum}</span>
-                    <div class="choice-group">
-                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
-                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
-                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
-                    </div>
-                    <div class="importance-group">
-                        ${impRadios}
-                    </div>
-                    <span class="recommendation-badge">⭐ Suggested</span>
-                    <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
-                </div>
-            `;
-            rowNum++;
-        }
-        
-        html += `
-                </div>
-                
-                <div class="consistency-box">
-                    <div class="cr-display">
-                        CR = <span class="cr-value" id="subCR_${idx}">${(cr * 100).toFixed(1)}%</span>
-                    </div>
-                    <div class="status-text">
-                        ${cr < 0.1 ? '<span class="ok">✅ Consistent</span>' : '<span class="warn">⚠️ Needs adjustment</span>'}
-                    </div>
-                    <button class="btn btn-check sub-check" data-idx="${idx}"><i class="fas fa-check-circle"></i> Check Consistency</button>
-                </div>
-                
-                <div class="scale-indicator">
-                    <span><strong>AHP Scale:</strong></span>
-                    <span class="scale-item"><strong>1</strong> Equal</span>
-                    <span class="scale-item"><strong>3</strong> Moderate</span>
-                    <span class="scale-item"><strong>5</strong> Strong</span>
-                    <span class="scale-item"><strong>7</strong> Very strong</span>
-                    <span class="scale-item"><strong>9</strong> Extreme</span>
-                    <span class="scale-item" style="color:#6b8ba8;">(2,4,6,8 intermediate)</span>
-                </div>
-                
-                <div id="subError_${idx}" class="validation-error">Please complete all pairwise comparisons for this section.</div>
-                
-                <div class="nav-buttons">
-                    <button class="btn btn-outline sub-back" data-idx="${idx}"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button class="btn btn-primary sub-next" data-idx="${idx}">Next <i class="fas fa-arrow-right"></i></button>
-                </div>
-            </div>
-        `;
-        return html;
-    }
-
-    // ===== RENDER ALL SUB PAGES =====
-    function renderAllSubPages() {
-        let html = '';
-        for (let i = 0; i < SUB_KEYS.length; i++) {
-            html += renderSubPage(i);
-        }
-        subContainer.innerHTML = html;
-        
-        for (let i = 0; i < SUB_KEYS.length; i++) {
-            const block = document.getElementById(`subBlock_${i}`);
-            if (block) {
-                block.querySelectorAll('.pair-row').forEach(row => {
-                    attachRowEvents(row, 'sub');
-                });
-                const c = SUB_KEYS[i];
-                applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c);
-            }
-            
-            const pageEl = document.getElementById(`subPage_${i}`);
-            if (pageEl) {
-                attachSubNav(pageEl, i);
-                
-                const checkBtn = pageEl.querySelector('.sub-check');
-                if (checkBtn) {
-                    checkBtn.addEventListener('click', function() {
-                        const idx = parseInt(this.dataset.idx);
-                        const c = SUB_KEYS[idx];
-                        updateSubConsistency(c);
-                        const block = document.getElementById(`subBlock_${idx}`);
-                        applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c);
-                    });
-                }
-            }
-        }
-        showPage(`subPage_${currentSubIndex}`);
-    }
-
-    // ===== ATTACH SUB NAVIGATION =====
-    function attachSubNav(container, idx) {
-        container.querySelector('.sub-back')?.addEventListener('click', function() {
-            if (idx === 0) {
-                showPage('page2');
-                updateIndicator(2);
-            } else {
-                currentSubIndex = idx - 1;
-                showPage(`subPage_${currentSubIndex}`);
-                updateIndicator(3 + currentSubIndex);
-            }
-        });
-        
-        container.querySelector('.sub-next')?.addEventListener('click', function() {
-            // Validate all pairs completed using DOM
-            const block = document.getElementById(`subBlock_${idx}`);
-            const allCompleted = validatePairsCompleted(subPairs[SUB_KEYS[idx]], block.id);
-            
-            if (!allCompleted) {
-                document.getElementById(`subError_${idx}`).classList.add('show');
-                return;
-            }
-            document.getElementById(`subError_${idx}`).classList.remove('show');
-            
-            const c = SUB_KEYS[idx];
-            const pairs = subPairs[c];
-            const cr = computeCR(pairs, SUB_MAP[c].length);
-            if (cr > 0.1) {
-                if (!confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) {
-                    return;
-                }
-            }
-            
-            if (idx === SUB_KEYS.length - 1) {
-                showPage('pageAlternatives');
-                updateIndicator(8);
-                computeAlternatives();
-            } else {
-                currentSubIndex = idx + 1;
-                showPage(`subPage_${currentSubIndex}`);
-                updateIndicator(3 + currentSubIndex);
-            }
-        });
-    }
-
-    // ===== NAVIGATION =====
-    function showPage(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-        const target = document.getElementById(id);
-        if (target) target.classList.remove('hidden');
-    }
-
-    function updateIndicator(pageNum) {
-        const steps = ['Consent', 'Criteria', 'Sub-C1', 'Sub-C2', 'Sub-C3', 'Sub-C4', 'Sub-C5', 'Results'];
-        pageIndicator.textContent = `Step ${pageNum} of 8 · ${steps[pageNum - 1]}`;
-    }
-
-    // ===== COMPUTE ALTERNATIVES =====
-    function computeAlternatives() {
-        const container = document.getElementById('altSummary');
-        
-        const nCrit = CRITERIA.length;
-        const critMat = buildMatrixFromPairs(criteriaPairs, nCrit);
-        const critWeights = computeWeights(critMat);
-        
-        const allSubCriteria = [];
-        for (let c of SUB_KEYS) {
-            const subs = SUB_MAP[c];
-            const pairs = subPairs[c];
-            const mat = buildMatrixFromPairs(pairs, subs.length);
-            const weights = computeWeights(mat);
-            for (let i = 0; i < subs.length; i++) {
-                allSubCriteria.push({
-                    criterion: c,
-                    subName: subs[i],
-                    weight: weights[i] || 0,
-                    critWeight: critWeights[CRITERIA.indexOf(c)] || 0
-                });
-            }
-        }
-        
-        const altScores = {};
-        for (let a = 0; a < ALTERNATIVES.length; a++) {
-            altScores[ALTERNATIVES[a]] = {};
-            let totalScore = 0;
-            for (let sub of allSubCriteria) {
-                const base = 0.2 + (a * 0.12) + (Math.random() - 0.5) * 0.08;
-                const variation = sub.weight * 0.12;
-                let score = Math.max(0.05, Math.min(0.95, base + variation));
-                altScores[ALTERNATIVES[a]][sub.subName] = score;
-                totalScore += score * sub.critWeight * sub.weight;
-            }
-            altScores[ALTERNATIVES[a]].total = totalScore;
-        }
-        
-        const totalSum = ALTERNATIVES.reduce((sum, alt) => sum + altScores[alt].total, 0);
-        for (let alt of ALTERNATIVES) {
-            altScores[alt].totalNormalized = (altScores[alt].total / totalSum).toFixed(4);
-        }
-        
-        let html = `
-            <div class="alt-assessment">
-                <h3 style="margin-bottom:0.8rem; color:#0a2a44;">
-                    <i class="fas fa-chart-bar"></i> Alternative Performance Breakdown
-                </h3>
-                <p style="font-size:0.9rem; color:#2a5a7a; margin-bottom:1rem;">
-                    <i class="fas fa-info-circle"></i> 
-                    <strong>Blue</strong> = best alternative for that sub-criterion · 
-                    Higher scores = better performance
-                </p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Criterion</th>
-                            <th>Sub-criterion</th>
-                            <th>Weight</th>
-                            ${ALTERNATIVES.map(a => `<th>${a}</th>`).join('')}
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
-        
-        let currentCriterion = '';
-        for (let sub of allSubCriteria) {
-            let bestAlt = ALTERNATIVES[0];
-            let bestScore = altScores[bestAlt][sub.subName] || 0;
-            for (let alt of ALTERNATIVES) {
-                const score = altScores[alt][sub.subName] || 0;
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestAlt = alt;
-                }
-            }
-            
-            if (sub.criterion !== currentCriterion) {
-                currentCriterion = sub.criterion;
-                html += `<tr class="criteria-row"><td colspan="${ALTERNATIVES.length + 2}" style="text-align:left; padding:0.5rem 0.6rem;">${sub.criterion}</td></tr>`;
-            }
-            
-            html += `<tr>`;
-            html += `<td></td>`;
-            html += `<td style="text-align:left;">${sub.subName}</td>`;
-            html += `<td>${(sub.critWeight * sub.weight * 100).toFixed(1)}%</td>`;
-            
-            for (let alt of ALTERNATIVES) {
-                const score = altScores[alt][sub.subName] || 0;
-                const isBest = alt === bestAlt;
-                html += `<td class="${isBest ? 'best' : ''}">${(score * 100).toFixed(1)}%</td>`;
-            }
-            html += `</tr>`;
-        }
-        
-        html += `
-                        <tr style="background:#e8f0f8; font-weight:700;">
-                            <td colspan="2">FINAL SCORES</td>
-                            <td>100%</td>
-                            ${ALTERNATIVES.map(a => `<td>${altScores[a].totalNormalized}</td>`).join('')}
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="margin-top:1rem; background:#f0f7fe; padding:0.8rem 1.2rem; border-radius:12px; font-size:0.9rem; border-left:4px solid #1a6b9e;">
-                    <p><strong>Interpretation:</strong></p>
-                    <ul style="margin-left:1.2rem; line-height:1.8;">
-                        <li><strong>Sub-criterion weight</strong> = criteria weight × sub-criteria weight</li>
-                        <li><strong>Blue highlight</strong> = best alternative for that sub-criterion</li>
-                        <li><strong>Final scores</strong> = weighted sum of all performances, normalized</li>
-                    </ul>
-                </div>
-            </div>
-        `;
-        
-        container.innerHTML = html;
-    }
-
-    // ===== PAGE NAVIGATION EVENTS =====
-    document.getElementById('toPage2Btn').addEventListener('click', function() {
-        const consent = document.getElementById('consentCheck').checked;
-        const name = document.getElementById('fullName').value.trim();
-        const email = document.getElementById('email').value.trim();
-        
-        if (!consent) {
-            document.getElementById('page1Error').textContent = 'Please give your consent to continue.';
-            document.getElementById('page1Error').classList.add('show');
-            return;
-        }
-        if (!name) {
-            document.getElementById('page1Error').textContent = 'Please enter your full name.';
-            document.getElementById('page1Error').classList.add('show');
-            return;
-        }
-        if (!email || !email.includes('@')) {
-            document.getElementById('page1Error').textContent = 'Please enter a valid email address.';
-            document.getElementById('page1Error').classList.add('show');
-            return;
-        }
-        
-        document.getElementById('page1Error').classList.remove('show');
-        showPage('page2');
-        updateIndicator(2);
-        renderCriteria();
-    });
-
-    document.getElementById('backToPage1Btn').addEventListener('click', function() {
-        showPage('page1');
-        updateIndicator(1);
-    });
-
-    document.getElementById('checkCriteriaBtn').addEventListener('click', function() {
-        updateCriteriaConsistency();
-        const container = document.getElementById('criteriaPairsContainer');
-        applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
-    });
-
-    document.getElementById('toPage3Btn').addEventListener('click', function() {
-        // Validate all criteria pairs completed using DOM
-        const container = document.getElementById('criteriaPairsContainer');
-        const allCompleted = validatePairsCompleted(criteriaPairs, container.id);
-        
-        if (!allCompleted) {
-            document.getElementById('page2Error').classList.add('show');
-            return;
-        }
-        document.getElementById('page2Error').classList.remove('show');
-        
-        const cr = computeCR(criteriaPairs, CRITERIA.length);
-        if (cr > 0.1) {
-            if (!confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) {
-                return;
-            }
-        }
-        
-        currentSubIndex = 0;
-        renderAllSubPages();
-        showPage(`subPage_0`);
-        updateIndicator(3);
-    });
-
-    document.getElementById('backToSubLastBtn').addEventListener('click', function() {
-        currentSubIndex = SUB_KEYS.length - 1;
-        showPage(`subPage_${currentSubIndex}`);
-        updateIndicator(3 + currentSubIndex);
-    });
-
-    document.getElementById('finishBtn').addEventListener('click', function() {
-        alert('Thank you for completing the survey! Your responses have been recorded.');
-    });
-
-    // ===== INIT =====
-    showPage('page1');
-    updateIndicator(1);
-})();
-</script>
-</body>
-</html>
+            if (idealRatio > 1.1) {
+                suggestedChoice = 'left';
+                suggestedValue = Math.round(Math.min(Math.max(idealRatio, 1), 9));
