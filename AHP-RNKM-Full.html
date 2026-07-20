@@ -1109,65 +1109,63 @@ function applyRowRecommendations(container, pairs, names, type, c = null, forceC
             }
         });
     }
-
-    // ===== RENDER CRITERIA =====
-    function renderCriteria() {
-        const container = document.getElementById('criteriaPairsContainer');
-        let html = `
-            <div class="pair-header">
-                <span>#</span>
-                <span>Choose the most important among each pair</span>
-                <span class="center">How many times is the selected option among the pair more important?</span>
-                <span class="right">Scale 1-9</span>
+// ===== RENDER CRITERIA - MODIFIED =====
+function renderCriteria() {
+    const container = document.getElementById('criteriaPairsContainer');
+    let html = `
+        <div class="pair-header">
+            <span>#</span>
+            <span>Choose the most important among each pair</span>
+            <span class="center">How many times is the selected option among the pair more important?</span>
+            <span class="right">Scale 1-9</span>
+        </div>
+    `;
+    
+    let rowNum = 1;
+    for (let p of criteriaPairs) {
+        const left = CRITERIA[p.i];
+        const right = CRITERIA[p.j];
+        const val = p.value;
+        const choice = p.choice;
+        
+        let impRadios = '';
+        for (let i = 1; i <= 9; i++) {
+            const checked = val === i ? 'checked' : '';
+            impRadios += `
+                <label>
+                    <input type="radio" name="criteria_imp_${p.i}_${p.j}" value="${i}" ${checked}>
+                    <span>${i}</span>
+                </label>
+            `;
+        }
+        
+        html += `
+            <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
+                <span class="row-num">${rowNum}</span>
+                <div class="choice-group">
+                    <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
+                    <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
+                    <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
+                </div>
+                <div class="importance-group">
+                    ${impRadios}
+                </div>
+                <span class="recommendation-badge">⭐ Suggested</span>
+                <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
             </div>
         `;
-        
-        let rowNum = 1;
-        for (let p of criteriaPairs) {
-            const left = CRITERIA[p.i];
-            const right = CRITERIA[p.j];
-            const val = p.value;
-            const choice = p.choice;
-            
-            // Build importance radio buttons (1-9)
-            let impRadios = '';
-            for (let i = 1; i <= 9; i++) {
-                const checked = val === i ? 'checked' : '';
-                impRadios += `
-                    <label>
-                        <input type="radio" name="criteria_imp_${p.i}_${p.j}" value="${i}" ${checked}>
-                        <span>${i}</span>
-                    </label>
-                `;
-            }
-            
-            html += `
-                <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
-                    <span class="row-num">${rowNum}</span>
-                    <div class="choice-group">
-                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
-                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
-                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
-                    </div>
-                    <div class="importance-group">
-                        ${impRadios}
-                    </div>
-                    <span class="recommendation-badge">⭐ Suggested</span>
-                    <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
-                </div>
-            `;
-            rowNum++;
-        }
-        container.innerHTML = html;
-        
-        container.querySelectorAll('.pair-row').forEach(row => {
-            attachRowEvents(row, 'criteria');
-        });
-        
-        updateCriteriaConsistency();
-        applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
+        rowNum++;
     }
-
+    container.innerHTML = html;
+    
+    container.querySelectorAll('.pair-row').forEach(row => {
+        attachRowEvents(row, 'criteria');
+    });
+    
+    updateCriteriaConsistency();
+    // REMOVED: applyRowRecommendations auto-call - now only called on button click
+}
+    
 // ===== ATTACH ROW EVENTS - MODIFIED =====
 function attachRowEvents(row, type) {
     const i = parseInt(row.dataset.i);
