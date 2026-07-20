@@ -1427,14 +1427,15 @@ function attachRowEvents(row, type) {
             if (pageEl) {
                 attachSubNav(pageEl, i);
                 
-                const checkBtn = pageEl.querySelector('.sub-check');
-                if (checkBtn) {
-                    checkBtn.addEventListener('click', function() {
-                        const idx = parseInt(this.dataset.idx);
-                        const c = SUB_KEYS[idx];
-                        updateSubConsistency(c);
-                        const block = document.getElementById(`subBlock_${idx}`);
-                        applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c);
+const checkBtn = pageEl.querySelector('.sub-check');
+if (checkBtn) {
+    checkBtn.addEventListener('click', function() {
+        const idx = parseInt(this.dataset.idx);
+        const c = SUB_KEYS[idx];
+        updateSubConsistency(c);
+        const block = document.getElementById(`subBlock_${idx}`);
+        // Force show recommendations only when button is clicked
+        applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c, true);
                     });
                 }
             }
@@ -1648,10 +1649,11 @@ function attachRowEvents(row, type) {
         updateIndicator(1);
     });
 
-    document.getElementById('checkCriteriaBtn').addEventListener('click', function() {
-        updateCriteriaConsistency();
-        const container = document.getElementById('criteriaPairsContainer');
-        applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
+document.getElementById('checkCriteriaBtn').addEventListener('click', function() {
+    updateCriteriaConsistency();
+    const container = document.getElementById('criteriaPairsContainer');
+    // Force show recommendations only when button is clicked
+    applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria', null, true);
     });
 
     document.getElementById('toPage3Btn').addEventListener('click', function() {
