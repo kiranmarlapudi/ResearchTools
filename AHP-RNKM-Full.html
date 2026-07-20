@@ -1168,89 +1168,88 @@ function applyRowRecommendations(container, pairs, names, type, c = null, forceC
         applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
     }
 
-    // ===== ATTACH ROW EVENTS =====
-    function attachRowEvents(row, type) {
-        const i = parseInt(row.dataset.i);
-        const j = parseInt(row.dataset.j);
-        const c = row.dataset.c || null;
-        
-        row.querySelectorAll('.choice-group input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function(e) {
-                e.stopPropagation();
-                let pairs;
-                if (type === 'criteria') pairs = criteriaPairs;
-                else pairs = subPairs[c];
-                
-                const pair = pairs.find(p => p.i === i && p.j === j);
-                if (!pair) return;
-                
-                const val = this.value;
-                if (val === 'equal') {
-                    pair.choice = 'equal';
-                    pair.value = 1;
-                    const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
-                    impRadios.forEach(r => {
-                        if (parseInt(r.value) === 1) r.checked = true;
-                    });
-                } else if (val === 'left') {
-                    pair.choice = 'left';
-                    if (pair.value < 1) pair.value = 1;
-                } else if (val === 'right') {
-                    pair.choice = 'right';
-                    if (pair.value < 1) pair.value = 1;
-                }
-                
-                if (type === 'criteria') {
-                    updateCriteriaConsistency();
-                    const container = document.getElementById('criteriaPairsContainer');
-                    applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
-                } else {
-                    updateSubConsistency(c);
-                    const container = document.getElementById(`subBlock_${SUB_KEYS.indexOf(c)}`);
-                    applyRowRecommendations(container, subPairs[c], SUB_MAP[c], 'sub', c);
-                }
-            });
+// ===== ATTACH ROW EVENTS - MODIFIED =====
+function attachRowEvents(row, type) {
+    const i = parseInt(row.dataset.i);
+    const j = parseInt(row.dataset.j);
+    const c = row.dataset.c || null;
+    
+    // Choice radio buttons - REMOVED auto-recommendation calls
+    row.querySelectorAll('.choice-group input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function(e) {
+            e.stopPropagation();
+            let pairs;
+            if (type === 'criteria') pairs = criteriaPairs;
+            else pairs = subPairs[c];
+            
+            const pair = pairs.find(p => p.i === i && p.j === j);
+            if (!pair) return;
+            
+            const val = this.value;
+            if (val === 'equal') {
+                pair.choice = 'equal';
+                pair.value = 1;
+                const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
+                impRadios.forEach(r => {
+                    if (parseInt(r.value) === 1) r.checked = true;
+                });
+            } else if (val === 'left') {
+                pair.choice = 'left';
+                if (pair.value < 1) pair.value = 1;
+            } else if (val === 'right') {
+                pair.choice = 'right';
+                if (pair.value < 1) pair.value = 1;
+            }
+            
+            // Only update consistency, don't show recommendations automatically
+            if (type === 'criteria') {
+                updateCriteriaConsistency();
+                // REMOVED: applyRowRecommendations auto-call
+            } else {
+                updateSubConsistency(c);
+                // REMOVED: applyRowRecommendations auto-call
+            }
         });
+    });
 
-        row.querySelectorAll('.importance-group input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function(e) {
-                e.stopPropagation();
-                let pairs;
-                if (type === 'criteria') pairs = criteriaPairs;
-                else pairs = subPairs[c];
-                
-                const pair = pairs.find(p => p.i === i && p.j === j);
-                if (!pair) return;
-                
-                const val = parseInt(this.value);
-                pair.value = val;
-                
-                if (pair.choice === 'equal' && val > 1) {
-                    pair.choice = 'left';
-                    row.querySelector('.choice-group input[type="radio"][value="left"]').checked = true;
-                } else if (pair.choice === 'equal' && val === 1) {
-                    // keep equal
-                } else if (pair.choice === 'left' && val === 1) {
-                    pair.choice = 'equal';
-                    row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
-                } else if (pair.choice === 'right' && val === 1) {
-                    pair.choice = 'equal';
-                    row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
-                }
-                
-                if (type === 'criteria') {
-                    updateCriteriaConsistency();
-                    const container = document.getElementById('criteriaPairsContainer');
-                    applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria');
-                } else {
-                    updateSubConsistency(c);
-                    const container = document.getElementById(`subBlock_${SUB_KEYS.indexOf(c)}`);
-                    applyRowRecommendations(container, subPairs[c], SUB_MAP[c], 'sub', c);
-                }
-            });
+    // Importance radio buttons - REMOVED auto-recommendation calls
+    row.querySelectorAll('.importance-group input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function(e) {
+            e.stopPropagation();
+            let pairs;
+            if (type === 'criteria') pairs = criteriaPairs;
+            else pairs = subPairs[c];
+            
+            const pair = pairs.find(p => p.i === i && p.j === j);
+            if (!pair) return;
+            
+            const val = parseInt(this.value);
+            pair.value = val;
+            
+            if (pair.choice === 'equal' && val > 1) {
+                pair.choice = 'left';
+                row.querySelector('.choice-group input[type="radio"][value="left"]').checked = true;
+            } else if (pair.choice === 'equal' && val === 1) {
+                // keep equal
+            } else if (pair.choice === 'left' && val === 1) {
+                pair.choice = 'equal';
+                row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
+            } else if (pair.choice === 'right' && val === 1) {
+                pair.choice = 'equal';
+                row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
+            }
+            
+            // Only update consistency, don't show recommendations automatically
+            if (type === 'criteria') {
+                updateCriteriaConsistency();
+                // REMOVED: applyRowRecommendations auto-call
+            } else {
+                updateSubConsistency(c);
+                // REMOVED: applyRowRecommendations auto-call
+            }
         });
-    }
-
+    });
+}
     // ===== UPDATE CRITERIA CONSISTENCY =====
     function updateCriteriaConsistency() {
         const cr = computeCR(criteriaPairs, CRITERIA.length);
