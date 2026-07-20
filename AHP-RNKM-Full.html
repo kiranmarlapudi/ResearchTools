@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>Rakesh AHP Test - Full</title>
+    <title>Rakesh AHP Test</title>
     <style>
         * {
             box-sizing: border-box;
@@ -32,7 +32,6 @@
             .page-container { padding: 1.5rem; }
         }
         
-        /* Header */
         .survey-header {
             display: flex;
             justify-content: space-between;
@@ -68,7 +67,6 @@
             box-shadow: 0 2px 8px rgba(26, 107, 158, 0.3);
         }
 
-        /* Pages */
         .page {
             display: block;
             animation: fadeIn 0.3s ease;
@@ -81,7 +79,6 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Description boxes */
         .desc-box {
             background: linear-gradient(135deg, #f0f7fe 0%, #e3eefa 100%);
             border-radius: 16px;
@@ -100,7 +97,6 @@
             color: #0a2a44;
         }
 
-        /* Form elements */
         .form-group {
             margin-bottom: 1.4rem;
         }
@@ -139,7 +135,6 @@
             .inline-group { grid-template-columns: 1fr; }
         }
 
-        /* Consent */
         .consent-box {
             background: #f0f7fe;
             border-radius: 16px;
@@ -163,7 +158,6 @@
             cursor: pointer;
         }
 
-        /* Pairwise comparison */
         .pair-container {
             background: #fafdff;
             border-radius: 16px;
@@ -213,7 +207,6 @@
         }
         .pair-row:last-child { border-bottom: none; }
         
-        /* Row states */
         .pair-row.alert {
             background: #fff8f0;
             border-left: 4px solid #e67e22;
@@ -380,7 +373,6 @@
             opacity: 1;
         }
 
-        /* Consistency box */
         .consistency-box {
             background: #f0f7fe;
             border-radius: 12px;
@@ -417,7 +409,6 @@
         .consistency-box .status-text .warn { color: #e67e22; }
         .consistency-box .status-text .bad { color: #e74c3c; }
 
-        /* Scale indicator */
         .scale-indicator {
             background: #f8faff;
             border-radius: 12px;
@@ -444,7 +435,6 @@
             font-size: 0.85rem;
         }
 
-        /* Buttons */
         .nav-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -516,7 +506,6 @@
             transform: none !important;
         }
 
-        /* Validation messages */
         .validation-error {
             color: #e74c3c;
             font-size: 0.9rem;
@@ -531,7 +520,6 @@
             display: block;
         }
 
-        /* Alternatives table */
         .alt-assessment {
             margin-top: 1.5rem;
             background: #fafdff;
@@ -568,7 +556,6 @@
             font-weight: 600;
         }
 
-        /* Recommendation legend */
         .recommendation-legend {
             background: #f8faff;
             border-radius: 12px;
@@ -613,7 +600,43 @@
             font-size: 0.85rem;
         }
 
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        .summary-card {
+            background: #f8faff;
+            border-radius: 16px;
+            padding: 1.2rem;
+            border: 2px solid #e8f0f8;
+        }
+        .summary-card h4 {
+            color: #0a2a44;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #e8f0f8;
+            padding-bottom: 0.4rem;
+        }
+        .summary-card .weight-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.2rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eef4f8;
+        }
+        .summary-card .weight-item:last-child {
+            border-bottom: none;
+        }
+        .summary-card .weight-item .value {
+            font-weight: 600;
+            color: #1a6b9e;
+        }
+
         @media (max-width: 768px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
             .consistency-box {
                 flex-direction: column;
                 align-items: stretch;
@@ -652,19 +675,18 @@
 </head>
 <body>
 <div class="page-container" id="app">
-    <!-- Header -->
     <div class="survey-header">
-        <h1><i class="fas fa-clipboard-list"></i> Rakesh AHP Test - Full</h1>
-        <span class="progress-badge" id="pageIndicator">Step 1 of 8</span>
+        <h1><i class="fas fa-clipboard-list"></i> Rakesh AHP Test</h1>
+        <span class="progress-badge" id="pageIndicator">Step 1 of 10</span>
     </div>
 
     <!-- ========== PAGE 1: CONSENT & DEMOGRAPHICS ========== -->
     <div id="page1" class="page">
         <div class="desc-box">
             <i class="fas fa-info-circle"></i> 
-            <strong>Welcome to the AHP Decision Survey</strong><br>
+            <strong>Welcome to the Healthcare Interventions AHP Survey</strong><br>
             We are conducting research to evaluate 5 healthcare interventions based on 5 criteria and their sub-criteria. 
-            Your expert input will help determine the priority weights. The survey takes 10-15 minutes.
+            Your expert input will help determine the priority weights. The survey takes 15-20 minutes.
         </div>
 
         <div class="consent-box">
@@ -707,16 +729,14 @@
     <div id="page2" class="page hidden">
         <div class="desc-box">
             <i class="fas fa-arrows-left-right"></i> 
-            <strong>Criteria Pairwise Comparison</strong><br>
+            <strong>Step 1: Criteria Pairwise Comparison</strong><br>
             For each pair, select the most important criterion, and then select <strong>how many times</strong> more important on a scale of 1 to 9.
             <span style="display:block; margin-top:6px; font-size:0.9rem; color:#1a6b9e;">
-                <i class="fas fa-lightbulb"></i> After completing all comparisons, rows with <span style="background:#d4edff; padding:0 6px; border-radius:4px; border:2px solid #27ae60;">green highlights</span> show suggested changes.
+                <i class="fas fa-lightbulb"></i> After completing all comparisons, click <strong>"Check Consistency"</strong> to see suggestions.
             </span>
         </div>
 
-        <div id="criteriaLegend" class="recommendation-legend">
-            <!-- Will be dynamically populated -->
-        </div>
+        <div id="criteriaLegend" class="recommendation-legend"></div>
 
         <div class="pair-container" id="criteriaPairsContainer"></div>
 
@@ -744,24 +764,42 @@
 
         <div class="nav-buttons">
             <button class="btn btn-outline" id="backToPage1Btn"><i class="fas fa-arrow-left"></i> Back</button>
-            <button class="btn btn-primary" id="toPage3Btn">Next – Sub-criteria <i class="fas fa-arrow-right"></i></button>
+            <button class="btn btn-primary" id="toPage3Btn">Next – Alternatives per Criteria <i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
 
-    <!-- ========== PAGES 3-7: SUB-CRITERIA ========== -->
+    <!-- ========== PAGE 3: ALTERNATIVES PER CRITERIA ========== -->
+    <div id="page3" class="page hidden">
+        <div class="desc-box">
+            <i class="fas fa-exchange-alt"></i> 
+            <strong>Step 2: Alternatives Comparison per Criteria</strong><br>
+            For each criterion, compare the 5 alternatives pairwise. Select which alternative is better for that criterion, 
+            and then select <strong>how many times</strong> better on a scale of 1 to 9.
+            <span style="display:block; margin-top:6px; font-size:0.9rem; color:#1a6b9e;">
+                <i class="fas fa-lightbulb"></i> After completing all comparisons for a criterion, click <strong>"Check Consistency"</strong> to see suggestions.
+            </span>
+        </div>
+
+        <div id="altCriteriaContainer"></div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-outline" id="backToPage2Btn"><i class="fas fa-arrow-left"></i> Back</button>
+            <button class="btn btn-primary" id="toPage4Btn">Next – Sub-criteria <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- ========== PAGES 4-8: SUB-CRITERIA ========== -->
     <div id="subPageContainer"></div>
 
-    <!-- ========== PAGE 8: ALTERNATIVES ========== -->
-    <div id="pageAlternatives" class="page hidden">
+    <!-- ========== PAGE 9: SUMMARY ========== -->
+    <div id="pageSummary" class="page hidden">
         <div class="desc-box">
-            <i class="fas fa-flag-checkered"></i> 
-            <strong>Alternatives Assessment</strong><br>
-            Based on your criteria and sub-criteria comparisons, we have computed how each alternative performs.
-            The table below shows the detailed breakdown.
+            <i class="fas fa-chart-pie"></i> 
+            <strong>Step 5: Summary of Results</strong><br>
+            Below is the complete breakdown of weights and scores based on your inputs.
+            Please review before submitting.
         </div>
-        <div id="altSummary">
-            <p style="text-align:center; padding:2rem; color:#6b8ba8;"><i class="fas fa-spinner fa-pulse"></i> Computing results...</p>
-        </div>
+        <div id="summaryContent"></div>
         <div class="nav-buttons">
             <button class="btn btn-outline" id="backToSubLastBtn"><i class="fas fa-arrow-left"></i> Back</button>
             <button class="btn btn-success" id="finishBtn"><i class="fas fa-check-circle"></i> Submit Survey</button>
@@ -772,7 +810,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script>
 (function() {
-    // ===== CONFIG - UPDATED WITH REAL TERMS =====
+    // ===== CONFIG =====
     const CRITERIA = [
         'Patient Value',
         'Clinical Effectiveness',
@@ -825,31 +863,45 @@
         'Patient/family support groups'
     ];
 
-    // Short names for display in comparison rows
-    const CRITERIA_SHORT = ['C1', 'C2', 'C3', 'C4', 'C5'];
-
-    // ===== STATE =====
+    // ===== STATE - No default selections =====
     let criteriaPairs = [];
+    let altCriteriaPairs = {}; // For each criterion, pairs of alternatives
     let subPairs = {};
     let currentSubIndex = 0;
     let criteriaCR = 0;
+    let altCR = {};
     let subCR = {};
 
     // ===== INIT =====
     function initPairs() {
+        // Criteria pairs - all empty (no default selection)
         criteriaPairs = [];
         for (let i = 0; i < CRITERIA.length; i++) {
             for (let j = i + 1; j < CRITERIA.length; j++) {
-                criteriaPairs.push({ i, j, choice: 'equal', value: 1 });
+                criteriaPairs.push({ i, j, choice: null, value: null });
             }
         }
+        
+        // Alternatives per criteria - all empty
+        altCriteriaPairs = {};
+        for (let c of CRITERIA) {
+            const pairs = [];
+            for (let i = 0; i < ALTERNATIVES.length; i++) {
+                for (let j = i + 1; j < ALTERNATIVES.length; j++) {
+                    pairs.push({ i, j, choice: null, value: null });
+                }
+            }
+            altCriteriaPairs[c] = pairs;
+        }
+        
+        // Sub-criteria pairs - all empty
         subPairs = {};
         for (let c of SUB_KEYS) {
             const subs = SUB_MAP[c];
             const arr = [];
             for (let i = 0; i < subs.length; i++) {
                 for (let j = i + 1; j < subs.length; j++) {
-                    arr.push({ i, j, choice: 'equal', value: 1 });
+                    arr.push({ i, j, choice: null, value: null });
                 }
             }
             subPairs[c] = arr;
@@ -860,14 +912,16 @@
     // ===== DOM REFS =====
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
+    const page3 = document.getElementById('page3');
     const subContainer = document.getElementById('subPageContainer');
-    const pageAlt = document.getElementById('pageAlternatives');
+    const pageSummary = document.getElementById('pageSummary');
     const pageIndicator = document.getElementById('pageIndicator');
 
     // ===== UTILITY FUNCTIONS =====
     function buildMatrixFromPairs(pairs, n) {
         const mat = Array.from({ length: n }, () => Array(n).fill(1));
         for (let p of pairs) {
+            if (p.choice === null || p.value === null) continue;
             let val = p.value;
             if (p.choice === 'equal') {
                 mat[p.i][p.j] = 1;
@@ -886,6 +940,19 @@
     function computeCR(pairs, n) {
         if (n <= 1) return 0;
         const mat = buildMatrixFromPairs(pairs, n);
+        // Check if any pair is incomplete
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                if (mat[i][j] === 1 && i !== j) {
+                    // Check if this is a real 1 or just default
+                    const pair = pairs.find(p => (p.i === i && p.j === j) || (p.i === j && p.j === i));
+                    if (!pair || pair.choice === null || pair.value === null) {
+                        return 1.0; // Return high CR if incomplete
+                    }
+                }
+            }
+        }
+        
         const gm = mat.map(row => {
             let prod = 1;
             for (let v of row) prod *= v;
@@ -906,11 +973,6 @@
         return (ri === 0) ? 0 : CI / ri;
     }
 
-    function isConsistent(pairs, n) {
-        const cr = computeCR(pairs, n);
-        return cr <= 0.1;
-    }
-
     function computeWeights(matrix) {
         const n = matrix.length;
         if (n === 0) return [];
@@ -923,37 +985,31 @@
         return gm.map(v => v / sum);
     }
 
-    // ===== VALIDATE PAIRS COMPLETED (checks DOM for checked radio buttons) =====
     function validatePairsCompleted(pairs, containerId) {
         const container = document.getElementById(containerId);
         if (!container) return false;
-        
         const rows = container.querySelectorAll('.pair-row');
         let allCompleted = true;
-        
         rows.forEach(row => {
             const checkedRadio = row.querySelector('.choice-group input[type="radio"]:checked');
-            if (!checkedRadio) {
-                allCompleted = false;
-            }
+            if (!checkedRadio) allCompleted = false;
         });
-        
         return allCompleted;
     }
 
-    // ===== GENERATE RECOMMENDATIONS - Sorted by highest variability =====
     function generateRecommendations(pairs, names) {
         const n = names.length;
         if (n < 2) return [];
-        
         const mat = buildMatrixFromPairs(pairs, n);
+        // Check if all pairs are complete
+        for (let p of pairs) {
+            if (p.choice === null || p.value === null) return [];
+        }
         const weights = computeWeights(mat);
         const cr = computeCR(pairs, n);
-        
         if (cr < 0.1) return [];
         
         const recommendations = [];
-        
         for (let p of pairs) {
             const leftWeight = weights[p.i];
             const rightWeight = weights[p.j];
@@ -973,11 +1029,9 @@
                 suggestedValue = 1;
             }
             
-            // Calculate variability/impact
             let currentRatio = p.choice === 'left' ? p.value : p.choice === 'right' ? 1/p.value : 1;
             let impact = Math.abs(idealRatio - currentRatio);
             
-            // Only suggest if different from current
             if (suggestedChoice !== p.choice || suggestedValue !== p.value) {
                 recommendations.push({
                     i: p.i,
@@ -992,272 +1046,225 @@
                 });
             }
         }
-        
-        // Sort by impact (highest variability first)
         recommendations.sort((a, b) => b.impact - a.impact);
         return recommendations;
     }
 
-// ===== APPLY ROW RECOMMENDATIONS - MODIFIED =====
-// Added a parameter 'forceCheck' to control when recommendations appear
-function applyRowRecommendations(container, pairs, names, type, c = null, forceCheck = false) {
-    // Clear any existing recommendations first
-    container.querySelectorAll('.pair-row').forEach(row => {
-        row.classList.remove('recommended');
-        row.querySelectorAll('.suggested').forEach(el => el.classList.remove('suggested'));
-    });
-    
-    // ONLY show recommendations if forceCheck is true AND all pairs are completed
-    if (!forceCheck) {
-        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-        if (legend) legend.classList.remove('show');
-        return;
+    // ===== APPLY ROW RECOMMENDATIONS =====
+    function applyRowRecommendations(container, pairs, names, type, c = null, forceCheck = false) {
+        container.querySelectorAll('.pair-row').forEach(row => {
+            row.classList.remove('recommended');
+            row.querySelectorAll('.suggested').forEach(el => el.classList.remove('suggested'));
+        });
+        
+        if (!forceCheck) {
+            const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : 
+                type === 'alt' ? `altLegend_${c}` : `subLegend_${SUB_KEYS.indexOf(c)}`);
+            if (legend) legend.classList.remove('show');
+            return;
+        }
+        
+        const allCompleted = validatePairsCompleted(pairs, container.id);
+        if (!allCompleted) {
+            const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : 
+                type === 'alt' ? `altLegend_${c}` : `subLegend_${SUB_KEYS.indexOf(c)}`);
+            if (legend) legend.classList.remove('show');
+            return;
+        }
+        
+        const cr = computeCR(pairs, names.length);
+        if (cr < 0.1) {
+            const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : 
+                type === 'alt' ? `altLegend_${c}` : `subLegend_${SUB_KEYS.indexOf(c)}`);
+            if (legend) legend.classList.remove('show');
+            return;
+        }
+        
+        const recommendations = generateRecommendations(pairs, names);
+        if (recommendations.length === 0) {
+            const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : 
+                type === 'alt' ? `altLegend_${c}` : `subLegend_${SUB_KEYS.indexOf(c)}`);
+            if (legend) legend.classList.remove('show');
+            return;
+        }
+        
+        container.querySelectorAll('.pair-row').forEach(row => {
+            const i = parseInt(row.dataset.i);
+            const j = parseInt(row.dataset.j);
+            const rec = recommendations.find(r => r.i === i && r.j === j);
+            if (rec) {
+                row.classList.add('recommended');
+                const choiceLabels = row.querySelectorAll('.choice-group label');
+                choiceLabels.forEach(label => {
+                    const radio = label.querySelector('input[type="radio"]');
+                    if (radio && radio.value === rec.suggestedChoice) {
+                        label.classList.add('suggested');
+                    }
+                });
+                const impLabels = row.querySelectorAll('.importance-group label');
+                impLabels.forEach(label => {
+                    const radio = label.querySelector('input[type="radio"]');
+                    if (radio && parseInt(radio.value) === rec.suggestedValue) {
+                        label.classList.add('suggested');
+                    }
+                });
+            }
+        });
+        
+        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : 
+            type === 'alt' ? `altLegend_${c}` : `subLegend_${SUB_KEYS.indexOf(c)}`);
+        if (legend && recommendations.length > 0) {
+            const topRec = recommendations[0];
+            const leftName = topRec.leftName;
+            const rightName = topRec.rightName;
+            let suggestionText = '';
+            if (topRec.suggestedChoice === 'left') {
+                suggestionText = `Make "${leftName}" more important (×${topRec.suggestedValue})`;
+            } else if (topRec.suggestedChoice === 'right') {
+                suggestionText = `Make "${rightName}" more important (×${topRec.suggestedValue})`;
+            } else {
+                suggestionText = `Set as equal importance (1)`;
+            }
+            legend.innerHTML = `
+                <span class="legend-item">
+                    <span class="legend-dot glow"></span>
+                    <span><strong>Do you want to reconsider your ranking for</strong> 
+                    <span class="pair-highlight">"${leftName}" vs "${rightName}"</span>?</span>
+                    <span class="suggestion-text">💡 Suggested: ${suggestionText}</span>
+                </span>
+            `;
+            legend.classList.add('show');
+        }
     }
-    
-    // Check if all pairs are completed using DOM validation
-    const allCompleted = validatePairsCompleted(pairs, container.id);
-    if (!allCompleted) {
-        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-        if (legend) legend.classList.remove('show');
-        return;
-    }
-    
-    const cr = computeCR(pairs, names.length);
-    if (cr < 0.1) {
-        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-        if (legend) legend.classList.remove('show');
-        return;
-    }
-    
-    const recommendations = generateRecommendations(pairs, names);
-    
-    if (recommendations.length === 0) {
-        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-        if (legend) legend.classList.remove('show');
-        return;
-    }
-    
-    // Apply recommendations to rows
-    container.querySelectorAll('.pair-row').forEach(row => {
+
+    // ===== ATTACH ROW EVENTS =====
+    function attachRowEvents(row, type, c = null) {
         const i = parseInt(row.dataset.i);
         const j = parseInt(row.dataset.j);
-        const rec = recommendations.find(r => r.i === i && r.j === j);
         
-        if (rec) {
-            row.classList.add('recommended');
-            
-            // Highlight suggested choice
-            const choiceLabels = row.querySelectorAll('.choice-group label');
-            choiceLabels.forEach(label => {
-                const radio = label.querySelector('input[type="radio"]');
-                if (radio && radio.value === rec.suggestedChoice) {
-                    label.classList.add('suggested');
+        row.querySelectorAll('.choice-group input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function(e) {
+                e.stopPropagation();
+                let pairs;
+                if (type === 'criteria') pairs = criteriaPairs;
+                else if (type === 'alt') pairs = altCriteriaPairs[c];
+                else pairs = subPairs[c];
+                
+                const pair = pairs.find(p => p.i === i && p.j === j);
+                if (!pair) return;
+                const val = this.value;
+                if (val === 'equal') {
+                    pair.choice = 'equal';
+                    pair.value = 1;
+                    const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
+                    impRadios.forEach(r => {
+                        if (parseInt(r.value) === 1) r.checked = true;
+                    });
+                } else if (val === 'left') {
+                    pair.choice = 'left';
+                    if (pair.value === null || pair.value < 1) pair.value = 1;
+                } else if (val === 'right') {
+                    pair.choice = 'right';
+                    if (pair.value === null || pair.value < 1) pair.value = 1;
                 }
+                updateConsistency(type, c);
             });
-            
-            // Highlight suggested importance value
-            const impLabels = row.querySelectorAll('.importance-group label');
-            impLabels.forEach(label => {
-                const radio = label.querySelector('input[type="radio"]');
-                if (radio && parseInt(radio.value) === rec.suggestedValue) {
-                    label.classList.add('suggested');
-                }
-            });
-        }
-    });
-    
-    // Show legend with the highest-impact recommendation
-    const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-    if (legend && recommendations.length > 0) {
-        const topRec = recommendations[0];
-        const leftName = topRec.leftName;
-        const rightName = topRec.rightName;
-        let suggestionText = '';
-        if (topRec.suggestedChoice === 'left') {
-            suggestionText = `Make "${leftName}" more important (×${topRec.suggestedValue})`;
-        } else if (topRec.suggestedChoice === 'right') {
-            suggestionText = `Make "${rightName}" more important (×${topRec.suggestedValue})`;
-        } else {
-            suggestionText = `Set as equal importance (1)`;
-        }
-        
-        legend.innerHTML = `
-            <span class="legend-item">
-                <span class="legend-dot glow"></span>
-                <span><strong>Do you want to reconsider your ranking for</strong> 
-                <span class="pair-highlight">"${leftName}" vs "${rightName}"</span>?</span>
-                <span class="suggestion-text">💡 Suggested: ${suggestionText}</span>
-            </span>
-        `;
-        legend.classList.add('show');
-    }
-}
+        });
 
-    // ===== UPDATE PAIR UI =====
-    function updatePairUI(row, pair, type, c = null) {
-        const choiceRadios = row.querySelectorAll('.choice-group input[type="radio"]');
-        choiceRadios.forEach(r => {
-            if (r.value === pair.choice) {
-                r.checked = true;
-            }
-        });
-        
-        const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
-        impRadios.forEach(r => {
-            if (parseInt(r.value) === pair.value) {
-                r.checked = true;
-            }
+        row.querySelectorAll('.importance-group input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function(e) {
+                e.stopPropagation();
+                let pairs;
+                if (type === 'criteria') pairs = criteriaPairs;
+                else if (type === 'alt') pairs = altCriteriaPairs[c];
+                else pairs = subPairs[c];
+                
+                const pair = pairs.find(p => p.i === i && p.j === j);
+                if (!pair) return;
+                const val = parseInt(this.value);
+                pair.value = val;
+                if (pair.choice === null) {
+                    pair.choice = 'left';
+                    row.querySelector('.choice-group input[type="radio"][value="left"]').checked = true;
+                } else if (pair.choice === 'equal' && val > 1) {
+                    pair.choice = 'left';
+                    row.querySelector('.choice-group input[type="radio"][value="left"]').checked = true;
+                } else if (pair.choice === 'equal' && val === 1) {
+                    // keep equal
+                } else if (pair.choice === 'left' && val === 1) {
+                    pair.choice = 'equal';
+                    row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
+                } else if (pair.choice === 'right' && val === 1) {
+                    pair.choice = 'equal';
+                    row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
+                }
+                updateConsistency(type, c);
+            });
         });
     }
-// ===== RENDER CRITERIA - MODIFIED =====
-function renderCriteria() {
-    const container = document.getElementById('criteriaPairsContainer');
-    let html = `
-        <div class="pair-header">
-            <span>#</span>
-            <span>Choose the most important among each pair</span>
-            <span class="center">How many times is the selected option among the pair more important?</span>
-            <span class="right">Scale 1-9</span>
-        </div>
-    `;
-    
-    let rowNum = 1;
-    for (let p of criteriaPairs) {
-        const left = CRITERIA[p.i];
-        const right = CRITERIA[p.j];
-        const val = p.value;
-        const choice = p.choice;
-        
-        let impRadios = '';
-        for (let i = 1; i <= 9; i++) {
-            const checked = val === i ? 'checked' : '';
-            impRadios += `
-                <label>
-                    <input type="radio" name="criteria_imp_${p.i}_${p.j}" value="${i}" ${checked}>
-                    <span>${i}</span>
-                </label>
-            `;
+
+    function updateConsistency(type, c = null) {
+        if (type === 'criteria') {
+            updateCriteriaConsistency();
+        } else if (type === 'alt') {
+            updateAltConsistency(c);
+        } else {
+            updateSubConsistency(c);
         }
-        
-        html += `
-            <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
-                <span class="row-num">${rowNum}</span>
-                <div class="choice-group">
-                    <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
-                    <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
-                    <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
-                </div>
-                <div class="importance-group">
-                    ${impRadios}
-                </div>
-                <span class="recommendation-badge">⭐ Suggested</span>
-                <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
+    }
+
+    // ===== RENDER CRITERIA =====
+    function renderCriteria() {
+        const container = document.getElementById('criteriaPairsContainer');
+        let html = `
+            <div class="pair-header">
+                <span>#</span>
+                <span>Choose the most important among each pair</span>
+                <span class="center">How many times is the selected option among the pair more important?</span>
+                <span class="right">Scale 1-9</span>
             </div>
         `;
-        rowNum++;
+        let rowNum = 1;
+        for (let p of criteriaPairs) {
+            const left = CRITERIA[p.i];
+            const right = CRITERIA[p.j];
+            const val = p.value;
+            const choice = p.choice;
+            let impRadios = '';
+            for (let i = 1; i <= 9; i++) {
+                const checked = (val === i) ? 'checked' : '';
+                impRadios += `<label><input type="radio" name="criteria_imp_${p.i}_${p.j}" value="${i}" ${checked}><span>${i}</span></label>`;
+            }
+            const leftChecked = choice === 'left' ? 'checked' : '';
+            const equalChecked = choice === 'equal' ? 'checked' : '';
+            const rightChecked = choice === 'right' ? 'checked' : '';
+            html += `
+                <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="criteria">
+                    <span class="row-num">${rowNum}</span>
+                    <div class="choice-group">
+                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="left" ${leftChecked}> ${left}</label>
+                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="equal" ${equalChecked}> = </label>
+                        <label><input type="radio" name="criteria_${p.i}_${p.j}" value="right" ${rightChecked}> ${right}</label>
+                    </div>
+                    <div class="importance-group">${impRadios}</div>
+                    <span class="recommendation-badge">⭐ Suggested</span>
+                    <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
+                </div>
+            `;
+            rowNum++;
+        }
+        container.innerHTML = html;
+        container.querySelectorAll('.pair-row').forEach(row => attachRowEvents(row, 'criteria'));
+        updateCriteriaConsistency();
     }
-    container.innerHTML = html;
-    
-    container.querySelectorAll('.pair-row').forEach(row => {
-        attachRowEvents(row, 'criteria');
-    });
-    
-    updateCriteriaConsistency();
-    // REMOVED: applyRowRecommendations auto-call - now only called on button click
-}
-    
-// ===== ATTACH ROW EVENTS - MODIFIED =====
-function attachRowEvents(row, type) {
-    const i = parseInt(row.dataset.i);
-    const j = parseInt(row.dataset.j);
-    const c = row.dataset.c || null;
-    
-    // Choice radio buttons - REMOVED auto-recommendation calls
-    row.querySelectorAll('.choice-group input[type="radio"]').forEach(radio => {
-        radio.addEventListener('change', function(e) {
-            e.stopPropagation();
-            let pairs;
-            if (type === 'criteria') pairs = criteriaPairs;
-            else pairs = subPairs[c];
-            
-            const pair = pairs.find(p => p.i === i && p.j === j);
-            if (!pair) return;
-            
-            const val = this.value;
-            if (val === 'equal') {
-                pair.choice = 'equal';
-                pair.value = 1;
-                const impRadios = row.querySelectorAll('.importance-group input[type="radio"]');
-                impRadios.forEach(r => {
-                    if (parseInt(r.value) === 1) r.checked = true;
-                });
-            } else if (val === 'left') {
-                pair.choice = 'left';
-                if (pair.value < 1) pair.value = 1;
-            } else if (val === 'right') {
-                pair.choice = 'right';
-                if (pair.value < 1) pair.value = 1;
-            }
-            
-            // Only update consistency, don't show recommendations automatically
-            if (type === 'criteria') {
-                updateCriteriaConsistency();
-                // REMOVED: applyRowRecommendations auto-call
-            } else {
-                updateSubConsistency(c);
-                // REMOVED: applyRowRecommendations auto-call
-            }
-        });
-    });
 
-    // Importance radio buttons - REMOVED auto-recommendation calls
-    row.querySelectorAll('.importance-group input[type="radio"]').forEach(radio => {
-        radio.addEventListener('change', function(e) {
-            e.stopPropagation();
-            let pairs;
-            if (type === 'criteria') pairs = criteriaPairs;
-            else pairs = subPairs[c];
-            
-            const pair = pairs.find(p => p.i === i && p.j === j);
-            if (!pair) return;
-            
-            const val = parseInt(this.value);
-            pair.value = val;
-            
-            if (pair.choice === 'equal' && val > 1) {
-                pair.choice = 'left';
-                row.querySelector('.choice-group input[type="radio"][value="left"]').checked = true;
-            } else if (pair.choice === 'equal' && val === 1) {
-                // keep equal
-            } else if (pair.choice === 'left' && val === 1) {
-                pair.choice = 'equal';
-                row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
-            } else if (pair.choice === 'right' && val === 1) {
-                pair.choice = 'equal';
-                row.querySelector('.choice-group input[type="radio"][value="equal"]').checked = true;
-            }
-            
-            // Only update consistency, don't show recommendations automatically
-            if (type === 'criteria') {
-                updateCriteriaConsistency();
-                // REMOVED: applyRowRecommendations auto-call
-            } else {
-                updateSubConsistency(c);
-                // REMOVED: applyRowRecommendations auto-call
-            }
-        });
-    });
-}
-    // ===== UPDATE CRITERIA CONSISTENCY =====
     function updateCriteriaConsistency() {
         const cr = computeCR(criteriaPairs, CRITERIA.length);
         criteriaCR = cr;
         const crEl = document.getElementById('criteriaCR');
         const statusEl = document.getElementById('criteriaStatus');
-        
         const crPercent = (cr * 100).toFixed(1);
         crEl.textContent = crPercent + '%';
-        
         if (cr < 0.1) {
             crEl.className = 'cr-value good';
             statusEl.innerHTML = '<span class="ok">✅ Consistent (CR ≤ 10%)</span>';
@@ -1270,62 +1277,130 @@ function attachRowEvents(row, type) {
         }
     }
 
-    // ===== UPDATE SUB CONSISTENCY =====
-    function updateSubConsistency(c) {
-        const pairs = subPairs[c];
-        const subs = SUB_MAP[c];
-        const cr = computeCR(pairs, subs.length);
-        subCR[c] = cr;
+    // ===== RENDER ALTERNATIVES PER CRITERIA =====
+    function renderAltCriteria() {
+        const container = document.getElementById('altCriteriaContainer');
+        let html = '';
         
-        const idx = SUB_KEYS.indexOf(c);
+        for (let c of CRITERIA) {
+            const pairs = altCriteriaPairs[c];
+            html += `
+                <div style="margin-bottom: 2rem; border: 2px solid #e8f0f8; border-radius: 16px; overflow: hidden;">
+                    <div style="background: #e8f0f8; padding: 0.7rem 1rem; font-weight: 600; color: #0a2a44; font-size: 1rem;">
+                        <i class="fas fa-tag"></i> ${c}
+                    </div>
+                    <div style="padding: 0.5rem 0.5rem 0;">
+                        <div id="altLegend_${c}" class="recommendation-legend"></div>
+                        <div class="pair-container" id="altBlock_${c}" style="border: none; border-radius: 0; margin-bottom: 0;">
+                            <div class="pair-header">
+                                <span>#</span>
+                                <span>Choose the best alternative for this criterion</span>
+                                <span class="center">How many times is the selected option better?</span>
+                                <span class="right">Scale 1-9</span>
+                            </div>
+            `;
+            let rowNum = 1;
+            for (let p of pairs) {
+                const left = ALTERNATIVES[p.i];
+                const right = ALTERNATIVES[p.j];
+                const val = p.value;
+                const choice = p.choice;
+                let impRadios = '';
+                for (let i = 1; i <= 9; i++) {
+                    const checked = (val === i) ? 'checked' : '';
+                    impRadios += `<label><input type="radio" name="alt_imp_${c}_${p.i}_${p.j}" value="${i}" ${checked}><span>${i}</span></label>`;
+                }
+                const leftChecked = choice === 'left' ? 'checked' : '';
+                const equalChecked = choice === 'equal' ? 'checked' : '';
+                const rightChecked = choice === 'right' ? 'checked' : '';
+                html += `
+                    <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="alt" data-c="${c}">
+                        <span class="row-num">${rowNum}</span>
+                        <div class="choice-group">
+                            <label><input type="radio" name="alt_${c}_${p.i}_${p.j}" value="left" ${leftChecked}> ${left.substring(0, 20)}${left.length > 20 ? '...' : ''}</label>
+                            <label><input type="radio" name="alt_${c}_${p.i}_${p.j}" value="equal" ${equalChecked}> = </label>
+                            <label><input type="radio" name="alt_${c}_${p.i}_${p.j}" value="right" ${rightChecked}> ${right.substring(0, 20)}${right.length > 20 ? '...' : ''}</label>
+                        </div>
+                        <div class="importance-group">${impRadios}</div>
+                        <span class="recommendation-badge">⭐ Suggested</span>
+                        <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
+                    </div>
+                `;
+                rowNum++;
+            }
+            html += `</div>
+                    <div class="consistency-box" style="margin: 0.5rem 0.5rem 0.8rem; border-radius: 12px;">
+                        <div class="cr-display">CR = <span class="cr-value" id="altCR_${c}">0.0%</span></div>
+                        <div class="status-text" id="altStatus_${c}"><span class="ok">✅ Consistent</span></div>
+                        <button class="btn btn-check alt-check" data-c="${c}"><i class="fas fa-check-circle"></i> Check Consistency</button>
+                    </div>
+                </div>
+            `;
+        }
+        container.innerHTML = html;
         
-        const crEl = document.getElementById(`subCR_${idx}`);
-        if (crEl) {
-            crEl.textContent = (cr * 100).toFixed(1) + '%';
-            if (cr < 0.1) {
-                crEl.className = 'cr-value good';
-            } else if (cr < 0.2) {
-                crEl.className = 'cr-value warn';
-            } else {
-                crEl.className = 'cr-value bad';
+        // Attach events for all alt rows
+        for (let c of CRITERIA) {
+            const block = document.getElementById(`altBlock_${c}`);
+            if (block) {
+                block.querySelectorAll('.pair-row').forEach(row => attachRowEvents(row, 'alt', c));
+            }
+            const checkBtn = document.querySelector(`.alt-check[data-c="${c}"]`);
+            if (checkBtn) {
+                checkBtn.addEventListener('click', function() {
+                    const cName = this.dataset.c;
+                    updateAltConsistency(cName);
+                    const block = document.getElementById(`altBlock_${cName}`);
+                    applyRowRecommendations(block, altCriteriaPairs[cName], ALTERNATIVES, 'alt', cName, true);
+                });
             }
         }
         
-        const pageEl = document.getElementById(`subPage_${idx}`);
-        if (pageEl) {
-            const statusEl = pageEl.querySelector('.consistency-box .status-text');
-            if (statusEl) {
-                if (cr < 0.1) {
-                    statusEl.innerHTML = '<span class="ok">✅ Consistent</span>';
-                } else {
-                    statusEl.innerHTML = '<span class="warn">⚠️ Needs adjustment</span>';
-                }
+        // Initialize consistency
+        for (let c of CRITERIA) {
+            updateAltConsistency(c);
+        }
+    }
+
+    function updateAltConsistency(c) {
+        const pairs = altCriteriaPairs[c];
+        const cr = computeCR(pairs, ALTERNATIVES.length);
+        altCR[c] = cr;
+        const crEl = document.getElementById(`altCR_${c}`);
+        const statusEl = document.getElementById(`altStatus_${c}`);
+        if (crEl) {
+            const crPercent = (cr * 100).toFixed(1);
+            crEl.textContent = crPercent + '%';
+            if (cr < 0.1) {
+                crEl.className = 'cr-value good';
+                if (statusEl) statusEl.innerHTML = '<span class="ok">✅ Consistent</span>';
+            } else if (cr < 0.2) {
+                crEl.className = 'cr-value warn';
+                if (statusEl) statusEl.innerHTML = '<span class="warn">⚠️ Moderate inconsistency</span>';
+            } else {
+                crEl.className = 'cr-value bad';
+                if (statusEl) statusEl.innerHTML = '<span class="bad">❌ High inconsistency</span>';
             }
         }
     }
 
-    // ===== RENDER SUB PAGE =====
+    // ===== RENDER SUB PAGES =====
     function renderSubPage(idx) {
         const c = SUB_KEYS[idx];
         const subs = SUB_MAP[c];
         const pairs = subPairs[c];
         const cr = computeCR(pairs, subs.length);
-        
         let html = `
             <div id="subPage_${idx}" class="page ${idx === currentSubIndex ? '' : 'hidden'}">
                 <div class="desc-box">
                     <i class="fas fa-sitemap"></i> 
-                    <strong>Sub-criteria for "${c}"</strong><br>
+                    <strong>Step 3: Sub-criteria for "${c}"</strong><br>
                     For each pair, select the most important sub-criterion, and then indicate how many times more important.
                     <span style="display:block; margin-top:4px; font-size:0.9rem; color:#1a6b9e;">
-                        <i class="fas fa-lightbulb"></i> After completing all comparisons, rows with <span style="background:#d4edff; padding:0 6px; border-radius:4px; border:2px solid #27ae60;">green highlights</span> show suggested changes.
+                        <i class="fas fa-lightbulb"></i> After completing all comparisons, click <strong>"Check Consistency"</strong> to see suggestions.
                     </span>
                 </div>
-                
-                <div id="subLegend_${idx}" class="recommendation-legend">
-                    <!-- Will be dynamically populated -->
-                </div>
-                
+                <div id="subLegend_${idx}" class="recommendation-legend"></div>
                 <div class="pair-container" id="subBlock_${idx}">
                     <div class="pair-header">
                         <span>#</span>
@@ -1334,56 +1409,42 @@ function attachRowEvents(row, type) {
                         <span class="right">Scale 1-9</span>
                     </div>
         `;
-        
         let rowNum = 1;
         for (let p of pairs) {
             const left = subs[p.i];
             const right = subs[p.j];
             const val = p.value;
             const choice = p.choice;
-            
             let impRadios = '';
             for (let i = 1; i <= 9; i++) {
-                const checked = val === i ? 'checked' : '';
-                impRadios += `
-                    <label>
-                        <input type="radio" name="sub_imp_${c}_${p.i}_${p.j}" value="${i}" ${checked}>
-                        <span>${i}</span>
-                    </label>
-                `;
+                const checked = (val === i) ? 'checked' : '';
+                impRadios += `<label><input type="radio" name="sub_imp_${c}_${p.i}_${p.j}" value="${i}" ${checked}><span>${i}</span></label>`;
             }
-            
+            const leftChecked = choice === 'left' ? 'checked' : '';
+            const equalChecked = choice === 'equal' ? 'checked' : '';
+            const rightChecked = choice === 'right' ? 'checked' : '';
             html += `
-                <div class="pair-row" data-c="${c}" data-i="${p.i}" data-j="${p.j}" data-type="sub">
+                <div class="pair-row" data-i="${p.i}" data-j="${p.j}" data-type="sub" data-c="${c}">
                     <span class="row-num">${rowNum}</span>
                     <div class="choice-group">
-                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="left" ${choice === 'left' ? 'checked' : ''}> ${left}</label>
-                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="equal" ${choice === 'equal' ? 'checked' : ''}> = </label>
-                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="right" ${choice === 'right' ? 'checked' : ''}> ${right}</label>
+                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="left" ${leftChecked}> ${left}</label>
+                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="equal" ${equalChecked}> = </label>
+                        <label><input type="radio" name="sub_${c}_${p.i}_${p.j}" value="right" ${rightChecked}> ${right}</label>
                     </div>
-                    <div class="importance-group">
-                        ${impRadios}
-                    </div>
+                    <div class="importance-group">${impRadios}</div>
                     <span class="recommendation-badge">⭐ Suggested</span>
                     <span class="suggestion-tooltip">Click highlighted option to improve consistency</span>
                 </div>
             `;
             rowNum++;
         }
-        
         html += `
                 </div>
-                
                 <div class="consistency-box">
-                    <div class="cr-display">
-                        CR = <span class="cr-value" id="subCR_${idx}">${(cr * 100).toFixed(1)}%</span>
-                    </div>
-                    <div class="status-text">
-                        ${cr < 0.1 ? '<span class="ok">✅ Consistent</span>' : '<span class="warn">⚠️ Needs adjustment</span>'}
-                    </div>
+                    <div class="cr-display">CR = <span class="cr-value" id="subCR_${idx}">${(cr * 100).toFixed(1)}%</span></div>
+                    <div class="status-text">${cr < 0.1 ? '<span class="ok">✅ Consistent</span>' : '<span class="warn">⚠️ Needs adjustment</span>'}</div>
                     <button class="btn btn-check sub-check" data-idx="${idx}"><i class="fas fa-check-circle"></i> Check Consistency</button>
                 </div>
-                
                 <div class="scale-indicator">
                     <span><strong>AHP Scale:</strong></span>
                     <span class="scale-item"><strong>1</strong> Equal</span>
@@ -1393,9 +1454,7 @@ function attachRowEvents(row, type) {
                     <span class="scale-item"><strong>9</strong> Extreme</span>
                     <span class="scale-item" style="color:#6b8ba8;">(2,4,6,8 intermediate)</span>
                 </div>
-                
                 <div id="subError_${idx}" class="validation-error">Please complete all pairwise comparisons for this section.</div>
-                
                 <div class="nav-buttons">
                     <button class="btn btn-outline sub-back" data-idx="${idx}"><i class="fas fa-arrow-left"></i> Back</button>
                     <button class="btn btn-primary sub-next" data-idx="${idx}">Next <i class="fas fa-arrow-right"></i></button>
@@ -1405,37 +1464,28 @@ function attachRowEvents(row, type) {
         return html;
     }
 
-    // ===== RENDER ALL SUB PAGES =====
     function renderAllSubPages() {
         let html = '';
         for (let i = 0; i < SUB_KEYS.length; i++) {
             html += renderSubPage(i);
         }
         subContainer.innerHTML = html;
-        
         for (let i = 0; i < SUB_KEYS.length; i++) {
             const block = document.getElementById(`subBlock_${i}`);
             if (block) {
-                block.querySelectorAll('.pair-row').forEach(row => {
-                    attachRowEvents(row, 'sub');
-                });
-                const c = SUB_KEYS[i];
-                applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c);
+                block.querySelectorAll('.pair-row').forEach(row => attachRowEvents(row, 'sub', SUB_KEYS[i]));
             }
-            
             const pageEl = document.getElementById(`subPage_${i}`);
             if (pageEl) {
                 attachSubNav(pageEl, i);
-                
-const checkBtn = pageEl.querySelector('.sub-check');
-if (checkBtn) {
-    checkBtn.addEventListener('click', function() {
-        const idx = parseInt(this.dataset.idx);
-        const c = SUB_KEYS[idx];
-        updateSubConsistency(c);
-        const block = document.getElementById(`subBlock_${idx}`);
-        // Force show recommendations only when button is clicked
-        applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c, true);
+                const checkBtn = pageEl.querySelector('.sub-check');
+                if (checkBtn) {
+                    checkBtn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.idx);
+                        const c = SUB_KEYS[idx];
+                        updateSubConsistency(c);
+                        const block = document.getElementById(`subBlock_${idx}`);
+                        applyRowRecommendations(block, subPairs[c], SUB_MAP[c], 'sub', c, true);
                     });
                 }
             }
@@ -1443,48 +1493,166 @@ if (checkBtn) {
         showPage(`subPage_${currentSubIndex}`);
     }
 
-    // ===== ATTACH SUB NAVIGATION =====
+    function updateSubConsistency(c) {
+        const pairs = subPairs[c];
+        const subs = SUB_MAP[c];
+        const cr = computeCR(pairs, subs.length);
+        subCR[c] = cr;
+        const idx = SUB_KEYS.indexOf(c);
+        const crEl = document.getElementById(`subCR_${idx}`);
+        if (crEl) {
+            const crPercent = (cr * 100).toFixed(1);
+            crEl.textContent = crPercent + '%';
+            if (cr < 0.1) crEl.className = 'cr-value good';
+            else if (cr < 0.2) crEl.className = 'cr-value warn';
+            else crEl.className = 'cr-value bad';
+        }
+        const pageEl = document.getElementById(`subPage_${idx}`);
+        if (pageEl) {
+            const statusEl = pageEl.querySelector('.consistency-box .status-text');
+            if (statusEl) {
+                if (cr < 0.1) statusEl.innerHTML = '<span class="ok">✅ Consistent</span>';
+                else statusEl.innerHTML = '<span class="warn">⚠️ Needs adjustment</span>';
+            }
+        }
+    }
+
     function attachSubNav(container, idx) {
         container.querySelector('.sub-back')?.addEventListener('click', function() {
             if (idx === 0) {
-                showPage('page2');
-                updateIndicator(2);
+                showPage('page3');
+                updateIndicator(3);
             } else {
                 currentSubIndex = idx - 1;
                 showPage(`subPage_${currentSubIndex}`);
-                updateIndicator(3 + currentSubIndex);
+                updateIndicator(4 + currentSubIndex);
             }
         });
-        
         container.querySelector('.sub-next')?.addEventListener('click', function() {
             const block = document.getElementById(`subBlock_${idx}`);
             const allCompleted = validatePairsCompleted(subPairs[SUB_KEYS[idx]], block.id);
-            
             if (!allCompleted) {
                 document.getElementById(`subError_${idx}`).classList.add('show');
                 return;
             }
             document.getElementById(`subError_${idx}`).classList.remove('show');
-            
             const c = SUB_KEYS[idx];
             const pairs = subPairs[c];
             const cr = computeCR(pairs, SUB_MAP[c].length);
-            if (cr > 0.1) {
-                if (!confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) {
-                    return;
-                }
-            }
-            
+            if (cr > 0.1 && !confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) return;
             if (idx === SUB_KEYS.length - 1) {
-                showPage('pageAlternatives');
-                updateIndicator(8);
-                computeAlternatives();
+                showPage('pageSummary');
+                updateIndicator(9);
+                generateSummary();
             } else {
                 currentSubIndex = idx + 1;
                 showPage(`subPage_${currentSubIndex}`);
-                updateIndicator(3 + currentSubIndex);
+                updateIndicator(4 + currentSubIndex);
             }
         });
+    }
+
+    // ===== GENERATE SUMMARY =====
+    function generateSummary() {
+        const container = document.getElementById('summaryContent');
+        
+        // Compute criteria weights
+        const nCrit = CRITERIA.length;
+        const critMat = buildMatrixFromPairs(criteriaPairs, nCrit);
+        const critWeights = computeWeights(critMat);
+        
+        // Compute alternative weights per criterion
+        const altWeightsPerCriterion = {};
+        for (let c of CRITERIA) {
+            const mat = buildMatrixFromPairs(altCriteriaPairs[c], ALTERNATIVES.length);
+            altWeightsPerCriterion[c] = computeWeights(mat);
+        }
+        
+        // Compute sub-criteria weights
+        const subWeights = {};
+        for (let c of SUB_KEYS) {
+            const mat = buildMatrixFromPairs(subPairs[c], SUB_MAP[c].length);
+            subWeights[c] = computeWeights(mat);
+        }
+        
+        // Calculate final scores
+        const finalScores = ALTERNATIVES.map((alt, idx) => {
+            let score = 0;
+            for (let cIdx = 0; cIdx < CRITERIA.length; cIdx++) {
+                const c = CRITERIA[cIdx];
+                const altWeight = altWeightsPerCriterion[c]?.[idx] || 0;
+                const critWeight = critWeights[cIdx] || 0;
+                score += altWeight * critWeight;
+            }
+            return score;
+        });
+        
+        // Normalize final scores
+        const sum = finalScores.reduce((a, b) => a + b, 0);
+        const normalizedScores = finalScores.map(s => s / sum);
+        
+        let html = `
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h4><i class="fas fa-balance-scale"></i> Criteria Weights</h4>
+                    ${CRITERIA.map((c, i) => `
+                        <div class="weight-item">
+                            <span>${c}</span>
+                            <span class="value">${(critWeights[i] * 100).toFixed(1)}%</span>
+                        </div>
+                    `).join('')}
+                    <div class="weight-item" style="font-weight: 700; border-top: 2px solid #d4e4f0; padding-top: 0.4rem; margin-top: 0.4rem;">
+                        <span>Consistency Ratio</span>
+                        <span class="value">${(criteriaCR * 100).toFixed(1)}%</span>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <h4><i class="fas fa-trophy"></i> Final Alternative Scores</h4>
+                    ${ALTERNATIVES.map((alt, i) => `
+                        <div class="weight-item">
+                            <span>${alt}</span>
+                            <span class="value">${(normalizedScores[i] * 100).toFixed(1)}%</span>
+                        </div>
+                    `).join('')}
+                    <div class="weight-item" style="font-weight: 700; border-top: 2px solid #d4e4f0; padding-top: 0.4rem; margin-top: 0.4rem;">
+                        <span>Best Alternative</span>
+                        <span class="value" style="color: #27ae60;">
+                            ${ALTERNATIVES[normalizedScores.indexOf(Math.max(...normalizedScores))]}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="summary-card" style="margin-top: 1rem;">
+                <h4><i class="fas fa-sitemap"></i> Alternative Performance per Criterion</h4>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 0.5rem;">
+                        <thead>
+                            <tr style="background: #e8f0f8;">
+                                <th style="padding: 0.4rem 0.6rem; text-align: left;">Criterion</th>
+                                ${ALTERNATIVES.map(a => `<th style="padding: 0.4rem 0.6rem; text-align: center; font-size: 0.75rem;">${a.substring(0, 15)}${a.length > 15 ? '...' : ''}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${CRITERIA.map((c, cIdx) => `
+                                <tr>
+                                    <td style="padding: 0.3rem 0.6rem; font-weight: 600; background: #f8faff;">${c}</td>
+                                    ${ALTERNATIVES.map((a, aIdx) => `
+                                        <td style="padding: 0.3rem 0.6rem; text-align: center; 
+                                            ${altWeightsPerCriterion[c]?.[aIdx] === Math.max(...(altWeightsPerCriterion[c] || [])) ? 'background: #d4edff; font-weight: 600;' : ''}">
+                                            ${((altWeightsPerCriterion[c]?.[aIdx] || 0) * 100).toFixed(1)}%
+                                        </td>
+                                    `).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
     }
 
     // ===== NAVIGATION =====
@@ -1495,125 +1663,8 @@ if (checkBtn) {
     }
 
     function updateIndicator(pageNum) {
-        const steps = ['Consent', 'Criteria', 'Sub-C1', 'Sub-C2', 'Sub-C3', 'Sub-C4', 'Sub-C5', 'Results'];
-        pageIndicator.textContent = `Step ${pageNum} of 8 · ${steps[pageNum - 1]}`;
-    }
-
-    // ===== COMPUTE ALTERNATIVES =====
-    function computeAlternatives() {
-        const container = document.getElementById('altSummary');
-        
-        const nCrit = CRITERIA.length;
-        const critMat = buildMatrixFromPairs(criteriaPairs, nCrit);
-        const critWeights = computeWeights(critMat);
-        
-        const allSubCriteria = [];
-        for (let c of SUB_KEYS) {
-            const subs = SUB_MAP[c];
-            const pairs = subPairs[c];
-            const mat = buildMatrixFromPairs(pairs, subs.length);
-            const weights = computeWeights(mat);
-            for (let i = 0; i < subs.length; i++) {
-                allSubCriteria.push({
-                    criterion: c,
-                    subName: subs[i],
-                    weight: weights[i] || 0,
-                    critWeight: critWeights[CRITERIA.indexOf(c)] || 0
-                });
-            }
-        }
-        
-        const altScores = {};
-        for (let a = 0; a < ALTERNATIVES.length; a++) {
-            altScores[ALTERNATIVES[a]] = {};
-            let totalScore = 0;
-            for (let sub of allSubCriteria) {
-                const base = 0.2 + (a * 0.12) + (Math.random() - 0.5) * 0.08;
-                const variation = sub.weight * 0.12;
-                let score = Math.max(0.05, Math.min(0.95, base + variation));
-                altScores[ALTERNATIVES[a]][sub.subName] = score;
-                totalScore += score * sub.critWeight * sub.weight;
-            }
-            altScores[ALTERNATIVES[a]].total = totalScore;
-        }
-        
-        const totalSum = ALTERNATIVES.reduce((sum, alt) => sum + altScores[alt].total, 0);
-        for (let alt of ALTERNATIVES) {
-            altScores[alt].totalNormalized = (altScores[alt].total / totalSum).toFixed(4);
-        }
-        
-        let html = `
-            <div class="alt-assessment">
-                <h3 style="margin-bottom:0.8rem; color:#0a2a44;">
-                    <i class="fas fa-chart-bar"></i> Alternative Performance Breakdown
-                </h3>
-                <p style="font-size:0.9rem; color:#2a5a7a; margin-bottom:1rem;">
-                    <i class="fas fa-info-circle"></i> 
-                    <strong>Blue</strong> = best alternative for that sub-criterion · 
-                    Higher scores = better performance
-                </p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Criterion</th>
-                            <th>Sub-criterion</th>
-                            <th>Weight</th>
-                            ${ALTERNATIVES.map(a => `<th style="font-size:0.75rem;">${a}</th>`).join('')}
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
-        
-        let currentCriterion = '';
-        for (let sub of allSubCriteria) {
-            let bestAlt = ALTERNATIVES[0];
-            let bestScore = altScores[bestAlt][sub.subName] || 0;
-            for (let alt of ALTERNATIVES) {
-                const score = altScores[alt][sub.subName] || 0;
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestAlt = alt;
-                }
-            }
-            
-            if (sub.criterion !== currentCriterion) {
-                currentCriterion = sub.criterion;
-                html += `<tr class="criteria-row"><td colspan="${ALTERNATIVES.length + 2}" style="text-align:left; padding:0.4rem 0.6rem;">${sub.criterion}</td></tr>`;
-            }
-            
-            html += `<tr>`;
-            html += `<td></td>`;
-            html += `<td style="text-align:left; font-size:0.8rem;">${sub.subName}</td>`;
-            html += `<td>${(sub.critWeight * sub.weight * 100).toFixed(1)}%</td>`;
-            
-            for (let alt of ALTERNATIVES) {
-                const score = altScores[alt][sub.subName] || 0;
-                const isBest = alt === bestAlt;
-                html += `<td class="${isBest ? 'best' : ''}" style="font-size:0.8rem;">${(score * 100).toFixed(1)}%</td>`;
-            }
-            html += `</tr>`;
-        }
-        
-        html += `
-                        <tr style="background:#e8f0f8; font-weight:700;">
-                            <td colspan="2">FINAL SCORES</td>
-                            <td>100%</td>
-                            ${ALTERNATIVES.map(a => `<td style="font-size:0.85rem;">${altScores[a].totalNormalized}</td>`).join('')}
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="margin-top:1rem; background:#f0f7fe; padding:0.8rem 1.2rem; border-radius:12px; font-size:0.9rem; border-left:4px solid #1a6b9e;">
-                    <p><strong>Interpretation:</strong></p>
-                    <ul style="margin-left:1.2rem; line-height:1.8;">
-                        <li><strong>Sub-criterion weight</strong> = criteria weight × sub-criteria weight</li>
-                        <li><strong>Blue highlight</strong> = best alternative for that sub-criterion</li>
-                        <li><strong>Final scores</strong> = weighted sum of all performances, normalized</li>
-                    </ul>
-                </div>
-            </div>
-        `;
-        
-        container.innerHTML = html;
+        const steps = ['Consent', 'Criteria', 'Alternatives per Criteria', 'Sub-C1', 'Sub-C2', 'Sub-C3', 'Sub-C4', 'Sub-C5', 'Summary'];
+        pageIndicator.textContent = `Step ${pageNum} of ${steps.length} · ${steps[pageNum - 1]}`;
     }
 
     // ===== PAGE NAVIGATION EVENTS =====
@@ -1621,7 +1672,6 @@ if (checkBtn) {
         const consent = document.getElementById('consentCheck').checked;
         const name = document.getElementById('fullName').value.trim();
         const email = document.getElementById('email').value.trim();
-        
         if (!consent) {
             document.getElementById('page1Error').textContent = 'Please give your consent to continue.';
             document.getElementById('page1Error').classList.add('show');
@@ -1637,7 +1687,6 @@ if (checkBtn) {
             document.getElementById('page1Error').classList.add('show');
             return;
         }
-        
         document.getElementById('page1Error').classList.remove('show');
         showPage('page2');
         updateIndicator(2);
@@ -1649,41 +1698,67 @@ if (checkBtn) {
         updateIndicator(1);
     });
 
-document.getElementById('checkCriteriaBtn').addEventListener('click', function() {
-    updateCriteriaConsistency();
-    const container = document.getElementById('criteriaPairsContainer');
-    // Force show recommendations only when button is clicked
-    applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria', null, true);
+    document.getElementById('checkCriteriaBtn').addEventListener('click', function() {
+        updateCriteriaConsistency();
+        const container = document.getElementById('criteriaPairsContainer');
+        applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria', null, true);
     });
 
-// ===== TO PAGE 3 BUTTON - MODIFIED =====
-document.getElementById('toPage3Btn').addEventListener('click', function() {
-    const container = document.getElementById('criteriaPairsContainer');
-    const allCompleted = validatePairsCompleted(criteriaPairs, container.id);
-    
-    if (!allCompleted) {
-        document.getElementById('page2Error').classList.add('show');
-        return;
-    }
-    document.getElementById('page2Error').classList.remove('show');
-    
-    const cr = computeCR(criteriaPairs, CRITERIA.length);
-    if (cr > 0.1) {
-        if (!confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) {
+    document.getElementById('toPage3Btn').addEventListener('click', function() {
+        const container = document.getElementById('criteriaPairsContainer');
+        const allCompleted = validatePairsCompleted(criteriaPairs, container.id);
+        if (!allCompleted) {
+            document.getElementById('page2Error').classList.add('show');
             return;
         }
-    }
-    
-    currentSubIndex = 0;
-    renderAllSubPages();
-    showPage(`subPage_0`);
-    updateIndicator(3);
-});
+        document.getElementById('page2Error').classList.remove('show');
+        const cr = computeCR(criteriaPairs, CRITERIA.length);
+        if (cr > 0.1 && !confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) return;
+        showPage('page3');
+        updateIndicator(3);
+        renderAltCriteria();
+    });
+
+    document.getElementById('backToPage2Btn').addEventListener('click', function() {
+        showPage('page2');
+        updateIndicator(2);
+    });
+
+    document.getElementById('toPage4Btn').addEventListener('click', function() {
+        // Check all alt criteria are completed
+        let allCompleted = true;
+        for (let c of CRITERIA) {
+            const container = document.getElementById(`altBlock_${c}`);
+            if (container) {
+                const completed = validatePairsCompleted(altCriteriaPairs[c], container.id);
+                if (!completed) {
+                    allCompleted = false;
+                    break;
+                }
+            }
+        }
+        if (!allCompleted) {
+            alert('Please complete all alternatives comparisons before proceeding.');
+            return;
+        }
+        
+        // Check consistency for all alt criteria
+        for (let c of CRITERIA) {
+            const cr = computeCR(altCriteriaPairs[c], ALTERNATIVES.length);
+            if (cr > 0.1 && !confirm(`Consistency ratio for "${c}" is ${(cr * 100).toFixed(1)}% (>10%). Continue anyway?`)) {
+                return;
+            }
+        }
+        
+        currentSubIndex = 0;
+        renderAllSubPages();
+        showPage(`subPage_0`);
+        updateIndicator(4);
+    });
 
     document.getElementById('backToSubLastBtn').addEventListener('click', function() {
-        currentSubIndex = SUB_KEYS.length - 1;
-        showPage(`subPage_${currentSubIndex}`);
-        updateIndicator(3 + currentSubIndex);
+        showPage('pageSummary');
+        updateIndicator(9);
     });
 
     document.getElementById('finishBtn').addEventListener('click', function() {
