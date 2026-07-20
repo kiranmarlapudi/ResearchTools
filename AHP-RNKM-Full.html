@@ -1656,28 +1656,29 @@ document.getElementById('checkCriteriaBtn').addEventListener('click', function()
     applyRowRecommendations(container, criteriaPairs, CRITERIA, 'criteria', null, true);
     });
 
-    document.getElementById('toPage3Btn').addEventListener('click', function() {
-        const container = document.getElementById('criteriaPairsContainer');
-        const allCompleted = validatePairsCompleted(criteriaPairs, container.id);
-        
-        if (!allCompleted) {
-            document.getElementById('page2Error').classList.add('show');
+// ===== TO PAGE 3 BUTTON - MODIFIED =====
+document.getElementById('toPage3Btn').addEventListener('click', function() {
+    const container = document.getElementById('criteriaPairsContainer');
+    const allCompleted = validatePairsCompleted(criteriaPairs, container.id);
+    
+    if (!allCompleted) {
+        document.getElementById('page2Error').classList.add('show');
+        return;
+    }
+    document.getElementById('page2Error').classList.remove('show');
+    
+    const cr = computeCR(criteriaPairs, CRITERIA.length);
+    if (cr > 0.1) {
+        if (!confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) {
             return;
         }
-        document.getElementById('page2Error').classList.remove('show');
-        
-        const cr = computeCR(criteriaPairs, CRITERIA.length);
-        if (cr > 0.1) {
-            if (!confirm('Consistency ratio is ' + (cr * 100).toFixed(1) + '% (>10%). Continue anyway?')) {
-                return;
-            }
-        }
-        
-        currentSubIndex = 0;
-        renderAllSubPages();
-        showPage(`subPage_0`);
-        updateIndicator(3);
-    });
+    }
+    
+    currentSubIndex = 0;
+    renderAllSubPages();
+    showPage(`subPage_0`);
+    updateIndicator(3);
+});
 
     document.getElementById('backToSubLastBtn').addEventListener('click', function() {
         currentSubIndex = SUB_KEYS.length - 1;
