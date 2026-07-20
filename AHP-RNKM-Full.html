@@ -998,94 +998,100 @@
         return recommendations;
     }
 
-    // ===== APPLY ROW RECOMMENDATIONS - Only after ALL pairs completed =====
-    function applyRowRecommendations(container, pairs, names, type, c = null) {
-        // Check if all pairs are completed using DOM validation
-        const allCompleted = validatePairsCompleted(pairs, container.id);
-        
-        // Clear any existing recommendations first
-        container.querySelectorAll('.pair-row').forEach(row => {
-            row.classList.remove('recommended');
-            row.querySelectorAll('.suggested').forEach(el => el.classList.remove('suggested'));
-        });
-        
-        // ONLY show recommendations if ALL pairs are completed
-        if (!allCompleted) {
-            const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-            if (legend) legend.classList.remove('show');
-            return;
-        }
-        
-        const cr = computeCR(pairs, names.length);
-        if (cr < 0.1) {
-            const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-            if (legend) legend.classList.remove('show');
-            return;
-        }
-        
-        const recommendations = generateRecommendations(pairs, names);
-        
-        if (recommendations.length === 0) {
-            const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-            if (legend) legend.classList.remove('show');
-            return;
-        }
-        
-        // Apply recommendations to rows
-        container.querySelectorAll('.pair-row').forEach(row => {
-            const i = parseInt(row.dataset.i);
-            const j = parseInt(row.dataset.j);
-            const rec = recommendations.find(r => r.i === i && r.j === j);
-            
-            if (rec) {
-                row.classList.add('recommended');
-                
-                // Highlight suggested choice
-                const choiceLabels = row.querySelectorAll('.choice-group label');
-                choiceLabels.forEach(label => {
-                    const radio = label.querySelector('input[type="radio"]');
-                    if (radio && radio.value === rec.suggestedChoice) {
-                        label.classList.add('suggested');
-                    }
-                });
-                
-                // Highlight suggested importance value
-                const impLabels = row.querySelectorAll('.importance-group label');
-                impLabels.forEach(label => {
-                    const radio = label.querySelector('input[type="radio"]');
-                    if (radio && parseInt(radio.value) === rec.suggestedValue) {
-                        label.classList.add('suggested');
-                    }
-                });
-            }
-        });
-        
-        // Show legend with the highest-impact recommendation
+// ===== APPLY ROW RECOMMENDATIONS - MODIFIED =====
+// Added a parameter 'forceCheck' to control when recommendations appear
+function applyRowRecommendations(container, pairs, names, type, c = null, forceCheck = false) {
+    // Clear any existing recommendations first
+    container.querySelectorAll('.pair-row').forEach(row => {
+        row.classList.remove('recommended');
+        row.querySelectorAll('.suggested').forEach(el => el.classList.remove('suggested'));
+    });
+    
+    // ONLY show recommendations if forceCheck is true AND all pairs are completed
+    if (!forceCheck) {
         const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
-        if (legend && recommendations.length > 0) {
-            const topRec = recommendations[0];
-            const leftName = topRec.leftName;
-            const rightName = topRec.rightName;
-            let suggestionText = '';
-            if (topRec.suggestedChoice === 'left') {
-                suggestionText = `Make "${leftName}" more important (×${topRec.suggestedValue})`;
-            } else if (topRec.suggestedChoice === 'right') {
-                suggestionText = `Make "${rightName}" more important (×${topRec.suggestedValue})`;
-            } else {
-                suggestionText = `Set as equal importance (1)`;
-            }
-            
-            legend.innerHTML = `
-                <span class="legend-item">
-                    <span class="legend-dot glow"></span>
-                    <span><strong>Do you want to reconsider your ranking for</strong> 
-                    <span class="pair-highlight">"${leftName}" vs "${rightName}"</span>?</span>
-                    <span class="suggestion-text">💡 Suggested: ${suggestionText}</span>
-                </span>
-            `;
-            legend.classList.add('show');
-        }
+        if (legend) legend.classList.remove('show');
+        return;
     }
+    
+    // Check if all pairs are completed using DOM validation
+    const allCompleted = validatePairsCompleted(pairs, container.id);
+    if (!allCompleted) {
+        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
+        if (legend) legend.classList.remove('show');
+        return;
+    }
+    
+    const cr = computeCR(pairs, names.length);
+    if (cr < 0.1) {
+        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
+        if (legend) legend.classList.remove('show');
+        return;
+    }
+    
+    const recommendations = generateRecommendations(pairs, names);
+    
+    if (recommendations.length === 0) {
+        const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
+        if (legend) legend.classList.remove('show');
+        return;
+    }
+    
+    // Apply recommendations to rows
+    container.querySelectorAll('.pair-row').forEach(row => {
+        const i = parseInt(row.dataset.i);
+        const j = parseInt(row.dataset.j);
+        const rec = recommendations.find(r => r.i === i && r.j === j);
+        
+        if (rec) {
+            row.classList.add('recommended');
+            
+            // Highlight suggested choice
+            const choiceLabels = row.querySelectorAll('.choice-group label');
+            choiceLabels.forEach(label => {
+                const radio = label.querySelector('input[type="radio"]');
+                if (radio && radio.value === rec.suggestedChoice) {
+                    label.classList.add('suggested');
+                }
+            });
+            
+            // Highlight suggested importance value
+            const impLabels = row.querySelectorAll('.importance-group label');
+            impLabels.forEach(label => {
+                const radio = label.querySelector('input[type="radio"]');
+                if (radio && parseInt(radio.value) === rec.suggestedValue) {
+                    label.classList.add('suggested');
+                }
+            });
+        }
+    });
+    
+    // Show legend with the highest-impact recommendation
+    const legend = document.getElementById(type === 'criteria' ? 'criteriaLegend' : `subLegend_${SUB_KEYS.indexOf(c)}`);
+    if (legend && recommendations.length > 0) {
+        const topRec = recommendations[0];
+        const leftName = topRec.leftName;
+        const rightName = topRec.rightName;
+        let suggestionText = '';
+        if (topRec.suggestedChoice === 'left') {
+            suggestionText = `Make "${leftName}" more important (×${topRec.suggestedValue})`;
+        } else if (topRec.suggestedChoice === 'right') {
+            suggestionText = `Make "${rightName}" more important (×${topRec.suggestedValue})`;
+        } else {
+            suggestionText = `Set as equal importance (1)`;
+        }
+        
+        legend.innerHTML = `
+            <span class="legend-item">
+                <span class="legend-dot glow"></span>
+                <span><strong>Do you want to reconsider your ranking for</strong> 
+                <span class="pair-highlight">"${leftName}" vs "${rightName}"</span>?</span>
+                <span class="suggestion-text">💡 Suggested: ${suggestionText}</span>
+            </span>
+        `;
+        legend.classList.add('show');
+    }
+}
 
     // ===== UPDATE PAIR UI =====
     function updatePairUI(row, pair, type, c = null) {
