@@ -520,42 +520,6 @@
             display: block;
         }
 
-        .alt-assessment {
-            margin-top: 1.5rem;
-            background: #fafdff;
-            border-radius: 16px;
-            padding: 1.2rem;
-            border: 2px solid #e8f0f8;
-            overflow-x: auto;
-        }
-        .alt-assessment table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-        }
-        .alt-assessment th {
-            background: #e8f0f8;
-            padding: 0.4rem 0.6rem;
-            text-align: center;
-            font-weight: 600;
-            color: #0a2a44;
-            border: 1px solid #d4e4f0;
-        }
-        .alt-assessment td {
-            padding: 0.3rem 0.6rem;
-            text-align: center;
-            border: 1px solid #eef4f8;
-        }
-        .alt-assessment .best {
-            background: #d4edff;
-            font-weight: 600;
-        }
-        .alt-assessment .criteria-row {
-            background: #f0f7fe;
-            font-weight: 600;
-        }
-
         .recommendation-legend {
             background: #f8faff;
             border-radius: 12px;
@@ -631,6 +595,68 @@
         .summary-card .weight-item .value {
             font-weight: 600;
             color: #1a6b9e;
+        }
+        .summary-card .sub-item {
+            padding: 0.15rem 0 0.15rem 1.2rem;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f0f4f8;
+            display: flex;
+            justify-content: space-between;
+        }
+        .summary-card .sub-item .value {
+            font-weight: 500;
+            color: #2a5a7a;
+        }
+        .summary-card .sub-item:last-child {
+            border-bottom: none;
+        }
+        .summary-card .criteria-header {
+            font-weight: 600;
+            color: #0a2a44;
+            padding: 0.3rem 0;
+            border-bottom: 2px solid #d4e4f0;
+            margin-top: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .summary-card .criteria-header:first-of-type {
+            margin-top: 0;
+        }
+
+        .alt-assessment {
+            margin-top: 1.5rem;
+            background: #fafdff;
+            border-radius: 16px;
+            padding: 1.2rem;
+            border: 2px solid #e8f0f8;
+            overflow-x: auto;
+        }
+        .alt-assessment table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        .alt-assessment th {
+            background: #e8f0f8;
+            padding: 0.4rem 0.6rem;
+            text-align: center;
+            font-weight: 600;
+            color: #0a2a44;
+            border: 1px solid #d4e4f0;
+        }
+        .alt-assessment td {
+            padding: 0.3rem 0.6rem;
+            text-align: center;
+            border: 1px solid #eef4f8;
+        }
+        .alt-assessment .best {
+            background: #d4edff;
+            font-weight: 600;
+        }
+        .alt-assessment .criteria-row {
+            background: #f0f7fe;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -865,7 +891,7 @@
 
     // ===== STATE - No default selections =====
     let criteriaPairs = [];
-    let altCriteriaPairs = {}; // For each criterion, pairs of alternatives
+    let altCriteriaPairs = {};
     let subPairs = {};
     let currentSubIndex = 0;
     let criteriaCR = 0;
@@ -874,7 +900,6 @@
 
     // ===== INIT =====
     function initPairs() {
-        // Criteria pairs - all empty (no default selection)
         criteriaPairs = [];
         for (let i = 0; i < CRITERIA.length; i++) {
             for (let j = i + 1; j < CRITERIA.length; j++) {
@@ -882,7 +907,6 @@
             }
         }
         
-        // Alternatives per criteria - all empty
         altCriteriaPairs = {};
         for (let c of CRITERIA) {
             const pairs = [];
@@ -894,7 +918,6 @@
             altCriteriaPairs[c] = pairs;
         }
         
-        // Sub-criteria pairs - all empty
         subPairs = {};
         for (let c of SUB_KEYS) {
             const subs = SUB_MAP[c];
@@ -944,10 +967,9 @@
         for (let i = 0; i < n; i++) {
             for (let j = 0; j < n; j++) {
                 if (mat[i][j] === 1 && i !== j) {
-                    // Check if this is a real 1 or just default
                     const pair = pairs.find(p => (p.i === i && p.j === j) || (p.i === j && p.j === i));
                     if (!pair || pair.choice === null || pair.value === null) {
-                        return 1.0; // Return high CR if incomplete
+                        return 1.0;
                     }
                 }
             }
@@ -1001,7 +1023,6 @@
         const n = names.length;
         if (n < 2) return [];
         const mat = buildMatrixFromPairs(pairs, n);
-        // Check if all pairs are complete
         for (let p of pairs) {
             if (p.choice === null || p.value === null) return [];
         }
@@ -1339,7 +1360,6 @@
         }
         container.innerHTML = html;
         
-        // Attach events for all alt rows
         for (let c of CRITERIA) {
             const block = document.getElementById(`altBlock_${c}`);
             if (block) {
@@ -1356,7 +1376,6 @@
             }
         }
         
-        // Initialize consistency
         for (let c of CRITERIA) {
             updateAltConsistency(c);
         }
@@ -1552,7 +1571,7 @@
         });
     }
 
-    // ===== GENERATE SUMMARY =====
+    // ===== GENERATE SUMMARY WITH SUB-CRITERIA WEIGHTS =====
     function generateSummary() {
         const container = document.getElementById('summaryContent');
         
@@ -1587,7 +1606,6 @@
             return score;
         });
         
-        // Normalize final scores
         const sum = finalScores.reduce((a, b) => a + b, 0);
         const normalizedScores = finalScores.map(s => s / sum);
         
@@ -1625,7 +1643,26 @@
             </div>
             
             <div class="summary-card" style="margin-top: 1rem;">
-                <h4><i class="fas fa-sitemap"></i> Alternative Performance per Criterion</h4>
+                <h4><i class="fas fa-sitemap"></i> Sub-Criteria Weights (Explaining Criteria Priorities)</h4>
+                ${SUB_KEYS.map(c => `
+                    <div class="criteria-header">
+                        <span>${c}</span>
+                        <span style="color: #1a6b9e; font-weight: 600;">${(critWeights[CRITERIA.indexOf(c)] * 100).toFixed(1)}%</span>
+                    </div>
+                    ${SUB_MAP[c].map((sub, i) => `
+                        <div class="sub-item">
+                            <span>└ ${sub}</span>
+                            <span class="value">${((subWeights[c]?.[i] || 0) * 100).toFixed(1)}%</span>
+                        </div>
+                    `).join('')}
+                `).join('')}
+                <div class="weight-item" style="font-weight: 700; border-top: 2px solid #d4e4f0; padding-top: 0.4rem; margin-top: 0.4rem;">
+                    <span>Note: Sub-criteria weights are normalized within each criterion</span>
+                </div>
+            </div>
+            
+            <div class="summary-card" style="margin-top: 1rem;">
+                <h4><i class="fas fa-chart-bar"></i> Alternative Performance per Criterion</h4>
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 0.5rem;">
                         <thead>
@@ -1725,7 +1762,6 @@
     });
 
     document.getElementById('toPage4Btn').addEventListener('click', function() {
-        // Check all alt criteria are completed
         let allCompleted = true;
         for (let c of CRITERIA) {
             const container = document.getElementById(`altBlock_${c}`);
@@ -1742,7 +1778,6 @@
             return;
         }
         
-        // Check consistency for all alt criteria
         for (let c of CRITERIA) {
             const cr = computeCR(altCriteriaPairs[c], ALTERNATIVES.length);
             if (cr > 0.1 && !confirm(`Consistency ratio for "${c}" is ${(cr * 100).toFixed(1)}% (>10%). Continue anyway?`)) {
